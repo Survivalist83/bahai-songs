@@ -1,0 +1,17 @@
+.songOuterDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.songTdColumn {
+    vertical-align: top;
+}
+
+.songLyric {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
