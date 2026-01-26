@@ -7,7 +7,7 @@ html {
     flex-direction: column;
     align-items: center; /* In this case, this is horizontal alignment */
 
-    min-height: 95vh;
+    min-height: 100vh;
     /* padding-top: 20vh; */
     /* box-sizing: border-box; */
 }
@@ -20,6 +20,8 @@ html {
 
 .songLyric {
     text-align: center;
+    font-size: 20rem;
+
     margin: 0;
     padding-top: 6rem;
 }
@@ -42,7 +44,7 @@ body {
     background-color: #9EFFF0;
 }
 
-h1 {
+.songHeader {
     text-align: center;
     font-size: 32rem;
     margin: 0;
@@ -52,13 +54,33 @@ h1 {
 
 p {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20rem;
 }
 
 a {
+    text-align: center;
+    
     font-size: 16rem;
     padding-bottom: 20rem;
 }
+
+/* Main menu */
+
+.mainMenuBtn {
+    text-align: center;
+    font-size: 20rem;
+
+    margin: 0;
+    padding-top: 15rem;
+}
+
+.mainMenuHeader {
+    text-align: center;
+    font-size: 32rem;
+    margin: 0;
+    padding-top: 40rem;
+}
+
+/* Computers */
 
 @media (min-width: 1000px) {
     p {

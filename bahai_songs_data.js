@@ -23,7 +23,7 @@ const BAHAI_SONGS_DATA = [
             "name": "Kindle the fire of love",
             "sourceName": "Bahá'u'lláh, <i>The Seven Valleys</i>",
             "sourceLink": "https://www.bahai.org/library/authoritative-texts/bahaullah/call-divine-beloved/4#639859466:~:text=Kindle%20the%20fire%20of%20love,the%20land%20of%20the%20lovers",
-            "category": "Love"
+            "theme": "Love"
         },
         "lyrics": [
             {

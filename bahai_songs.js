@@ -6,20 +6,14 @@ function pageLoad() {
     document.getElementById("hideMe").style.display = "none";
 
     // This loads (but hides) the songs, only showing the requested one.
-    let currentSong = getCurrentSong();
+    let currentSong = getCurrentSong(); // the song currently in the URL
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         songList.push(BAHAI_SONGS_DATA[i].meta.name);
         loadSong(i, currentSong);
     }
 
     // This adds buttons to select a song.
-    const mainMenu = document.getElementById("mainMenu");
-    for (let i = 0; i < songList.length; i++) {
-        const mainMenuBtn = document.createElement("button");
-        mainMenuBtn.addEventListener("click", () => {showSong(i, true);});
-        mainMenuBtn.innerText = songList[i];
-        mainMenu.appendChild(mainMenuBtn);
-    }
+    loadMainMenu();
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
@@ -53,6 +47,7 @@ function loadSong(songNumber, currentSong) {
 
     // Song header.
     const songTitle = document.createElement("h1");
+    songTitle.classList.add("songHeader");
     songTitle.innerText = meta.name;
     outerDiv.appendChild(songTitle);
 
@@ -155,10 +150,58 @@ function createBlankDiv() {
     return blankDiv;
 }
 
+function loadMainMenu() {
+    const mainMenu = document.getElementById("mainMenu");
+
+    // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
+    const currentSong = getCurrentSong();
+    if (currentSong === -1) {
+        mainMenu.style.display = "block";
+    }
+
+    // Finds all themes
+    let songThemes = [];
+    for (let i = 0; i < songList.length; i++) {
+        songThemes.push(BAHAI_SONGS_DATA[i].meta?.theme ?? "Uncategorized");
+    }
+    songThemes = [...new Set(songThemes)];
+
+    // Moves "Uncategorized" category to the end of the list
+    const indexOfUncategorized = songThemes.indexOf("Uncategorized");
+    if (indexOfUncategorized !== -1) {
+        songThemes.splice(indexOfUncategorized, 1);
+        songThemes.push("Uncategorized");
+    }
+
+    // Creates a div for each theme
+    for (let i = 0; i < songThemes.length; i++) {
+        const mainMenuThemeDiv = document.createElement("div");
+        const mainMenuThemeHeader = document.createElement("h1");
+        mainMenuThemeHeader.classList.add("mainMenuHeader");
+        mainMenuThemeHeader.innerText = songThemes[i];
+        mainMenuThemeDiv.appendChild(mainMenuThemeHeader);
+
+        // Adds songs that belong in the theme to the theme
+        for (let j = 0; j < BAHAI_SONGS_DATA.length; j++) {
+            if ((BAHAI_SONGS_DATA[j].meta?.theme ?? "Uncategorized") === songThemes[i]) {
+                const mainMenuBtn = document.createElement("p");
+                mainMenuBtn.classList.add("mainMenuBtn");
+                mainMenuBtn.addEventListener("click", () => {
+                    showSong(j, true);
+                });
+                mainMenuBtn.innerText = songList[j];
+                mainMenuThemeDiv.appendChild(mainMenuBtn);
+            }
+        }
+
+        mainMenu.appendChild(mainMenuThemeDiv);
+    }
+}
+
 // Returns the index of the song the URL says we should display. Returns -1 on errors.
 function getCurrentSong() {
     const params = new URLSearchParams(window.location.search);
-    const currentSong = params.get("s");
+    const currentSong = params.get("s") ?? -1;
     return currentSong;
 }
 
@@ -179,6 +222,13 @@ function showSong(songNumber, boolChangeHistory) {
             newURL = "?" + params.toString();
         }
         window.history.pushState({}, "", window.location.pathname + newURL);
+    }
+
+    const currentSong = getCurrentSong();
+    if (currentSong === -1) {
+        document.getElementById("mainMenu").style.display = "block";
+    } else {
+        document.getElementById("mainMenu").style.display = "none";
     }
 }
 
