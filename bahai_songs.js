@@ -1,4 +1,6 @@
-let songList = []
+let songList = [];
+const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
+const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
 function pageLoad() {
     document.getElementById("hideMe").style.display = "none";
@@ -23,9 +25,9 @@ function pageLoad() {
     window.addEventListener("popstate", () => {
         currentSong = getCurrentSong();
         let currentSongIndex = songList.indexOf(currentSong);
+        console.log(currentSongIndex);
         showSong(currentSongIndex, false);
-    })
-        
+    });        
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -41,7 +43,13 @@ function loadSong(songNumber, currentSong) {
     // Hides the song by default, unless the URL says this is the one to be displayed.
     if (songList[songNumber] !== currentSong) {
         outerDiv.style.display = "none";
+    } else {
+        outerDiv.style.display = "flex";
     }
+
+    // Spacing at the top to "center" it vertically
+    const songTopSpacer = document.createElement("div");
+    songTopSpacer.classList.add("songOuterDivTopSpacer");
 
     // Song header.
     const songTitle = document.createElement("h1");
@@ -55,11 +63,6 @@ function loadSong(songNumber, currentSong) {
     songLink.innerHTML = meta.sourceName;
     outerDiv.appendChild(songLink);
 
-    // Adds a blank space after song source
-    // const songLinkSpace = document.createElement("p");
-    // songLinkSpace.innerHTML = "&nbsp;";
-    // outerDiv.appendChild(songLinkSpace);
-
     // Checks if the song has any call and response.
     let hasCallAndResponse = false;
     for (let i = 0; i < lyrics.length; i++) {
@@ -70,12 +73,17 @@ function loadSong(songNumber, currentSong) {
     }
 
     // Checks which columns the song is using (default to only column 0).
+    // For phones, never uses more than 1 column.
     let columnList = [];
-    for (let i = 0; i < lyrics.length; i++) {
-        columnList.push(lyrics[i].sectionMeta?.column ?? 0)
+    if (IS_PHONE) {
+        columnList = [0];
+    } else {
+        for (let i = 0; i < lyrics.length; i++) {
+            columnList.push(lyrics[i].sectionMeta?.column ?? 0);
+        }
+        columnList = [...new Set(columnList)];
     }
-    columnList = [...new Set(columnList)];
-    
+
     // Makes a table (only one row) to use for columns. Every song is in the table, even if it only has one column.
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
@@ -123,13 +131,17 @@ function loadSong(songNumber, currentSong) {
 
         // Adds a space between sections (if this isn't the last section)
         if (Number(i) + 1 !== lyrics.length && !(sectionMeta && sectionMeta.repetitions) && !hasCallAndResponse) {
-            const sectionSpacing = document.createElement("p");
-            sectionSpacing.innerHTML = "&nbsp;";
-            sectionDiv.appendChild(sectionSpacing);
+            sectionDiv.appendChild(createBlankDiv());
         }
 
-        const column = sectionMeta?.column ?? 0
-        tableRow.querySelector("#songTdColumn" + column).appendChild(sectionDiv);
+        let column;
+        if (IS_PHONE) {
+            column = 0;
+        } else {
+            column = sectionMeta?.column ?? 0;
+        }
+        const songTdColumn = tableRow.querySelector("#songTdColumn" + column);
+        songTdColumn.appendChild(sectionDiv);
     }
 
     outerDiv.appendChild(table);
@@ -138,7 +150,9 @@ function loadSong(songNumber, currentSong) {
 
 // A helper function for function loadSong() that creates a blank div for visual appeal/spacing.
 function createBlankDiv() {
-
+    const blankDiv = document.createElement("div");
+    blankDiv.classList.add("blankDiv");
+    return blankDiv;
 }
 
 // Returns the index of the song the URL says we should display. Returns -1 on errors.
@@ -152,14 +166,25 @@ function getCurrentSong() {
 function showSong(songNumber, boolChangeHistory) {
     document.querySelectorAll(".songOuterDiv").forEach(songOuterDiv => {songOuterDiv.style.display = "none";});
 
-    if (songNumber != -1) {
+    if (songNumber !== -1) {
         document.getElementById("songOuterDiv" + songNumber).style.display = "flex";
     }
 
     // Changes the "s" query string parameter to the current song's name so that the URL is easily shareable with others.
     if (boolChangeHistory) {
         const params = new URLSearchParams(window.location.search);
-        params.set("s", songList[songNumber]);
-        window.history.pushState({}, "", window.location.pathname + "?" + params.toString());
+        let newURL = "";
+        if (songNumber !== -1) {
+            params.set("s", songList[songNumber]);
+            newURL = "?" + params.toString();
+        }
+        window.history.pushState({}, "", window.location.pathname + newURL);
+    }
+}
+
+function keyPress(event) {
+    switch (event) {
+        case "Escape":
+            showSong(-1, true);
     }
 }

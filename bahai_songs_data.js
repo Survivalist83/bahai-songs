@@ -78,9 +78,6 @@ const BAHAI_SONGS_DATA = [
         },
         "lyrics": [
             {
-                "sectionMeta": {
-                    "repetitions": 2
-                },
                 "sectionLyrics": [
                     "May this boundless love",
                     "so fill your hearts and minds",
@@ -182,7 +179,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionMeta": {
                     "column": 0,
                     "pageBreak": [4]
-                }
+                },
                 "sectionLyrics": [
                     "O SON OF MAN!",
                     "For everything",
@@ -192,39 +189,39 @@ const BAHAI_SONGS_DATA = [
                     "For everything",
                     "there is a sign",
                     "The sign of love",
-                }
+                ]
             },
             {
                 "sectionMeta": {
                     "column": 1,
                     "repetitions": 2
-                }
+                },
                 "sectionLyrics": [
                     "The sign of love (x3)",
                     "is fortitude under My decree",
-                }
+                ]
             },
             {
                 "sectionMeta": {
                     "column": 1,
                     "repetitions": 2
-                }
+                },
                 "sectionLyrics": [
                     "The sign of love (x3)",
                     "is patience under My trials.",
-                }
-            }
+                ]
+            },
             {
                 "sectionMeta": {
                     "column": 2,
                     "repetitions": 2,
                     "pageBreak": [1, 2]
-                }
+                },
                 "sectionLyrics": [
                     "The sign of love",
                     "is fortitude under My decree (x4)",
                     "is patience under My trials."
-                }
+                ]
             }
         ]
     },
@@ -239,7 +236,7 @@ const BAHAI_SONGS_DATA = [
             {
                 "sectionMeta": {
                     "column": 0
-                }
+                },
                 "sectionLyrics": [
                     "O SON OF MAN!",
                     "Veiled in My immemorial being",
@@ -247,12 +244,12 @@ const BAHAI_SONGS_DATA = [
                     "I knew My love for thee;",
                     "therefore I created thee,",
                     "have engraved on thee Mine image",
-                }
+                ]
             },
             {
                 "sectionMeta": {
                     "column": 1
-                }
+                },
                 "sectionLyrics": [
                     "O SON OF MAN!",
                     "Veiled in My immemorial being",
@@ -260,29 +257,29 @@ const BAHAI_SONGS_DATA = [
                     "I knew My love for thee;",
                     "therefore I created thee,",
                     "have revealed to thee My beauty.",
-                }
+                ]
             }
         ]
     },
-    {
-        "meta": {
-            "name": "",
-            "sourceName": "",
-            "sourceLink": "",
-            "theme": ""
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "callAndResponse": false,
-                    "repetitions": 1
-                }
-                "sectionLyrics": [
-                    "",
-                }
-            }
-        ]
-    },
+    // {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
     {
         "meta": {
             "name": "Help me to triumph",
@@ -307,7 +304,7 @@ const BAHAI_SONGS_DATA = [
                     "lights and suns",
                     "an atom into",
                     "lights and suns",
-                }
+                ]
             }
         ]
     },

@@ -1,17 +1,70 @@
+html {
+    font-size: 1px;
+}
+
 .songOuterDiv {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* In this case, this is horizontal alignment */
+
+    min-height: 95vh;
+    /* padding-top: 20vh; */
+    /* box-sizing: border-box; */
 }
 
 .songTdColumn {
     vertical-align: top;
+    padding: 10rem;
+    padding-top: 5rem;
 }
 
 .songLyric {
     text-align: center;
+    margin: 0;
+    padding-top: 6rem;
 }
+
+/* .repetitions {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+} */
 
 .bold {
     font-weight: bold;
+}
+
+.blankDiv {
+    padding-top: 15rem;
+}
+
+body {
+    background-color: #9EFFF0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 32rem;
+    margin: 0;
+    padding-top: 40rem;
+    padding-bottom: 10rem;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20rem;
+}
+
+a {
+    font-size: 16rem;
+    padding-bottom: 20rem;
+}
+
+@media (min-width: 1000px) {
+    p {
+        font-size: 30rem;
+    }
+
+    /* .songOuterDiv {
+    } */
 }
