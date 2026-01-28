@@ -2,11 +2,15 @@ let songList = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
+let playlist = [0, 2, 3];
+
+const verbose = true;
+
 function pageLoad() {
     document.getElementById("hideMe").style.display = "none";
 
     // This loads (but hides) the songs, only showing the requested one.
-    let currentSong = getCurrentSong(); // the song currently in the URL
+    let currentSong = getQueryString("s"); // the song currently in the URL
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         songList.push(BAHAI_SONGS_DATA[i].meta.name);
         loadSong(i, currentSong);
@@ -17,11 +21,34 @@ function pageLoad() {
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
-        currentSong = getCurrentSong();
-        let currentSongIndex = songList.indexOf(currentSong);
-        console.log(currentSongIndex);
-        showSong(currentSongIndex, false);
-    });        
+        if (currentSong === "playlist") {
+           showSong(playlist[Number(getQueryString("i")) - 1], false);
+        } else {
+            currentSong = getQueryString("s");
+            let currentSongIndex = songList.indexOf(currentSong);
+            log("Popstate detected. Moving to song " + currentSongIndex + ".");
+            showSong(currentSongIndex, false);
+        }
+    });
+
+    // This adds detection for swiping left/right on mobile
+    let swipeStartX = 0;
+    let swipeEndX = 0;
+    document.addEventListener("touchstart", (event) => {
+        swipeStartX = event.touches[0].clientX;
+    });
+    document.addEventListener("touchend", (event) => {
+        swipeEndX = event.changedTouches[0].clientX;
+        
+        const swipeDistance = swipeEndX - swipeStartX;
+        if (Math.abs(swipeDistance) > 75) {
+            if (swipeDistance > 0) {
+                playlistAdvance(-1);
+            } else {
+                playlistAdvance(1);
+            }
+        }
+    });
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -154,7 +181,7 @@ function loadMainMenu() {
     const mainMenu = document.getElementById("mainMenu");
 
     // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
-    const currentSong = getCurrentSong();
+    const currentSong = getQueryString("s");
     if (currentSong === -1) {
         mainMenu.style.display = "block";
     }
@@ -196,16 +223,21 @@ function loadMainMenu() {
 
         mainMenu.appendChild(mainMenuThemeDiv);
     }
-}
 
-// Returns the index of the song the URL says we should display. Returns -1 on errors.
-function getCurrentSong() {
-    const params = new URLSearchParams(window.location.search);
-    const currentSong = params.get("s") ?? -1;
-    return currentSong;
+    // Creates a button to start playlist mode
+    const mainMenuPlaylistStartBtn = document.createElement("button");
+    mainMenuPlaylistStartBtn.addEventListener("click", () => {playlistStart();});
+    mainMenuPlaylistStartBtn.innerText = "Playlist Mode";
+    mainMenu.appendChild(mainMenuPlaylistStartBtn);
+
+    // Handles logic for loading song when starting from playlist mode.
+    if (currentSong === "playlist") {
+        showSong(playlist[Number(getQueryString("i")) - 1], false);
+    }
 }
 
 // Shows one specific song.
+// When songNumber === -1, it goes to the homepage
 function showSong(songNumber, boolChangeHistory) {
     document.querySelectorAll(".songOuterDiv").forEach(songOuterDiv => {songOuterDiv.style.display = "none";});
 
@@ -213,28 +245,97 @@ function showSong(songNumber, boolChangeHistory) {
         document.getElementById("songOuterDiv" + songNumber).style.display = "flex";
     }
 
-    // Changes the "s" query string parameter to the current song's name so that the URL is easily shareable with others.
-    if (boolChangeHistory) {
-        const params = new URLSearchParams(window.location.search);
-        let newURL = "";
-        if (songNumber !== -1) {
-            params.set("s", songList[songNumber]);
-            newURL = "?" + params.toString();
-        }
-        window.history.pushState({}, "", window.location.pathname + newURL);
-    }
-
-    const currentSong = getCurrentSong();
-    if (currentSong === -1) {
+    // Shows/hides the main menu
+    if (songNumber === -1 | songNumber === "playlist") {
         document.getElementById("mainMenu").style.display = "block";
     } else {
         document.getElementById("mainMenu").style.display = "none";
     }
+
+    // Changes the "s" query string parameter to the current song's name so that the URL is easily shareable with others.
+    if (boolChangeHistory) {
+        if (songNumber === -1) {
+            setQueryString([["s", ""]]);
+        } else {
+            setQueryString([["s", songList[songNumber]]]);
+        }
+    }
 }
 
+function setQueryString(queryStrings) {
+    const params = new URLSearchParams(window.location.search);
+
+    for (let i = 0; i < queryStrings.length; i++) {
+        if (queryStrings[i][1] !== "") {
+            params.set(queryStrings[i][0], queryStrings[i][1]);
+        } else {
+            params.delete(queryStrings[i][0]);
+        }
+    }
+    
+    let newURL = "";
+    if ([...params.entries()].length > 0) {
+        newURL = "?" + params.toString();
+    }
+
+    window.history.pushState({}, "", window.location.pathname + newURL);
+}
+
+// Returns the contents of a specific query string. Returns -1 on errors.
+function getQueryString(target) {
+    const params = new URLSearchParams(window.location.search);
+    const currentSong = params.get(target) ?? -1;
+    return currentSong;
+}
+
+// Handles what to do when a key press is pressed (not mobile)
 function keyPress(event) {
     switch (event) {
         case "Escape":
             showSong(-1, true);
+            setQueryString([["i", ""]]); // removes the i parameter when going to main menu (since it exits playback mode)
+            break;
+        case "ArrowRight":
+            playlistAdvance(1);
+            break;
+        case "ArrowLeft":
+            playlistAdvance(-1);
+            break;
+        case "a":
+            setQueryString([["i", "hello world"]]);
+    }
+}
+
+// Enters playlist mode
+function playlistStart() {
+    showSong(playlist[0], false);
+    setQueryString([["s", "playlist"], ["i", 1]]);
+    log("Playlist mode starting with song 1/" + playlist.length + ".");
+}
+
+// Goes forward/backward in the playlist
+function playlistAdvance(numberOfAdvances) {
+    if (getQueryString("s") !== "playlist") {
+        log("Playlist mode not active.");
+        return;
+    }
+
+    const playlistIndex = Number(getQueryString("i")) + numberOfAdvances;
+
+    if (playlistIndex <= 0 | (playlistIndex - 1) >= playlist.length) {
+        showSong(-1, true);
+        setQueryString([["i", 0]]);
+        log("Exiting playlist mode.");
+
+    } else {
+        showSong(playlist[playlistIndex - 1], false);
+        setQueryString([["i", playlistIndex]]);
+        log("Playlist advancing to song " + (playlistIndex) + "/" + playlist.length + ".");
+    }
+}
+
+function log(text) {
+    if (verbose) {
+        console.log(text);
     }
 }
