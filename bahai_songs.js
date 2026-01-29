@@ -2,7 +2,7 @@ let songList = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
-let playlist = [0, 2, 3];
+let playlist;
 
 const verbose = true;
 
@@ -49,6 +49,9 @@ function pageLoad() {
             }
         }
     });
+
+    // This loads the playlist from the URL
+    playlist = getQueryString("p").split("-").map(Number);
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -213,8 +216,9 @@ function loadMainMenu() {
             if ((BAHAI_SONGS_DATA[j].meta?.theme ?? "Uncategorized") === songThemes[i]) {
                 const mainMenuBtn = document.createElement("p");
                 mainMenuBtn.classList.add("mainMenuBtn");
+                mainMenuBtn.id = j;
                 mainMenuBtn.addEventListener("click", () => {
-                    showSong(j, true);
+                    showSong(mainMenuBtn.id, true);
                 });
                 mainMenuBtn.innerText = songList[j];
                 mainMenuThemeDiv.appendChild(mainMenuBtn);
@@ -229,6 +233,12 @@ function loadMainMenu() {
     mainMenuPlaylistStartBtn.addEventListener("click", () => {playlistStart();});
     mainMenuPlaylistStartBtn.innerText = "Playlist Mode";
     mainMenu.appendChild(mainMenuPlaylistStartBtn);
+
+    // Creates a button to start making a custom playlist
+    const mainMenuPlaylistCreateBtn = document.createElement("button");
+    mainMenuPlaylistCreateBtn.addEventListener("click", () => {playlistCreate();});
+    mainMenuPlaylistCreateBtn.innerText = "Create Playlist";
+    mainMenu.appendChild(mainMenuPlaylistCreateBtn);
 
     // Handles logic for loading song when starting from playlist mode.
     if (currentSong === "playlist") {
@@ -302,7 +312,7 @@ function keyPress(event) {
             playlistAdvance(-1);
             break;
         case "a":
-            setQueryString([["i", "hello world"]]);
+            log(getQueryString("p").split("-").map(Number));
     }
 }
 
@@ -332,6 +342,11 @@ function playlistAdvance(numberOfAdvances) {
         setQueryString([["i", playlistIndex]]);
         log("Playlist advancing to song " + (playlistIndex) + "/" + playlist.length + ".");
     }
+}
+
+// Enters playlist creation mode
+function playlistCreate() {
+    // document.querySelectorAll(".");
 }
 
 function log(text) {
