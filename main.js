@@ -272,6 +272,9 @@ function playlistStart() {
         return;
     }
 
+    mode = "playlist";
+    updateVisibilityFromMode("playlist");
+
     showSong(playlist[0], false);
     setQueryString([["s", "playlist"], ["i", 1]]);
     log("Playlist mode starting with song 1/" + playlist.length + ".");

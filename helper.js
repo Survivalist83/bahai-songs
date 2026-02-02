@@ -76,28 +76,45 @@ function updateVisibilityFromMode(input) {
     const mainMenuPlaylistStartBtn = document.getElementById("mainMenuPlaylistStartBtn");
     const mainMenuPlaylistCreateBtn = document.getElementById("mainMenuPlaylistCreateBtn");
     const mainMenuPlaylistFinishBtn = document.getElementById("mainMenuPlaylistFinishBtn");
+    const mainMenuPlaylistBack = document.getElementById("mainMenuPlaylistBack");
     const mainMenuReturnHomeBtn = document.getElementById("mainMenuReturnHomeBtn");
+    const mainMenuPlaylistForward = document.getElementById("mainMenuPlaylistForward");
 
     switch(input) {
         case "main":
             show(mainMenuPlaylistStartBtn);
             show(mainMenuPlaylistCreateBtn);
             hide(mainMenuPlaylistFinishBtn);
+            hide(mainMenuPlaylistBack);
             hide(mainMenuReturnHomeBtn);
+            hide(mainMenuPlaylistForward);
             break;
         case "song":
             hide(mainMenuPlaylistStartBtn);
             hide(mainMenuPlaylistCreateBtn);
             hide(mainMenuPlaylistFinishBtn);
+            hide(mainMenuPlaylistBack);
             // if (IS_PHONE) { show(mainMenuReturnHomeBtn); };
             show(mainMenuReturnHomeBtn); // remove this later, here for testing
+            hide(mainMenuPlaylistForward);
+            break;
+        case "playlist":
+            hide(mainMenuPlaylistStartBtn);
+            hide(mainMenuPlaylistCreateBtn);
+            hide(mainMenuPlaylistFinishBtn);
+            show(mainMenuPlaylistBack);
+            // if (IS_PHONE) { show(mainMenuReturnHomeBtn); };
+            show(mainMenuReturnHomeBtn); // remove this later, here for testing
+            show(mainMenuPlaylistForward);
             break;
         case "create":
             setQueryString([["s", "create"]]);
             hide(mainMenuPlaylistStartBtn);
             hide(mainMenuPlaylistCreateBtn);
             show(mainMenuPlaylistFinishBtn);
+            hide(mainMenuPlaylistBack);
             hide(mainMenuReturnHomeBtn);
+            hide(mainMenuPlaylistForward);
             break;
         default:
             log("changeMode() Uncaught changeMode(" + mode + ").");
