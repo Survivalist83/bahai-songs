@@ -1,3 +1,4 @@
+// Sets a query string.
 function setQueryString(queryStrings) {
     const params = new URLSearchParams(window.location.search);
 
@@ -15,6 +16,8 @@ function setQueryString(queryStrings) {
     }
 
     window.history.pushState({}, "", window.location.pathname + newURL);
+
+    // Reminder to future me to not update a query string IF it's already set to the same thing (e.g. clicking Esc twice in a row)
 }
 
 // Returns the contents of a specific query string. Returns -1 on errors.
@@ -24,12 +27,11 @@ function getQueryString(target) {
     return currentSong;
 }
 
-// Handles what to do when a key press is pressed (not mobile)
+// Handles what to do when a key press is pressed (not mobile).
 function keyPress(event) {
     switch (event) {
         case "Escape":
-            showSong(-1, true);
-            setQueryString([["i", ""]]); // removes the i parameter when going to main menu (since it exits playback mode)
+            returnHome();
             break;
         case "ArrowRight":
             playlistAdvance(1);
@@ -42,6 +44,77 @@ function keyPress(event) {
     }
 }
 
+// Returns to the home page, as if no query strings were entered on page load.
+function returnHome() {
+    mode = "main";
+    updateVisibilityFromMode("main");
+    showSong(-1, false);
+    setQueryString([["s", ""], ["i", ""]]);
+}
+
+// Sets global variable "mode" depending on input. Don't use this like "changeModeSwitch('main')", instead just do "mode = 'main'"
+function changeModeSwitch(input) {
+    let mode;
+    switch(input) {
+        case -1:
+        case "main":
+            mode = "main";
+            break;
+        case "create":
+            mode = "create";
+            break;
+        default:
+            mode = "song";
+            break;
+    }
+    // log("changeModeSwitch() mode changed successfully, now: " + mode + ".");
+    return mode;
+}
+
+// Updates the visibility of the buttons at the bottom of the screen.
+function updateVisibilityFromMode(input) {
+    const mainMenuPlaylistStartBtn = document.getElementById("mainMenuPlaylistStartBtn");
+    const mainMenuPlaylistCreateBtn = document.getElementById("mainMenuPlaylistCreateBtn");
+    const mainMenuPlaylistFinishBtn = document.getElementById("mainMenuPlaylistFinishBtn");
+    const mainMenuReturnHomeBtn = document.getElementById("mainMenuReturnHomeBtn");
+
+    switch(input) {
+        case "main":
+            show(mainMenuPlaylistStartBtn);
+            show(mainMenuPlaylistCreateBtn);
+            hide(mainMenuPlaylistFinishBtn);
+            hide(mainMenuReturnHomeBtn);
+            break;
+        case "song":
+            hide(mainMenuPlaylistStartBtn);
+            hide(mainMenuPlaylistCreateBtn);
+            hide(mainMenuPlaylistFinishBtn);
+            // if (IS_PHONE) { show(mainMenuReturnHomeBtn); };
+            show(mainMenuReturnHomeBtn); // remove this later, here for testing
+            break;
+        case "create":
+            setQueryString([["s", "create"]]);
+            hide(mainMenuPlaylistStartBtn);
+            hide(mainMenuPlaylistCreateBtn);
+            show(mainMenuPlaylistFinishBtn);
+            hide(mainMenuReturnHomeBtn);
+            break;
+        default:
+            log("changeMode() Uncaught changeMode(" + mode + ").");
+            break;
+    }
+}
+
+// This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
+function mainMenuBtnClicked(id) {
+    log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
+    if (mode !== "create") {
+        showSong(id, true);
+    } else {
+        playlistAdd(id);
+    }
+}
+
 // A helper function for function loadSong() that creates a blank div for visual appeal/spacing.
 function createBlankDiv() {
     const blankDiv = document.createElement("div");
@@ -49,8 +122,19 @@ function createBlankDiv() {
     return blankDiv;
 }
 
+// Logs something. For production, change the variable "verbose" to false.
 function log(text) {
     if (verbose) {
         console.log(text);
     }
+}
+
+// Shows the element (keeping block/flex display).
+function show(element) {
+    element.classList.remove("hide");
+}
+
+// Hides the element.
+function hide(element) {
+    element.classList.add("hide");
 }

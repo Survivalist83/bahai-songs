@@ -12,10 +12,14 @@
 
 <body onkeydown="keyPress(event.key)">
 
-    <p id="hideMe">We are sorry, but your page failed to load due to unintended behaviors. Please contact the devs. Error 503</p>
-
-    <div id="mainMenu" style="display: none;"></div>
+    <div id="mainMenu" class="hide"></div>
     <div id="contentDiv"></div>
+    <footer class="footer" id="footer">
+        <button id="mainMenuPlaylistStartBtn" onclick="playlistStart()">Playlist Mode</button>
+        <button id="mainMenuPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button>
+        <button id="mainMenuPlaylistFinishBtn" onclick="playlistCreateFinish()">Save Playlist</button>
+        <button id="mainMenuReturnHomeBtn" onclick="returnHome()">Home</button>
+    </footer>
 
     <script>pageLoad()</script>
 

@@ -3,14 +3,19 @@ const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
 let playlist;
+let mode;
 
 const verbose = true;
 
 function pageLoad() {
-    document.getElementById("hideMe").style.display = "none";
+    let currentSong = getQueryString("s"); // the song currently in the URL
+    
+    // Loads queryString variables
+    const queryStringP = getQueryString("p");
+    playlist = queryStringP !== -1 ? queryStringP.split("-").map(Number) : [];
+    mode = changeModeSwitch(currentSong);
 
     // This loads (but hides) the songs, only showing the requested one.
-    let currentSong = getQueryString("s"); // the song currently in the URL
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         songList.push(BAHAI_SONGS_DATA[i].meta.name);
         loadSong(i, currentSong);
@@ -49,9 +54,6 @@ function pageLoad() {
             }
         }
     });
-
-    // This loads the playlist from the URL
-    playlist = getQueryString("p").split("-").map(Number);
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -65,10 +67,10 @@ function loadSong(songNumber, currentSong) {
     outerDiv.classList.add("songOuterDiv");
     
     // Hides the song by default, unless the URL says this is the one to be displayed.
-    if (songList[songNumber] !== currentSong) {
-        outerDiv.style.display = "none";
+    if (songList[songNumber] === currentSong) {
+        show(outerDiv);
     } else {
-        outerDiv.style.display = "flex";
+        hide(outerDiv);
     }
 
     // Spacing at the top to "center" it vertically
@@ -175,11 +177,12 @@ function loadSong(songNumber, currentSong) {
 
 function loadMainMenu() {
     const mainMenu = document.getElementById("mainMenu");
+    const footer = document.getElementById("footer");
 
     // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
     const currentSong = getQueryString("s");
-    if (currentSong === -1) {
-        mainMenu.style.display = "block";
+    if (mode === "main" | mode === "create") {
+        show(mainMenu);
     }
 
     // Finds all themes
@@ -209,10 +212,7 @@ function loadMainMenu() {
             if ((BAHAI_SONGS_DATA[j].meta?.theme ?? "Uncategorized") === songThemes[i]) {
                 const mainMenuBtn = document.createElement("p");
                 mainMenuBtn.classList.add("mainMenuBtn");
-                mainMenuBtn.id = j;
-                mainMenuBtn.addEventListener("click", () => {
-                    showSong(mainMenuBtn.id, true);
-                });
+                mainMenuBtn.addEventListener("click", () => { mainMenuBtnClicked(j, true); });
                 mainMenuBtn.innerText = songList[j];
                 mainMenuThemeDiv.appendChild(mainMenuBtn);
             }
@@ -221,17 +221,12 @@ function loadMainMenu() {
         mainMenu.appendChild(mainMenuThemeDiv);
     }
 
-    // Creates a button to start playlist mode
-    const mainMenuPlaylistStartBtn = document.createElement("button");
-    mainMenuPlaylistStartBtn.addEventListener("click", () => {playlistStart();});
-    mainMenuPlaylistStartBtn.innerText = "Playlist Mode";
-    mainMenu.appendChild(mainMenuPlaylistStartBtn);
-
-    // Creates a button to start making a custom playlist
-    const mainMenuPlaylistCreateBtn = document.createElement("button");
-    mainMenuPlaylistCreateBtn.addEventListener("click", () => {playlistCreate();});
-    mainMenuPlaylistCreateBtn.innerText = "Create Playlist";
-    mainMenu.appendChild(mainMenuPlaylistCreateBtn);
+    // Shows/hides footer buttons on page load
+    log("About to hide footer buttons. Currently, mode is " + mode + ".");
+    if (mode !== "main") { hide(document.getElementById("mainMenuPlaylistStartBtn")); };
+    if (mode !== "main") { hide(document.getElementById("mainMenuPlaylistCreateBtn")); };
+    if (mode !== "create") { hide(document.getElementById("mainMenuPlaylistFinishBtn")); };
+    if (mode !== "song") { hide(document.getElementById("mainMenuReturnHomeBtn")); }; // | !IS_PHONE
 
     // Handles logic for loading song when starting from playlist mode.
     if (currentSong === "playlist") {
@@ -239,25 +234,30 @@ function loadMainMenu() {
     }
 }
 
-// Shows one specific song.
-// When songNumber === -1, it goes to the homepage
+// Shows one specific song. When mode === "main", it goes to the homepage
 function showSong(songNumber, boolChangeHistory) {
-    document.querySelectorAll(".songOuterDiv").forEach(songOuterDiv => {songOuterDiv.style.display = "none";});
+    // log("Entering showSong() function. songNumber is " + songNumber + ", typeof " + typeof(songNumber) + ".");
+    mode = changeModeSwitch(songNumber);
+    updateVisibilityFromMode(mode);
+    // updateVisibilityFromMode(mode);
+    // log("changeMode(\"song\") has finished. Now, mode is " + mode + ".");
 
-    if (songNumber !== -1) {
-        document.getElementById("songOuterDiv" + songNumber).style.display = "flex";
+    document.querySelectorAll(".songOuterDiv").forEach(songOuterDiv => { hide(songOuterDiv); });
+
+    if (mode === "song") {
+        show(document.getElementById("songOuterDiv" + songNumber));
     }
 
     // Shows/hides the main menu
-    if (songNumber === -1 | songNumber === "playlist") {
-        document.getElementById("mainMenu").style.display = "block";
+    if (mode === "main" | songNumber === "playlist") {
+        show(document.getElementById("mainMenu"));
     } else {
-        document.getElementById("mainMenu").style.display = "none";
+        hide(document.getElementById("mainMenu"));
     }
 
     // Changes the "s" query string parameter to the current song's name so that the URL is easily shareable with others.
     if (boolChangeHistory) {
-        if (songNumber === -1) {
+        if (mode === "main") {
             setQueryString([["s", ""]]);
         } else {
             setQueryString([["s", songList[songNumber]]]);
@@ -267,6 +267,11 @@ function showSong(songNumber, boolChangeHistory) {
 
 // Enters playlist mode
 function playlistStart() {
+    if (getQueryString("p") === -1) {
+        window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
+        return;
+    }
+
     showSong(playlist[0], false);
     setQueryString([["s", "playlist"], ["i", 1]]);
     log("Playlist mode starting with song 1/" + playlist.length + ".");
@@ -282,10 +287,8 @@ function playlistAdvance(numberOfAdvances) {
     const playlistIndex = Number(getQueryString("i")) + numberOfAdvances;
 
     if (playlistIndex <= 0 | (playlistIndex - 1) >= playlist.length) {
-        showSong(-1, true);
-        setQueryString([["i", ""]]);
+        returnHome();
         log("Exiting playlist mode.");
-
     } else {
         showSong(playlist[playlistIndex - 1], false);
         setQueryString([["i", playlistIndex]]);
@@ -294,6 +297,21 @@ function playlistAdvance(numberOfAdvances) {
 }
 
 // Enters playlist creation mode
-function playlistCreate() {
-    // document.querySelectorAll(".");
+function playlistAdd(id) {
+    playlist.push(id);
+    log(playlist);
+}
+
+// What happens on clicking "Create Playlist"
+function playlistCreateStart() {
+    mode = "create";
+    updateVisibilityFromMode("create");
+    setQueryString([["s", "create"]]);
+}
+
+// What happens on clicking "Save Playlist"
+function playlistCreateFinish() {
+    mode = "main";
+    updateVisibilityFromMode("main");
+    setQueryString([["s", ""], ["p", playlist.join("-")]]);
 }
