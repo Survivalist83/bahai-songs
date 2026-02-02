@@ -261,25 +261,6 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
-    // {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
     {
         "meta": {
             "name": "Help me to triumph",
@@ -308,4 +289,373 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
+    {
+        {
+        "meta": {
+            "name": "In the love I bear to Thee",
+            "sourceName": "<i>Prayers and Meditations by Bahá’u’lláh</i>, CLI",
+            "sourceLink": "https://www.bahai.org/r/316108430",
+            "theme": "Love"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "column": 0
+                },
+                "sectionLyrics": [
+                    "In the love I bear to Thee,",
+                    "O my Lord,",
+                    "my heart longeth for Thee",
+                    "with a longing",
+                    "such as no heart",
+                    "hath known.",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "Here am I (x4)",
+                    "with my body between Thy hands,",
+                    "and my spirit before Thy face.",
+                    "In the love I bear to Thee,",
+                    "In the love In the love I bear (x7)",
+                    "In the love–(back to beginning)",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Unite and bind together the hearts",
+            "sourceName": "'Abdu’l‑Bahá, <i>The Promulgation of Universal Peace</i> (song by Ali Youssefi),
+            "sourceLink": "https://www.bahai.org/r/669611456",
+            "theme": "Unity"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Unite and bind",
+                    "together the hearts,",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "join in accord all the souls,"
+
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "O Lord! Make these faces radiant",
+                    "through the light",
+                    "of Thy oneness.  ",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Soon will our handful of days",
+            "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #210",
+            "sourceLink": "https://www.bahai.org/library/authoritative-texts/abdul-baha/selections-writings-abdul-baha/9#142180872:~:text=Now%20is%20the%20time%20to,those%20who%20speak%20no%20more%3B",
+            "theme": "Service"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Soon will our handful of days,",
+                    "our vanishing life, be gone,",
+                    "and we shall pass, empty-handed,",
+                    "into the hollow that is dug for those who speak no more;",
+                    "speak no more;",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 4
+                },
+                "sectionLyrics": [
+                    "Now is the time to serve,",
+                    "Now is the time to be on fire.",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "O Thou kind Lord!",
+            "sourceName": "‘Abdu’l‑Bahá, Bahá’í Prayers",
+            "sourceLink": "https://www.bahai.org/r/339113674",
+            "theme": "Youth"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": true
+                },
+                "sectionLyrics": [
+                    "O Thou O Thou kind Lord! (x2)",
+                    "Graciously bestow",
+                    "a pair of heavenly wings",
+                    "unto each of these fledglings",
+                    "and give them spiritual power",
+                    "that they may wing their flight",
+                    "through this limitless space",
+                    "[and may soar] (to the heights of the Abhá Kingdom) (x4-6?)",
+                    "O Thou O Thou kind Lord!",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Close one eye and open the other",
+            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #12",
+            "sourceLink": "https://www.bahai.org/r/775762706",
+            "theme": ""
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "O man of two visions! (x2)",
+                    "Close one eye,",
+                    "and open the other. (x2)",
+                    "Close one to the world",
+                    "and all that is therein,",
+                    "and open the other",
+                    "to the hallowed beauty",
+                    "of the Beloved. (x2)",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "",
+            "sourceName": "",
+            "sourceLink": "",
+            "theme": ""
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 1
+                },
+                "sectionLyrics": [
+                    "",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Abandon not the Everlasting",
+            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #14",
+            "sourceLink": "https://www.bahai.org/r/909085672",
+            "theme": ""
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "O FRIENDS! (x4)",
+                    "Abandon not Abandon not the everlasting (x3)",
+                    "Abandon not (x2)",
+                    "Beauty!",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Abandon not the everlasting beauty",
+                    "for a beauty that must die,",
+",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "and set not your affections on this",
+                    "mortal world of dust.",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "If thou lovest Me",
+            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #7",
+            "sourceLink": "https://www.bahai.org/r/118657418",
+            "theme": "Love"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "If thou lovest Me,",
+                    "turn away from thyself;",
+                    "and if thou seekest My pleasure,",
+                    "regard not thine own;",
+                    "that thou",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "that thou mayest die",
+                    "in Me and I",
+                    "may eternally live in thee",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "O Son of Man! (x3-4?)",
+                ]
+            }
+        ]
+    },
+    // {
+    //     {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
+    // {
+    //     {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
+    // {
+    //     {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
+    // {
+    //     {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
+    // {
+    //     {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
+    // {
+    //     {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
 ]
