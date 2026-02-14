@@ -403,7 +403,7 @@ const BAHAI_SONGS_DATA = [
             "name": "Close one eye and open the other",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #12",
             "sourceLink": "https://www.bahai.org/r/775762706",
-            "theme": ""
+            "theme": "Spiritual/Material"
         },
         "lyrics": [
             {
@@ -425,7 +425,7 @@ const BAHAI_SONGS_DATA = [
             "name": "Abandon not the Everlasting",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #14",
             "sourceLink": "https://www.bahai.org/r/909085672",
-            "theme": ""
+            "theme": "Spiritual/Material"
         },
         "lyrics": [
             {
@@ -491,86 +491,145 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
-    // {
-    //     {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
-    // {
-    //     {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
-    // {
-    //     {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
-    // {
-    //     {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
+    {
+        {
+        "meta": {
+            "name": "O Lord! I am weak",
+            "sourceName": "‘Abdu’l‑Bahá, <i>Bahá’í Prayers</i>",
+            "sourceLink": "https://www.bahai.org/r/091008417",
+            "theme": "Confirmation"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 1
+                },
+                "sectionLyrics": [
+                    "O Lord!",
+                    "I am weak,",
+                    "strengthen me",
+                    "with Thy power and potency.",
+                    "My tongue falters,",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "suffer me to utter",
+                    "Thy commemoration and praise.",
+                    "I am lowly,",
+                    "honor me",
+                    "through admitting",
+                    "me into Thy kingdom.",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Immserse yourselves",
+            "sourceName": "<i>The Kitáb-i-Aqdas</i>, p. 182",
+            "sourceLink": "https://www.bahai.org/r/912049805",
+            "theme": "Word of God"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Immerse yourselves",
+                    "in the ocean of My words,",
+                    "that ye may unravel its secrets,",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "and discover discover",
+                    "all the pearls",
+                    "pearls of wisdom",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "that lie hid in its depths.",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Rest assured",
+            "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #216",
+            "sourceLink": "https://www.bahai.org/r/858538367",
+            "theme": "Confirmation"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "Rest assured (x3)",
+                    "that the breathings (x3)",
+                    "of the Holy (x3)",
+                    "Spirit",
+                    "will loosen (x3)",
+                    "thy tongue.",
+                    "Speak, therefore; (x2)"
+                    "speak out",
+                    "with great",
+                    "(with great) courage",
+                    "at every meeting.",
+                    "I am with you",
+                    "heart and soul",
+                    "at every meeting;",
+                    "heart and soul",
+                    "at every meeting; (x2)",
+                    "be sure of this. (x4)",
+                ]
+            }
+        ]
+    },
+    {
+        {
+        "meta": {
+            "name": "Say: God sufficeth",
+            "sourceName": "The Báb, <i>Bahá'í Prayers</i>",
+            "sourceLink": "https://www.bahai.org/r/180459462",
+            "theme": "Power of God"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Say: God sufficeth",
+                    "all things above all things,",
+                    "and nothing in the heavens",
+                    "or in the earth",
+                    "but God sufficeth.",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Verily, He is in Himself",
+                    "the Knower,",
+                    "the Sustainer,",
+                    "the Omnipotent.",
+                ]
+            }
+        ]
+    },
     // {
     //     {
     //     "meta": {
