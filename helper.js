@@ -1,6 +1,7 @@
 // Sets a query string.
 function setQueryString(queryStrings) {
     const params = new URLSearchParams(window.location.search);
+    const oldParams = params.toString();
 
     for (let i = 0; i < queryStrings.length; i++) {
         if (queryStrings[i][1] !== "") {
@@ -9,6 +10,12 @@ function setQueryString(queryStrings) {
             params.delete(queryStrings[i][0]);
         }
     }
+
+    // No need to set the parameters to something they already are; this just unneccesarily creates lag and more in history
+    if (oldParams === params.toString()) {
+        log("From setQueryString(): returning due to already set params.");
+        return;
+    }
     
     let newURL = "";
     if ([...params.entries()].length > 0) {
@@ -16,14 +23,12 @@ function setQueryString(queryStrings) {
     }
 
     window.history.pushState({}, "", window.location.pathname + newURL);
-
-    // Reminder to future me to not update a query string IF it's already set to the same thing (e.g. clicking Esc twice in a row)
 }
 
-// Returns the contents of a specific query string. Returns -1 on errors.
+// Returns the contents of a specific query string. Returns null on errors.
 function getQueryString(target) {
     const params = new URLSearchParams(window.location.search);
-    const currentSong = params.get(target) ?? -1;
+    const currentSong = params.get(target);
     return currentSong;
 }
 
@@ -40,15 +45,16 @@ function keyPress(event) {
             playlistAdvance(-1);
             break;
         case "a":
-            log(getQueryString("p").split("-").map(Number));
+            const params = new URLSearchParams(window.location.search);
+            log(params.get("s") + " typeof " + typeof(params.get("s")));
     }
 }
 
 // Returns to the home page, as if no query strings were entered on page load.
 function returnHome() {
     mode = "main";
-    updateVisibilityFromMode("main");
-    showSong(-1, false);
+    showSong("main");
+    updateNavButtons("main");
     setQueryString([["s", ""], ["i", ""]]);
 }
 
@@ -56,12 +62,14 @@ function returnHome() {
 function changeModeSwitch(input) {
     let mode;
     switch(input) {
-        case -1:
         case "main":
             mode = "main";
             break;
         case "create":
             mode = "create";
+            break;
+        case "playlist":
+            mode = "playlist";
             break;
         default:
             mode = "song";
@@ -72,14 +80,14 @@ function changeModeSwitch(input) {
 }
 
 // Updates the visibility of the buttons at the bottom of the screen.
-function updateVisibilityFromMode(input) {
+function updateNavButtons(input) {
     const mainMenuPlaylistStartBtn = document.getElementById("mainMenuPlaylistStartBtn");
     const mainMenuPlaylistCreateBtn = document.getElementById("mainMenuPlaylistCreateBtn");
     const mainMenuPlaylistFinishBtn = document.getElementById("mainMenuPlaylistFinishBtn");
     const mainMenuPlaylistBack = document.getElementById("mainMenuPlaylistBack");
     const mainMenuReturnHomeBtn = document.getElementById("mainMenuReturnHomeBtn");
     const mainMenuPlaylistForward = document.getElementById("mainMenuPlaylistForward");
-
+    log("updating nav button visibility");
     switch(input) {
         case "main":
             show(mainMenuPlaylistStartBtn);
@@ -94,8 +102,7 @@ function updateVisibilityFromMode(input) {
             hide(mainMenuPlaylistCreateBtn);
             hide(mainMenuPlaylistFinishBtn);
             hide(mainMenuPlaylistBack);
-            // if (IS_PHONE) { show(mainMenuReturnHomeBtn); };
-            show(mainMenuReturnHomeBtn); // remove this later, here for testing
+            show(mainMenuReturnHomeBtn);
             hide(mainMenuPlaylistForward);
             break;
         case "playlist":
@@ -103,8 +110,7 @@ function updateVisibilityFromMode(input) {
             hide(mainMenuPlaylistCreateBtn);
             hide(mainMenuPlaylistFinishBtn);
             show(mainMenuPlaylistBack);
-            // if (IS_PHONE) { show(mainMenuReturnHomeBtn); };
-            show(mainMenuReturnHomeBtn); // remove this later, here for testing
+            show(mainMenuReturnHomeBtn);
             show(mainMenuPlaylistForward);
             break;
         case "create":
@@ -117,8 +123,28 @@ function updateVisibilityFromMode(input) {
             hide(mainMenuPlaylistForward);
             break;
         default:
-            log("changeMode() Uncaught changeMode(" + mode + ").");
+            log("changeMode() Uncaught input: " + mode + ".");
             break;
+    }
+}
+
+// Shows one specific song. When mode === "main", it goes to the homepage
+function showSong(songNumber) {
+    log("showSong called");
+    mode = changeModeSwitch(songNumber);
+    // updateNavButtons(mode);
+
+    document.querySelectorAll(".outerDiv").forEach(outerDiv => { hide(outerDiv); });
+
+    if (mode === "song") {
+        show(document.getElementById("outerDiv" + songNumber));
+    }
+
+    // Shows/hides the main menu
+    if (mode === "main" | songNumber === "playlist") {
+        show(document.getElementById("mainMenu"));
+    } else {
+        hide(document.getElementById("mainMenu"));
     }
 }
 
@@ -126,7 +152,9 @@ function updateVisibilityFromMode(input) {
 function mainMenuBtnClicked(id) {
     log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
     if (mode !== "create") {
-        showSong(id, true);
+        showSong(id);
+        updateNavButtons("song");
+        setQueryString([["s", songList[id]]]);
     } else {
         playlistAdd(id);
     }

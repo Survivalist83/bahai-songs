@@ -1,23 +1,4 @@
 const BAHAI_SONGS_DATA = [
-    // {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "pageBreak": []
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             }
-    //             "sectionLyrics": [
-    //                 "",
-    //             }
-    //         }
-    //     ]
-    // },
     {
         "meta": {
             "name": "Kindle the fire of love",
@@ -110,10 +91,10 @@ const BAHAI_SONGS_DATA = [
                     "Create relationships that nothing can shake;",
                     "form an assembly that nothing can break up,",
                     "have a mind that",
-                    "never ceases (x2)",
+                    "never ceases (×2)",
                     "acquiring riches",
                     "nothing can destroy",
-                    "that nothing can destroy. (x3)"
+                    "that nothing can destroy. (×3)"
                 ]
             },
             {
@@ -133,7 +114,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "It is the fire of the love of God",
                     "which renders man superior",
-                    "to the animal. (x4)"
+                    "to the animal. (×4)"
                 ]
             },
             {
@@ -197,7 +178,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "The sign of love (x3)",
+                    "The sign of love (×3)",
                     "is fortitude under My decree",
                 ]
             },
@@ -207,7 +188,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "The sign of love (x3)",
+                    "The sign of love (×3)",
                     "is patience under My trials.",
                 ]
             },
@@ -219,7 +200,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "The sign of love",
-                    "is fortitude under My decree (x4)",
+                    "is fortitude under My decree (×4)",
                     "is patience under My trials."
                 ]
             }
@@ -290,7 +271,6 @@ const BAHAI_SONGS_DATA = [
         ]
     },
     {
-        {
         "meta": {
             "name": "In the love I bear to Thee",
             "sourceName": "<i>Prayers and Meditations by Bahá’u’lláh</i>, CLI",
@@ -316,21 +296,20 @@ const BAHAI_SONGS_DATA = [
                     "column": 1
                 },
                 "sectionLyrics": [
-                    "Here am I (x4)",
+                    "Here am I (×4)",
                     "with my body between Thy hands,",
                     "and my spirit before Thy face.",
                     "In the love I bear to Thee,",
-                    "In the love In the love I bear (x7)",
+                    "In the love In the love I bear (×7)",
                     "In the love–(back to beginning)",
                 ]
             }
         ]
     },
     {
-        {
         "meta": {
             "name": "Unite and bind together the hearts",
-            "sourceName": "'Abdu’l‑Bahá, <i>The Promulgation of Universal Peace</i> (song by Ali Youssefi),
+            "sourceName": "'Abdu’l‑Bahá, <i>The Promulgation of Universal Peace</i> (song by Ali Youssefi)",
             "sourceLink": "https://www.bahai.org/r/669611456",
             "theme": "Unity"
         },
@@ -363,7 +342,6 @@ const BAHAI_SONGS_DATA = [
         ]
     },
     {
-        {
         "meta": {
             "name": "Soon will our handful of days",
             "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #210",
@@ -395,7 +373,6 @@ const BAHAI_SONGS_DATA = [
         ]
     },
     {
-        {
         "meta": {
             "name": "O Thou kind Lord!",
             "sourceName": "‘Abdu’l‑Bahá, Bahá’í Prayers",
@@ -408,21 +385,20 @@ const BAHAI_SONGS_DATA = [
                     "callAndResponse": true
                 },
                 "sectionLyrics": [
-                    "O Thou O Thou kind Lord! (x2)",
+                    "O Thou O Thou kind Lord! (×2)",
                     "Graciously bestow",
                     "a pair of heavenly wings",
                     "unto each of these fledglings",
                     "and give them spiritual power",
                     "that they may wing their flight",
                     "through this limitless space",
-                    "[and may soar] (to the heights of the Abhá Kingdom) (x4-6?)",
+                    "[and may soar] (to the heights of the Abhá Kingdom) (×4-6?)",
                     "O Thou O Thou kind Lord!",
                 ]
             }
         ]
     },
     {
-        {
         "meta": {
             "name": "Close one eye and open the other",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #12",
@@ -432,40 +408,19 @@ const BAHAI_SONGS_DATA = [
         "lyrics": [
             {
                 "sectionLyrics": [
-                    "O man of two visions! (x2)",
+                    "O man of two visions! (×2)",
                     "Close one eye,",
-                    "and open the other. (x2)",
+                    "and open the other. (×2)",
                     "Close one to the world",
                     "and all that is therein,",
                     "and open the other",
                     "to the hallowed beauty",
-                    "of the Beloved. (x2)",
+                    "of the Beloved. (×2)",
                 ]
             }
         ]
     },
     {
-        {
-        "meta": {
-            "name": "",
-            "sourceName": "",
-            "sourceLink": "",
-            "theme": ""
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "callAndResponse": false,
-                    "repetitions": 1
-                },
-                "sectionLyrics": [
-                    "",
-                ]
-            }
-        ]
-    },
-    {
-        {
         "meta": {
             "name": "Abandon not the Everlasting",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #14",
@@ -475,9 +430,9 @@ const BAHAI_SONGS_DATA = [
         "lyrics": [
             {
                 "sectionLyrics": [
-                    "O FRIENDS! (x4)",
-                    "Abandon not Abandon not the everlasting (x3)",
-                    "Abandon not (x2)",
+                    "O FRIENDS! (×4)",
+                    "Abandon not Abandon not the everlasting (×3)",
+                    "Abandon not (×2)",
                     "Beauty!",
                 ]
             },
@@ -488,7 +443,6 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "Abandon not the everlasting beauty",
                     "for a beauty that must die,",
-",
                 ]
             },
             {
@@ -503,7 +457,6 @@ const BAHAI_SONGS_DATA = [
         ]
     },
     {
-        {
         "meta": {
             "name": "If thou lovest Me",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #7",
@@ -533,7 +486,7 @@ const BAHAI_SONGS_DATA = [
             },
             {
                 "sectionLyrics": [
-                    "O Son of Man! (x3-4?)",
+                    "O Son of Man! (×3-4?)",
                 ]
             }
         ]

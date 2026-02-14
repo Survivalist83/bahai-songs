@@ -2,12 +2,12 @@ html {
     font-size: 1px;
 }
 
-.songOuterDiv {
+.outerDiv {
     display: flex;
     flex-direction: column;
     align-items: center; /* In this case, this is horizontal alignment */
 
-    min-height: 90%;
+    height: 90%;
     /* padding-top: 20vh; */
     /* box-sizing: border-box; */
 }
@@ -42,6 +42,7 @@ html {
 
 body {
     background-color: #9EFFF0;
+    padding-bottom: 15vh;
 }
 
 .songHeader {
@@ -103,7 +104,7 @@ a {
         font-size: 30rem;
     }
 
-    /* .songOuterDiv {
+    /* .outerDiv {
     } */
 }
 

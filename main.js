@@ -7,13 +7,18 @@ let mode;
 
 const verbose = true;
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// Page Load Stuff ///////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 function pageLoad() {
     let currentSong = getQueryString("s"); // the song currently in the URL
-    
+
     // Loads queryString variables
     const queryStringP = getQueryString("p");
-    playlist = queryStringP !== -1 ? queryStringP.split("-").map(Number) : [];
-    mode = changeModeSwitch(currentSong);
+    playlist = queryStringP !== null ? queryStringP.split("-").map(Number) : [];
+    mode = changeModeSwitch(currentSong ?? "main");
+    console.log("page load! mode is " + mode);
 
     // This loads (but hides) the songs, only showing the requested one.
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
@@ -27,12 +32,15 @@ function pageLoad() {
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
         if (currentSong === "playlist") {
-           showSong(playlist[Number(getQueryString("i")) - 1], false);
+            showSong(playlist[Number(getQueryString("i")) - 1]);
         } else {
             currentSong = getQueryString("s");
             let currentSongIndex = songList.indexOf(currentSong);
+            if (currentSongIndex === -1) {
+                currentSongIndex = "main";
+            }
             log("Popstate detected. Moving to song " + currentSongIndex + ".");
-            showSong(currentSongIndex, false);
+            showSong(currentSongIndex);
         }
     });
 
@@ -44,7 +52,7 @@ function pageLoad() {
     });
     document.addEventListener("touchend", (event) => {
         swipeEndX = event.changedTouches[0].clientX;
-        
+
         const swipeDistance = swipeEndX - swipeStartX;
         if (Math.abs(swipeDistance) > 75) {
             if (swipeDistance > 0) {
@@ -63,11 +71,12 @@ function loadSong(songNumber, currentSong) {
     const lyrics = BAHAI_SONGS_DATA[songNumber].lyrics;
     const meta = BAHAI_SONGS_DATA[songNumber].meta;
     const outerDiv = document.createElement("div");
-    outerDiv.id = "songOuterDiv" + songNumber;
-    outerDiv.classList.add("songOuterDiv");
-    
+    outerDiv.id = "outerDiv" + songNumber;
+    outerDiv.classList.add("outerDiv");
+
     // Hides the song by default, unless the URL says this is the one to be displayed.
-    if (songList[songNumber] === currentSong) {
+    if (songList[songNumber] === currentSong || (currentSong === "playlist" && getQueryString("i") === String(songNumber))) {
+        console.log("test");
         show(outerDiv);
     } else {
         hide(outerDiv);
@@ -126,7 +135,7 @@ function loadSong(songNumber, currentSong) {
         const sectionLyrics = lyrics[i].sectionLyrics;
         const sectionMeta = lyrics[i].sectionMeta;
         const sectionDiv = document.createElement("div");
-        
+
         // Adds "Call and response:" or "All together:" to each section, if needed.
         if (sectionMeta && sectionMeta.callAndResponse) {
             const callAndResponse = document.createElement("p");
@@ -177,106 +186,139 @@ function loadSong(songNumber, currentSong) {
 
 function loadMainMenu() {
     const mainMenu = document.getElementById("mainMenu");
-    const footer = document.getElementById("footer");
 
     // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
-    const currentSong = getQueryString("s");
     if (mode === "main" | mode === "create") {
         show(mainMenu);
     }
 
-    // Finds all themes
+    // Finds all categories
     let songThemes = [];
-    for (let i = 0; i < songList.length; i++) {
-        songThemes.push(BAHAI_SONGS_DATA[i].meta?.theme ?? "Uncategorized");
+    for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
+        const themeToBeAdded = BAHAI_SONGS_DATA[i].meta?.theme || "Uncategorized"
+        const THEME_ALREADY_PUSHED = songThemes.find(item => item.name === themeToBeAdded);
+
+        if (!THEME_ALREADY_PUSHED) {
+            songThemes.push({ "name": themeToBeAdded, "songs": [], "column": 0 });
+        }
     }
-    songThemes = [...new Set(songThemes)];
+
+    // Alphabetizes categories
+    songThemes.sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    });
 
     // Moves "Uncategorized" category to the end of the list
-    const indexOfUncategorized = songThemes.indexOf("Uncategorized");
+    const indexOfUncategorized = songThemes.findIndex(item => item.name === "Uncategorized");
     if (indexOfUncategorized !== -1) {
         songThemes.splice(indexOfUncategorized, 1);
-        songThemes.push("Uncategorized");
+        songThemes.push({ "name": "Uncategorized", "songs": [], "column": 0 });
     }
 
-    // Creates a div for each theme
+    // Plans which songs go in which category
+    for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
+        songThemes.find(item => item.name === (BAHAI_SONGS_DATA[i].meta?.theme || "Uncategorized")).songs.push(i);
+
+    }
+
+    // Creates columns
+    const NUM_OF_CATEGORY_COLUMNS = IS_PHONE ? 1 : 3;
+    const AVERAGE_COLUMN_SIZE = IS_PHONE ? BAHAI_SONGS_DATA.length : BAHAI_SONGS_DATA.length / NUM_OF_CATEGORY_COLUMNS;
+    let numCategoriesAssigned = 0;
+    const THRESHHOLD_ADJUSTER = 0.5;
+    const mainMenuColumnTable = document.createElement("table");
+    mainMenu.appendChild(mainMenuColumnTable);
+    const mainMenuColumnTr = document.createElement("tr");
+    mainMenuColumnTable.appendChild(mainMenuColumnTr);
+    for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
+        // console.log("C" + i);
+
+        // Assigns each category a column
+        let numSongsPerColumn = 0;
+        for (let j = numCategoriesAssigned; j < songThemes.length; j++) {
+            const POTENTIAL_SONGS_PER_COLUMN = numSongsPerColumn + songThemes[j].songs.length;
+
+            // console.log(songThemes[j].name + " " + (numCategoriesAssigned) + " " + Math.abs(AVERAGE_COLUMN_SIZE - numSongsPerColumn) + " " + Math.abs(AVERAGE_COLUMN_SIZE - (POTENTIAL_SONGS_PER_COLUMN + THRESHHOLD_ADJUSTER)));
+            if (AVERAGE_COLUMN_SIZE - numSongsPerColumn >= 3 || (AVERAGE_COLUMN_SIZE - numSongsPerColumn) > Math.abs(AVERAGE_COLUMN_SIZE - (POTENTIAL_SONGS_PER_COLUMN + THRESHHOLD_ADJUSTER))) {
+                songThemes[j].column = i;
+                numCategoriesAssigned++;
+                numSongsPerColumn += songThemes[j].songs.length + THRESHHOLD_ADJUSTER;
+            } else {
+                break;
+            }
+        }
+
+        const mainMenuColumnTd = document.createElement("td");
+        mainMenuColumnTd.id = "mainMenuColumnTd" + i;
+        mainMenuColumnTd.classList.add("songTdColumn");
+        mainMenuColumnTr.appendChild(mainMenuColumnTd);
+    }
+
+    console.log(songThemes);
+
+    // Creates categories
     for (let i = 0; i < songThemes.length; i++) {
         const mainMenuThemeDiv = document.createElement("div");
         const mainMenuThemeHeader = document.createElement("h1");
         mainMenuThemeHeader.classList.add("mainMenuHeader");
-        mainMenuThemeHeader.innerText = songThemes[i];
+        mainMenuThemeHeader.innerText = songThemes[i].name;
         mainMenuThemeDiv.appendChild(mainMenuThemeHeader);
 
-        // Adds songs that belong in the theme to the theme
-        for (let j = 0; j < BAHAI_SONGS_DATA.length; j++) {
-            if ((BAHAI_SONGS_DATA[j].meta?.theme ?? "Uncategorized") === songThemes[i]) {
-                const mainMenuBtn = document.createElement("p");
-                mainMenuBtn.classList.add("mainMenuBtn");
-                mainMenuBtn.addEventListener("click", () => { mainMenuBtnClicked(j, true); });
-                mainMenuBtn.innerText = songList[j];
-                mainMenuThemeDiv.appendChild(mainMenuBtn);
-            }
+        // Alphabetizes the songs in each category
+        songThemes[i].songs.sort((a, b) => {
+            const FIRST_NAME = BAHAI_SONGS_DATA[a].meta.name;
+            const SECOND_NAME = BAHAI_SONGS_DATA[b].meta.name
+            
+            if (FIRST_NAME < SECOND_NAME) return -1;
+            if (FIRST_NAME > SECOND_NAME) return 1;
+            return 0;
+        })
+
+        // Adds the songs themselves
+        for (let j = 0; j < songThemes[i].songs.length; j++) {
+            const mainMenuBtn = document.createElement("p");
+            mainMenuBtn.classList.add("mainMenuBtn");
+            mainMenuBtn.addEventListener("click", () => { mainMenuBtnClicked(songThemes[i].songs[j], true); });
+            mainMenuBtn.innerText = BAHAI_SONGS_DATA[songThemes[i].songs[j]].meta.name;
+            mainMenuThemeDiv.appendChild(mainMenuBtn);
         }
 
-        mainMenu.appendChild(mainMenuThemeDiv);
+        document.getElementById("mainMenuColumnTd" + songThemes[i].column).appendChild(mainMenuThemeDiv);
     }
 
     // Shows/hides footer buttons on page load
-    log("About to hide footer buttons. Currently, mode is " + mode + ".");
+    // log("About to hide footer buttons. Currently, mode is " + mode + ".");
     if (mode !== "main") { hide(document.getElementById("mainMenuPlaylistStartBtn")); };
     if (mode !== "main") { hide(document.getElementById("mainMenuPlaylistCreateBtn")); };
     if (mode !== "create") { hide(document.getElementById("mainMenuPlaylistFinishBtn")); };
-    if (mode !== "song") { hide(document.getElementById("mainMenuReturnHomeBtn")); }; // | !IS_PHONE
+    if (mode !== "playlist") { hide(document.getElementById("mainMenuPlaylistBack")); };
+    if (mode !== "song" && mode !== "playlist") { hide(document.getElementById("mainMenuReturnHomeBtn")); }; // | !IS_PHONE
+    if (mode !== "playlist") { hide(document.getElementById("mainMenuPlaylistForward")); };
 
     // Handles logic for loading song when starting from playlist mode.
-    if (currentSong === "playlist") {
-        showSong(playlist[Number(getQueryString("i")) - 1], false);
+    if (mode === "playlist") {
+        showSong(playlist[Number(getQueryString("i")) - 1]);
     }
 }
 
-// Shows one specific song. When mode === "main", it goes to the homepage
-function showSong(songNumber, boolChangeHistory) {
-    // log("Entering showSong() function. songNumber is " + songNumber + ", typeof " + typeof(songNumber) + ".");
-    mode = changeModeSwitch(songNumber);
-    updateVisibilityFromMode(mode);
-    // updateVisibilityFromMode(mode);
-    // log("changeMode(\"song\") has finished. Now, mode is " + mode + ".");
-
-    document.querySelectorAll(".songOuterDiv").forEach(songOuterDiv => { hide(songOuterDiv); });
-
-    if (mode === "song") {
-        show(document.getElementById("songOuterDiv" + songNumber));
-    }
-
-    // Shows/hides the main menu
-    if (mode === "main" | songNumber === "playlist") {
-        show(document.getElementById("mainMenu"));
-    } else {
-        hide(document.getElementById("mainMenu"));
-    }
-
-    // Changes the "s" query string parameter to the current song's name so that the URL is easily shareable with others.
-    if (boolChangeHistory) {
-        if (mode === "main") {
-            setQueryString([["s", ""]]);
-        } else {
-            setQueryString([["s", songList[songNumber]]]);
-        }
-    }
-}
+////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// Playlist Button ///////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Enters playlist mode
 function playlistStart() {
-    if (getQueryString("p") === -1) {
+    if (getQueryString("p") === null) {
         window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
         return;
     }
 
     mode = "playlist";
-    updateVisibilityFromMode("playlist");
-
-    showSong(playlist[0], false);
+    showSong(playlist[0]);
+    updateNavButtons("playlist");
     setQueryString([["s", "playlist"], ["i", 1]]);
+
     log("Playlist mode starting with song 1/" + playlist.length + ".");
 }
 
@@ -293,7 +335,7 @@ function playlistAdvance(numberOfAdvances) {
         returnHome();
         log("Exiting playlist mode.");
     } else {
-        showSong(playlist[playlistIndex - 1], false);
+        showSong(playlist[playlistIndex - 1]);
         setQueryString([["i", playlistIndex]]);
         log("Playlist advancing to song " + (playlistIndex) + "/" + playlist.length + ".");
     }
@@ -308,13 +350,13 @@ function playlistAdd(id) {
 // What happens on clicking "Create Playlist"
 function playlistCreateStart() {
     mode = "create";
-    updateVisibilityFromMode("create");
+    updateNavButtons("create");
     setQueryString([["s", "create"]]);
 }
 
 // What happens on clicking "Save Playlist"
 function playlistCreateFinish() {
     mode = "main";
-    updateVisibilityFromMode("main");
+    updateNavButtons("main");
     setQueryString([["s", ""], ["p", playlist.join("-")]]);
 }
