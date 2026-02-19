@@ -14,14 +14,70 @@
 
     <div id="mainMenu" class="outerDiv hide"></div>
     <div id="contentDiv"></div>
+    
+    <input type="checkbox" id="footer-toggle" class="checkbox-toggle-hide">
     <footer class="footer" id="footer">
-        <button id="mainMenuPlaylistStartBtn" onclick="playlistStart()">Playlist Mode</button>
-        <button id="mainMenuPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button>
-        <button id="mainMenuPlaylistFinishBtn" onclick="playlistCreateFinish()">Save Playlist</button>
-        <button id="mainMenuPlaylistBack" onclick="playlistAdvance(-1)"><</button>
-        <button id="mainMenuReturnHomeBtn" onclick="returnHome()">Home</button>
-        <button id="mainMenuPlaylistForward" onclick="playlistAdvance(1)">></button>
+        <button id="mainMenuPlaylistBack" class="footerBtn" onclick="arrowKey('ArrowLeft')"><</button>
+        <button id="mainMenuReturnHomeBtn" class="footerBtn" onclick="returnHome()">Home</button>
+        <button id="mainMenuPlaylistForward" class="footerBtn" onclick="arrowKey('ArrowRight')">></button>
     </footer>
+    
+    <input type="checkbox" id="sidebar-toggle" class="checkbox-toggle-hide">
+    <label for="sidebar-toggle" class="sidebarToggleBtn" onclick="sidebarOverlay('')">
+        <img src="Images/Settings_Icon.png" alt="Settings" class="icon">
+    </label>
+    <aside id="sidebar">
+        <div class="sidebarDiv" id="sidebarNavigation">
+            <button id="sidebarPlaylistStartBtn" class="sidebarBtn moving" onclick="playlistStart()">Start Playlist</button>
+            <button id="sidebarPlaylistEndBtn" class="sidebarBtn moving" onclick="returnHome()">End Playlist</button>
+            <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="updateNavButtons('edit')">Edit Playlist</button>
+            <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="playlistCreateFinish()">Save Changes</button>
+            <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving" onclick="playlistCopy()">Copy Playlist Link</button>
+            <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
+        </div>
+        <div class="sidebarDiv" id="sidebarPlaylistViewer">
+            <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
+            <div id="sidebarPlaylistViewerOverflow"></div>
+        </div>
+        <div class="sidebarDiv" id="sidebarBottom">
+            <button id="sidebarRequest" class="sidebarBtn" onclick="sidebarOverlay('request')">Request a Song</button>
+            <button id="sidebarAbout" class="sidebarBtn" onclick="sidebarOverlay('about')">About</button>
+            <button id="sidebarShortcuts" class="sidebarBtn pc" onclick="sidebarOverlay('shortcuts')">Keyboard Shortcuts</button>
+            <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebarOverlay('howto')">How To</button> -->
+        </div>
+    </aside>
+    
+    <div id="sidebarShadow"></div>
+
+    <!-- <aside id="sidebarOverlay-howto" class="sidebarOverlay">
+        <h1 class="songHeader noPadding">How To</h1>
+        <p class="songLyric">Temp</p>
+    </aside> -->
+    <aside id="sidebarOverlay-shortcuts" class="sidebarOverlay">
+        <h1 class="songHeader noPadding">Left/Right Arrow Keys</h1>
+        <p class="songLyric">Switch between songs</p>
+        <h1 class="songHeader">h</h1>
+        <p class="songLyric">Go to homescreen</p>
+        <h1 class="songHeader">Escape</h1>
+        <p class="songLyric">Toggle sidebar menus</p>
+    </aside>
+    <aside id="sidebarOverlay-about" class="sidebarOverlay">
+        <h1 class="songHeader noPadding">About</h1>
+        <p class="songLyric">This website was created to share lyrics to Bahá'í songs sung in devotional spaces.</p>
+        <p class="songLyric">To view similar content in Google-Slide form, see <a href="https://bit.ly/BahaiSongs" target="_blank" class="sansLink">bit.ly/BahaiSongs</a>.</p>
+    </aside>
+    <aside id="sidebarOverlay-request" class="sidebarOverlay">
+        <h1 class="songHeader noPadding">Request a Song</h1>
+        <p class="songLyric">To request to add a song, please email <u>benmaxtennant@gmail.com</u> with the song title, link, and lyrics.</p>
+        <p class="songLyric">Optionally, you can include a video of the song and/or its guitar chords.</p>
+    </aside>
+
+    <input type="checkbox" id="position-indicator-toggle" class="checkbox-toggle-hide">
+    <div id="playlistPositionIndicator">
+        <p class="playlistPositionIndicatorCircle positionIndicatorFilled" onclick="playlistAdvance(-1)">&#8249;</p>
+        <div id="playlistPositionIndicatorCircleDiv"></div>
+        <p class="playlistPositionIndicatorCircle positionIndicatorFilled" onclick="playlistAdvance(1)">&#8250;</p>
+    </div>
 
     <script>pageLoad()</script>
 

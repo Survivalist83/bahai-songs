@@ -1,3 +1,19 @@
+:root {
+    --sidebar-width: calc(100vw - 55rem);
+    --sidebar-color: #8fc0ff;
+    --sidebar-color-dark: #46a7ff;
+    --sidebar-color-light: #bbd6ff;
+
+    --sidebar-button-disabled-background: #c6dcff;
+    --sidebar-button-disabled-text: #565656;
+
+    --sidebar-overlay-width: calc(100vw - 78rem);
+
+    --footer-color: #0073cd;
+
+    --main-menu-hover: #e0e0e0;
+}
+
 html {
     font-size: 1px;
 }
@@ -5,7 +21,8 @@ html {
 .outerDiv {
     display: flex;
     flex-direction: column;
-    align-items: center; /* In this case, this is horizontal alignment */
+    align-items: center;
+    /* In this case, this is horizontal alignment */
 
     height: 90%;
     /* padding-top: 20vh; */
@@ -16,6 +33,7 @@ html {
     vertical-align: top;
     padding: 10rem;
     padding-top: 5rem;
+    padding-bottom: 13vh;
 }
 
 .songLyric {
@@ -41,8 +59,8 @@ html {
 }
 
 body {
-    background-color: #9EFFF0;
-    padding-bottom: 15vh;
+    background-color: #f0f0f0;
+    margin-bottom: 15vh;
 }
 
 .songHeader {
@@ -59,9 +77,28 @@ p {
 
 a {
     text-align: center;
-    
+
     font-size: 16rem;
     padding-bottom: 20rem;
+}
+
+.sansLink {
+    font-size: 20rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+.mainMenuThemeDiv {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.greenDivider {
+    max-width: 150rem;
+
+    margin: 25rem;
 }
 
 /* Main menu */
@@ -71,43 +108,419 @@ a {
     font-size: 20rem;
 
     margin: 0;
-    padding-top: 15rem;
+    padding: 8rem;
+
+    border-radius: 10rem;
+
+    cursor: pointer;
+}
+
+.mainMenuBtn:hover {
+    background: var(--main-menu-hover);
 }
 
 .mainMenuHeader {
     text-align: center;
     font-size: 32rem;
     margin: 0;
+}
+
+#mainMenu {
     padding-top: 40rem;
 }
 
 .footer {
     position: fixed;
-    bottom: 0;
+    bottom: -10vh;
     left: 0;
-    width: 100%;
-    height: 10%;
+    width: 100vw;
+    height: 10vh;
+
+    transition: bottom 0.3s ease;
 
     box-sizing: border-box;
-    background-color: chocolate;
     padding: 12rem 16rem;
+
+    background-color: var(--footer-color);
+    border-top: 3rem solid black;
 
     display: flex;
     justify-content: center;
     gap: 12rem;
 }
 
-/* Computers */
+#footer-toggle:checked~.footer {
+    bottom: 0;
+}
 
-@media (min-width: 1000px) {
-    p {
-        font-size: 30rem;
+.footerBtn {
+    border: 2rem solid black;
+    border-radius: 10rem;
+    background: var(--sidebar-color-dark);
+
+    font-size: 20rem;
+
+    cursor: pointer;
+}
+
+.footerBtn:hover {
+    background: var(--footer-color);
+}
+
+#playlistPositionIndicator {
+    position: fixed;
+    transition: bottom 0.2s ease;
+
+    bottom: -3vh;
+    margin: 0;
+
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    display: flex;
+    flex-direction: row;
+}
+
+#playlistPositionIndicatorCircleDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.playlistPositionIndicatorCircle {
+    margin: 0;
+
+    width: 22rem;
+    aspect-ratio: 1;
+    font: 40rem;
+
+    cursor: default;
+}
+
+.positionIndicatorFilled {
+    cursor: pointer;
+}
+
+.positionIndicatorFilled:hover {
+    background: var(--main-menu-hover);
+}
+
+#position-indicator-toggle:checked~#playlistPositionIndicator {
+    bottom: 10vh;
+}
+
+/* Sidebar */
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: var(--sidebar-width);
+    height: 100vh;
+    padding-left: 0;
+
+    background: var(--sidebar-color);
+    z-index: 100;
+
+    transform: translateX(calc(0px - var(--sidebar-width)));
+    transition: transform 0.3s ease;
+}
+
+.sidebarDiv {
+    margin-left: 10rem;
+    margin-right: 10rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebarNavigation {
+    height: 20vh;
+
+    align-items: center;
+
+    overflow: auto;
+}
+
+#sidebarPlaylistViewer {
+    height: 60vh;
+
+    align-items: center;
+}
+
+#sidebarPlaylistViewerOverflow {
+    overflow: auto;
+    border: 3rem solid black;
+    border-radius: 12rem;
+}
+
+#sidebarBottom {
+    height: 20vh;
+
+    overflow: auto;
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebarBtn {
+    width: 80%;
+    text-align: center;
+
+    margin-top: 15rem;
+    padding: 0;
+
+    border: 2rem solid black;
+    border-radius: 10rem;
+    background: var(--sidebar-color-dark);
+
+    font-size: 20rem;
+
+    cursor: pointer;
+}
+
+.sidebarBtn.moving {
+    position: fixed;
+    width: calc((var(--sidebar-width) - 20rem) * 0.8);
+
+    left: -20vw;
+    transition: left 0.3s ease;
+}
+
+.sidebarBtn.moving.open {
+    left: calc((var(--sidebar-width) - 20rem) * 0.1 + 10rem);
+}
+
+#sidebarPlaylistEditBtn {
+    top: 42rem;
+}
+
+#sidebarPlaylistSaveBtn {
+    top: 42rem;
+}
+
+#sidebarPlaylistCopyBtn {
+    top: 84rem;
+}
+
+.sidebarBtn:not(:disabled):hover {
+    background: var(--sidebar-color);
+}
+
+.sidebarBtn:disabled {
+    background: var(--sidebar-color);
+    color: var(--sidebar-button-disabled-text);
+    cursor: not-allowed;
+}
+
+.sidebarText {
+    font-size: 32rem;
+    color: black;
+
+    text-align: center;
+
+    margin: 0;
+}
+
+.icon {
+    width: 20rem;
+    height: 20rem;
+    object-fit: contain;
+}
+
+#sidebarShadow {
+    position: fixed;
+
+    height: 100vh;
+    width: 20vw;
+    top: 0;
+    left: -20vw;
+
+    z-index: 50;
+
+    transition: left 0.3s ease;
+}
+
+#sidebar-toggle:checked ~ #sidebarShadow {
+    left: 0;
+    box-shadow: 4rem 0 8rem rgba(0, 0, 0, 0.6);
+}
+
+/* Toggle button */
+.sidebarToggleBtn {
+    position: fixed;
+    top: 0;
+    left: -1rem;
+
+    background: var(--sidebar-color);
+    border-bottom-right-radius: 30rem;
+    box-shadow: 4rem 4rem 8rem rgba(0, 0, 0, 0.6);
+
+    padding: 20rem 20rem;
+    cursor: pointer;
+
+    transition: transform 0.3s ease;
+    z-index: 75;
+}
+
+/* When checkbox is checked */
+#sidebar-toggle:checked ~ #sidebar {
+    transform: translateX(0);
+    /* box-shadow: 4rem 0 8rem rgba(0, 0, 0, 0.6); */
+}
+
+#sidebar-toggle:checked ~ .sidebarToggleBtn {
+    transform: translateX(var(--sidebar-width));
+}
+
+/* .sidebarToggleBtn:hover {
+    background: #0073cd;
+} */
+
+.sidebarOverlay {
+    position: fixed;
+    top: 20vh;
+    left: calc(-6rem - var(--sidebar-overlay-width));
+
+    width: var(--sidebar-overlay-width);
+    height: 60vh;
+
+    background: var(--sidebar-color-dark);
+    z-index: 200;
+
+    border: 3rem solid black;
+    border-radius: 12rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    transition: left 0.25s ease;
+}
+
+.sidebarOverlay.open {
+    left: 10rem;
+}
+
+/* #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: var(--sidebar-width);
+    height: 100vh;
+    padding-left: 0;
+
+    background: var(--sidebar-color);
+    z-index: 100;
+
+    transform: translateX(calc(0px - var(--sidebar-width)));
+    transition: transform 0.3s ease;
+} */
+
+/* Stuff regarding playlistViewer */
+
+.playlistViewerRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.playlistViewerRow.alternating {
+    background: var(--sidebar-color-light);
+}
+
+.playlistViewerRow.edit {
+    padding-right: 0;
+}
+
+.playlistViewerRow p {
+    font-size: 22rem;
+    color: black;
+
+    width: 100%;
+    margin: 0;
+}
+
+.playlistViewerRow.edit p {
+    width: 80%
+}
+
+.playlistViewerRow button {
+    width: 20%;
+    aspect-ratio: 1 / 1;
+
+    background: none;
+    border: none;
+    border-radius: 100%;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    display: none;
+}
+
+.playlistViewerRow.edit button {
+    display: block;
+}
+
+.playlistViewerRow button:hover {
+    background: var(--sidebar-color-dark);
+    /* rgba(0, 159, 255, 0.1); */
+}
+
+.playlistViewerRow img {
+    max-width: 50%;
+    aspect-ratio: 1 / 1;
+}
+
+.dragging {
+    opacity: 0;
+}
+
+.dropAbove {
+    border-top: 3rem solid black;
+}
+
+.dropBelow {
+    border-bottom: 3rem solid black;
+}
+
+
+/* Leave at bottom of CSS page */
+
+@media (min-width: 600px) {
+    :root {
+        --sidebar-width: 20vw;
+        --sidebar-overlay-width: calc(20vw - 23rem);
     }
+}
 
-    /* .outerDiv {
-    } */
+@media (max-width: 599px) {
+    .pc {
+        display: none;
+    }
 }
 
 .hide {
     display: none;
+}
+
+.checkbox-toggle-hide {
+    display: none
+        /* Comment this section to show checkboxes for testing purposes */
+}
+
+.noPadding {
+    padding: 0;
 }

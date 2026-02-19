@@ -4,8 +4,7 @@ const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
 let playlist;
 let mode;
-
-const verbose = true;
+let songLocations = new Map();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// Page Load Stuff ///////////////////////////////////////////
@@ -18,7 +17,7 @@ function pageLoad() {
     const queryStringP = getQueryString("p");
     playlist = queryStringP !== null ? queryStringP.split("-").map(Number) : [];
     mode = changeModeSwitch(currentSong ?? "main");
-    console.log("page load! mode is " + mode);
+    log("Page load! Mode is " + mode + ".", "pageLoad");
 
     // This loads (but hides) the songs, only showing the requested one.
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
@@ -26,22 +25,35 @@ function pageLoad() {
         loadSong(i, currentSong);
     }
 
-    // This adds buttons to select a song.
-    loadMainMenu();
+    // Dedicated functions to specific parts of loading the page
+    loadSongSelector();
+    
+    updateNavButtons(mode);
+
+    // Handles logic for loading song when starting from playlist mode.
+    if (mode === "playlist") {
+        showSong(playlist[Number(getQueryString("i")) - 1]);
+    }
+
+    updatePlaylistViewer();
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
         if (currentSong === "playlist") {
             showSong(playlist[Number(getQueryString("i")) - 1]);
+            updateNavButtons("playlist");
         } else {
             currentSong = getQueryString("s");
             let currentSongIndex = songList.indexOf(currentSong);
             if (currentSongIndex === -1) {
                 currentSongIndex = "main";
             }
-            log("Popstate detected. Moving to song " + currentSongIndex + ".");
+            log("Popstate detected. Moving to song " + currentSongIndex + ".", "popstate");
             showSong(currentSongIndex);
+            updateNavButtons(currentSong);
         }
+
+        updatePlaylistViewer();
     });
 
     // This adds detection for swiping left/right on mobile
@@ -62,6 +74,55 @@ function pageLoad() {
             }
         }
     });
+
+    // return;
+
+    // Handles dragging playlistViewerRow(s)
+    let draggedRow = null;
+    document.querySelectorAll(".playlistViewerRow").forEach(row => {
+        row.setAttribute("draggable", "true");
+        row.addEventListener("dragstart", (e) => {
+            draggedRow = e.currentTarget;
+            draggedRow.classList.add("dragging");
+        });
+
+        row.addEventListener("dragover", (e) => {
+            e.preventDefault();
+
+            // if (draggedRow === row) return;
+
+            // playlistViewerDrag(e, row, draggedRow);
+            const rowBound = row.getBoundingClientRect();
+            const dropPosition = e.clientY - rowBound.top;
+            const halfway = rowBound.height / 2;
+
+            document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
+                rowClass.classList.remove("dropAbove", "dropBelow");
+            });
+
+            if (dropPosition < halfway) {
+                row.classList.add("dropAbove");
+            } else {
+                row.classList.add("dropBelow");
+            }
+        });
+
+        row.addEventListener("drop", (e) => {
+            e.preventDefault();
+
+            if (draggedRow === row) return;
+
+            playlistViewerDrag(e, row, draggedRow);
+
+            document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
+                rowClass.classList.remove("dropAbove", "dropBelow");
+            });
+        });
+
+        row.addEventListener("dragend", () => {
+            draggedRow.classList.remove("dragging");
+        })
+    });
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -76,7 +137,6 @@ function loadSong(songNumber, currentSong) {
 
     // Hides the song by default, unless the URL says this is the one to be displayed.
     if (songList[songNumber] === currentSong || (currentSong === "playlist" && getQueryString("i") === String(songNumber))) {
-        console.log("test");
         show(outerDiv);
     } else {
         hide(outerDiv);
@@ -184,7 +244,8 @@ function loadSong(songNumber, currentSong) {
     contentDiv.appendChild(outerDiv);
 }
 
-function loadMainMenu() {
+// Runs on page load that adds the main menu's song selector (center of the screen)
+function loadSongSelector() {
     const mainMenu = document.getElementById("mainMenu");
 
     // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
@@ -193,7 +254,7 @@ function loadMainMenu() {
     }
 
     // Finds all categories
-    let songThemes = [];
+    songThemes = [];
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         const themeToBeAdded = BAHAI_SONGS_DATA[i].meta?.theme || "Uncategorized"
         const THEME_ALREADY_PUSHED = songThemes.find(item => item.name === themeToBeAdded);
@@ -223,31 +284,53 @@ function loadMainMenu() {
 
     }
 
+    const NUM_OF_CATEGORY_COLUMNS = 3;
+
+    // Assigns each category to a columns
+    if (!IS_PHONE) {
+        let numCategoriesAssigned = 0;
+        let numSongsAssigned = 0;
+
+        // Logic to give (most) categories a column
+        for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
+            log("C" + i, "mainMenu");
+
+            let numSongsPerColumn = 0;
+            const THRESHHOLD_TARGET = (BAHAI_SONGS_DATA.length - numSongsAssigned) / (NUM_OF_CATEGORY_COLUMNS - i);
+            for (let j = numCategoriesAssigned; j < songThemes.length; j++) {
+
+                const POTENTIAL_SONGS_PER_COLUMN = numSongsPerColumn + songThemes[j].songs.length;
+                const COLUMN_UNDER = THRESHHOLD_TARGET - numSongsPerColumn
+                const COLUMN_OVER = Math.abs(THRESHHOLD_TARGET - POTENTIAL_SONGS_PER_COLUMN);
+
+                log(songThemes[j].name + " " + numCategoriesAssigned + " " + COLUMN_UNDER + " " + COLUMN_OVER, "mainMenu");
+                if (COLUMN_UNDER >= 3 || COLUMN_UNDER > COLUMN_OVER) {
+                    numCategoriesAssigned++;
+                    numSongsAssigned += songThemes[j].songs.length;
+                    numSongsPerColumn += songThemes[j].songs.length;
+
+                    songThemes[j].column = i;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        // Sets any straggler categories to the final column
+        log("About to set straggler categories. numCategoriesAssigned is " + numCategoriesAssigned + ".", "mainMenu");
+        for (let i = numCategoriesAssigned; i < songThemes.length; i++) {
+            songThemes[i].column = NUM_OF_CATEGORY_COLUMNS - 1;
+        }
+    }
+
     // Creates columns
-    const NUM_OF_CATEGORY_COLUMNS = IS_PHONE ? 1 : 3;
-    const AVERAGE_COLUMN_SIZE = IS_PHONE ? BAHAI_SONGS_DATA.length : BAHAI_SONGS_DATA.length / NUM_OF_CATEGORY_COLUMNS;
-    let numCategoriesAssigned = 0;
-    const THRESHHOLD_ADJUSTER = 0.5;
     const mainMenuColumnTable = document.createElement("table");
     mainMenu.appendChild(mainMenuColumnTable);
     const mainMenuColumnTr = document.createElement("tr");
     mainMenuColumnTable.appendChild(mainMenuColumnTr);
     for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
-        // console.log("C" + i);
-
-        // Assigns each category a column
-        let numSongsPerColumn = 0;
-        for (let j = numCategoriesAssigned; j < songThemes.length; j++) {
-            const POTENTIAL_SONGS_PER_COLUMN = numSongsPerColumn + songThemes[j].songs.length;
-
-            // console.log(songThemes[j].name + " " + (numCategoriesAssigned) + " " + Math.abs(AVERAGE_COLUMN_SIZE - numSongsPerColumn) + " " + Math.abs(AVERAGE_COLUMN_SIZE - (POTENTIAL_SONGS_PER_COLUMN + THRESHHOLD_ADJUSTER)));
-            if (AVERAGE_COLUMN_SIZE - numSongsPerColumn >= 3 || (AVERAGE_COLUMN_SIZE - numSongsPerColumn) > Math.abs(AVERAGE_COLUMN_SIZE - (POTENTIAL_SONGS_PER_COLUMN + THRESHHOLD_ADJUSTER))) {
-                songThemes[j].column = i;
-                numCategoriesAssigned++;
-                numSongsPerColumn += songThemes[j].songs.length + THRESHHOLD_ADJUSTER;
-            } else {
-                break;
-            }
+        if (IS_PHONE && i > 0) {
+            break;
         }
 
         const mainMenuColumnTd = document.createElement("td");
@@ -256,11 +339,10 @@ function loadMainMenu() {
         mainMenuColumnTr.appendChild(mainMenuColumnTd);
     }
 
-    console.log(songThemes);
-
     // Creates categories
     for (let i = 0; i < songThemes.length; i++) {
         const mainMenuThemeDiv = document.createElement("div");
+        mainMenuThemeDiv.classList.add("mainMenuThemeDiv");
         const mainMenuThemeHeader = document.createElement("h1");
         mainMenuThemeHeader.classList.add("mainMenuHeader");
         mainMenuThemeHeader.innerText = songThemes[i].name;
@@ -285,22 +367,67 @@ function loadMainMenu() {
             mainMenuThemeDiv.appendChild(mainMenuBtn);
         }
 
+        // Adds a green divider between themes
+        if (songThemes[i].column === songThemes[i + 1]?.column) {
+            const mainMenuGreenDivider = document.createElement("img");
+            mainMenuGreenDivider.src = "Images/Green_Divider.png";
+            mainMenuGreenDivider.classList.add("greenDivider");
+            mainMenuThemeDiv.appendChild(mainMenuGreenDivider);
+        }
+
         document.getElementById("mainMenuColumnTd" + songThemes[i].column).appendChild(mainMenuThemeDiv);
     }
 
-    // Shows/hides footer buttons on page load
-    // log("About to hide footer buttons. Currently, mode is " + mode + ".");
-    if (mode !== "main") { hide(document.getElementById("mainMenuPlaylistStartBtn")); };
-    if (mode !== "main") { hide(document.getElementById("mainMenuPlaylistCreateBtn")); };
-    if (mode !== "create") { hide(document.getElementById("mainMenuPlaylistFinishBtn")); };
-    if (mode !== "playlist") { hide(document.getElementById("mainMenuPlaylistBack")); };
-    if (mode !== "song" && mode !== "playlist") { hide(document.getElementById("mainMenuReturnHomeBtn")); }; // | !IS_PHONE
-    if (mode !== "playlist") { hide(document.getElementById("mainMenuPlaylistForward")); };
+    // Creates map songLocation for later use
+    songThemes.forEach((category, i) => {
+        category.songs.forEach((song, j) => {
+            songLocations.set(song, { categoryIndex: i, songIndex: j });
+        });
+    });
+}
 
-    // Handles logic for loading song when starting from playlist mode.
-    if (mode === "playlist") {
-        showSong(playlist[Number(getQueryString("i")) - 1]);
+function updatePlaylistViewer() {
+    const playlistViewer = document.getElementById("sidebarPlaylistViewer");
+    const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
+    const queryStringP = getQueryString("p");
+    playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
+    
+    // Removes children (otherwise, there would be duplicates)
+    playlistViewerOverflow.replaceChildren();
+
+    const playlistViewerIntro = document.getElementById("playlistViewerIntro");
+    if (playlist.length === 0) {
+        playlistViewerIntro.innerText = "No playlist currently selected.";
+        return;
+    } else {
+        playlistViewerIntro.innerText = "Current Playlist:";
     }
+
+    for (i = 0; i < playlist.length; i++) {
+        const playlistViewerRow = document.createElement("div");
+        playlistViewerRow.classList.add("playlistViewerRow");
+        if (i % 2 === 0) { playlistViewerRow.classList.add("alternating") };
+        playlistViewerOverflow.appendChild(playlistViewerRow);
+
+        const playlistViewerText = document.createElement("p");
+        playlistViewerText.innerText = BAHAI_SONGS_DATA[playlist[i]].meta.name;
+        playlistViewerRow.appendChild(playlistViewerText);
+
+        const playlistViewerButton = document.createElement("button");
+        (function(j) {
+            playlistViewerButton.addEventListener("click", () => {
+                playlist.splice(j, 1);
+                setQueryString([["p", playlist.join("-")]]);
+                updatePlaylistViewer();
+            });
+        })(i);
+        playlistViewerRow.appendChild(playlistViewerButton);
+
+        const playlistViewerImage = document.createElement("img");
+        playlistViewerImage.src = "Images/X_Icon.png";
+        playlistViewerButton.appendChild(playlistViewerImage);
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,36 +445,77 @@ function playlistStart() {
     showSong(playlist[0]);
     updateNavButtons("playlist");
     setQueryString([["s", "playlist"], ["i", 1]]);
+    updatePlaylistPositionIndicator(1);
+    document.getElementById("sidebar-toggle").checked = false;
 
-    log("Playlist mode starting with song 1/" + playlist.length + ".");
+    log("Playlist mode starting with song 1/" + playlist.length + ".", "playlist");
 }
 
-// Goes forward/backward in the playlist
+function arrowKey(input) {
+    log("arrowKey() called. Mode is " + mode + ", input is " + input + ".", "misc");
+    switch(mode) {
+        case "song":
+            const currentIndeces = songLocations.get(songList.indexOf(getQueryString("s")));
+            i = currentIndeces.categoryIndex;
+            j = currentIndeces.songIndex;
+
+            let nextSong = input === "ArrowLeft" ? songThemes[i].songs[j - 1] : songThemes[i].songs[j + 1];
+            if (nextSong) {
+                log("nextSong: " + nextSong + ", " + songList[nextSong]);
+                showSong(nextSong);
+                setQueryString([["s", songList[nextSong]]]);
+            } else {
+                const I_LENGTH = songThemes.length - 1;
+                const J_LENGTH = songThemes[I_LENGTH].songs.length - 1;
+                if ((input === "ArrowLeft" && i === 0 && j === 0) || (input === "ArrowRight" && i === I_LENGTH && j === J_LENGTH)) {
+                    let overflow = input === "ArrowLeft" ? songThemes[I_LENGTH].songs[songThemes[I_LENGTH].songs.length - 1] : songThemes[0].songs[0];
+                    showSong(overflow);
+                    setQueryString([["s", songList[overflow]]]);
+                } else {
+                    let nextCat = input === "ArrowLeft" ? songThemes[i - 1].songs[songThemes[i - 1].songs.length - 1] : songThemes[i + 1].songs[0];
+                    showSong(nextCat);
+                    setQueryString([["s", songList[nextCat]]]);
+                }
+            }
+            break;
+        case "playlist":
+            playlistSet(Number(getQueryString("i")) + (input === "ArrowLeft" ? -1 : 1));
+            break;
+        default:
+            log("Error: not in mode song or playlist. Arrow keys do nothing.", "misc");
+    }
+}
+
+// Goes forward/backward in the playlist. Mostly deprecated, except for swiping on mobile. Consider reworking.
 function playlistAdvance(numberOfAdvances) {
     if (getQueryString("s") !== "playlist") {
-        log("Playlist mode not active.");
+        log("Playlist mode not active.", "playlist");
         return;
     }
 
-    const playlistIndex = Number(getQueryString("i")) + numberOfAdvances;
+    playlistSet(Number(getQueryString("i")) + numberOfAdvances);
+}
 
-    if (playlistIndex <= 0 | (playlistIndex - 1) >= playlist.length) {
+function playlistSet(index) {
+    if (index <= 0 | (index - 1) >= playlist.length) {
         returnHome();
-        log("Exiting playlist mode.");
+        log("Exiting playlist mode.", "playlist");
     } else {
-        showSong(playlist[playlistIndex - 1]);
-        setQueryString([["i", playlistIndex]]);
-        log("Playlist advancing to song " + (playlistIndex) + "/" + playlist.length + ".");
+        showSong(playlist[index - 1]);
+        setQueryString([["i", index]]);
+        updatePlaylistPositionIndicator(index)
+        document.getElementById("sidebar-toggle").checked = false;
+        log("Playlist advancing to song " + (index) + "/" + playlist.length + ".", "playlist");
     }
 }
 
 // Enters playlist creation mode
 function playlistAdd(id) {
     playlist.push(id);
-    log(playlist);
+    log(playlist, "playlist");
 }
 
-// What happens on clicking "Create Playlist"
+// What happens on clicking "Create Playlist". Deprecated.
 function playlistCreateStart() {
     mode = "create";
     updateNavButtons("create");
@@ -359,4 +527,53 @@ function playlistCreateFinish() {
     mode = "main";
     updateNavButtons("main");
     setQueryString([["s", ""], ["p", playlist.join("-")]]);
+}
+
+function playlistEdit() {
+    window.alert("A");
+}
+
+function playlistCopy() {
+    clipboardCopy(playlist.join("-"));
+}
+
+function playlistSave() {
+    window.alert("C");
+}
+
+function sidebarOverlay(input) {
+    if (input !== "") {
+        let sidebarOverlayTest = document.getElementById("sidebarOverlay-" + input);
+        sidebarOverlayTest.classList.toggle("open");
+
+        document.querySelectorAll(".sidebarOverlay:not(#sidebarOverlay-" + input + ")").forEach(otherSidebar => {
+            otherSidebar.classList.remove("open");
+        });
+    } else {
+        document.querySelectorAll(".sidebarOverlay").forEach(otherSidebar => {
+            otherSidebar.classList.remove("open");
+        });
+    }
+}
+
+function playlistViewerDrag(e, row, draggedRow) {
+    const rowBound = row.getBoundingClientRect();
+    const dropPosition = e.clientY - rowBound.top;
+    const halfway = rowBound.height / 2;
+
+    if (dropPosition < halfway) {
+        row.parentNode.insertBefore(draggedRow, row);
+    } else {
+        row.parentNode.insertBefore(draggedRow, row.nextSibling);
+    }
+
+
+    // Updates the alternating color nature of playlistViewer
+    document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
+        if (index % 2 === 0) {
+            rowAlternating.classList.add("alternating");
+        } else {
+            rowAlternating.classList.remove("alternating");
+        }
+    });
 }
