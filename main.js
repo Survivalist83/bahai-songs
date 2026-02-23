@@ -13,22 +13,20 @@ let songLocations = new Map();
 function pageLoad() {
     let currentSong = getQueryString("s"); // the song currently in the URL
 
-    // Loads queryString variables
-    const queryStringP = getQueryString("p");
-    playlist = queryStringP !== null ? queryStringP.split("-").map(Number) : [];
-    mode = changeModeSwitch(currentSong ?? "main");
-    log("Page load! Mode is " + mode + ".", "pageLoad");
-
     // This loads (but hides) the songs, only showing the requested one.
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         songList.push(BAHAI_SONGS_DATA[i].meta.name);
         loadSong(i, currentSong);
     }
 
+    // Loads queryString variables
+    const queryStringP = getQueryString("p");
+    playlist = queryStringP !== null ? queryStringP.split("-").map(Number) : [];
+    setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song");
+
     // Dedicated functions to specific parts of loading the page
     loadSongSelector();
-    
-    updateNavButtons(mode);
+    updateNavButtons();
 
     // Handles logic for loading song when starting from playlist mode.
     if (mode === "playlist") {
@@ -36,6 +34,7 @@ function pageLoad() {
     }
 
     updatePlaylistViewer();
+    updatePositionIndicator(getQueryString("i") || 1);
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
@@ -79,40 +78,50 @@ function pageLoad() {
 
     // Handles dragging playlistViewerRow(s)
     let draggedRow = null;
+    let originalRow = null;
     document.querySelectorAll(".playlistViewerRow").forEach(row => {
         row.setAttribute("draggable", "true");
         row.addEventListener("dragstart", (e) => {
-            draggedRow = e.currentTarget;
+            originalRow = e.currentTarget;
+            draggedRow = originalRow.cloneNode(true);
             draggedRow.classList.add("dragging");
+            originalRow.classList.add("purple");
+            // hide(originalRow);
+
+            log(originalRow);
         });
 
         row.addEventListener("dragover", (e) => {
             e.preventDefault();
+            
+            if (draggedRow === row) return;
 
-            // if (draggedRow === row) return;
+            // log(e.clientY);
 
-            // playlistViewerDrag(e, row, draggedRow);
-            const rowBound = row.getBoundingClientRect();
-            const dropPosition = e.clientY - rowBound.top;
-            const halfway = rowBound.height / 2;
+            playlistViewerDrag(e, row, draggedRow, false);
 
-            document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
-                rowClass.classList.remove("dropAbove", "dropBelow");
-            });
+            // const rowBound = row.getBoundingClientRect();
+            // const dropPosition = e.clientY - rowBound.top;
+            // const halfway = rowBound.height / 2;
 
-            if (dropPosition < halfway) {
-                row.classList.add("dropAbove");
-            } else {
-                row.classList.add("dropBelow");
-            }
+            // document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
+            //     rowClass.classList.remove("dropAbove", "dropBelow");
+            // });
+
+            // if (dropPosition < halfway) {
+            //     row.classList.add("dropAbove");
+            // } else {
+            //     row.classList.add("dropBelow");
+            // }
         });
 
         row.addEventListener("drop", (e) => {
             e.preventDefault();
 
-            if (draggedRow === row) return;
+            log(row);
 
-            playlistViewerDrag(e, row, draggedRow);
+            originalRow.remove();
+            playlistViewerDrag(e, row, draggedRow, true);
 
             document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
                 rowClass.classList.remove("dropAbove", "dropBelow");
@@ -386,50 +395,6 @@ function loadSongSelector() {
     });
 }
 
-function updatePlaylistViewer() {
-    const playlistViewer = document.getElementById("sidebarPlaylistViewer");
-    const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
-    const queryStringP = getQueryString("p");
-    playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
-    
-    // Removes children (otherwise, there would be duplicates)
-    playlistViewerOverflow.replaceChildren();
-
-    const playlistViewerIntro = document.getElementById("playlistViewerIntro");
-    if (playlist.length === 0) {
-        playlistViewerIntro.innerText = "No playlist currently selected.";
-        return;
-    } else {
-        playlistViewerIntro.innerText = "Current Playlist:";
-    }
-
-    for (i = 0; i < playlist.length; i++) {
-        const playlistViewerRow = document.createElement("div");
-        playlistViewerRow.classList.add("playlistViewerRow");
-        if (i % 2 === 0) { playlistViewerRow.classList.add("alternating") };
-        playlistViewerOverflow.appendChild(playlistViewerRow);
-
-        const playlistViewerText = document.createElement("p");
-        playlistViewerText.innerText = BAHAI_SONGS_DATA[playlist[i]].meta.name;
-        playlistViewerRow.appendChild(playlistViewerText);
-
-        const playlistViewerButton = document.createElement("button");
-        (function(j) {
-            playlistViewerButton.addEventListener("click", () => {
-                playlist.splice(j, 1);
-                setQueryString([["p", playlist.join("-")]]);
-                updatePlaylistViewer();
-            });
-        })(i);
-        playlistViewerRow.appendChild(playlistViewerButton);
-
-        const playlistViewerImage = document.createElement("img");
-        playlistViewerImage.src = "Images/X_Icon.png";
-        playlistViewerButton.appendChild(playlistViewerImage);
-    }
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// Playlist Button ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -441,12 +406,12 @@ function playlistStart() {
         return;
     }
 
-    mode = "playlist";
+    setMode("playlist");
     showSong(playlist[0]);
     updateNavButtons("playlist");
     setQueryString([["s", "playlist"], ["i", 1]]);
-    updatePlaylistPositionIndicator(1);
-    document.getElementById("sidebar-toggle").checked = false;
+    updatePositionIndicator(1);
+    document.getElementById("sidebar").classList.remove("open");
 
     log("Playlist mode starting with song 1/" + playlist.length + ".", "playlist");
 }
@@ -486,7 +451,7 @@ function arrowKey(input) {
     }
 }
 
-// Goes forward/backward in the playlist. Mostly deprecated, except for swiping on mobile. Consider reworking.
+// Goes forward/backward in the playlist. Half-deprecated.
 function playlistAdvance(numberOfAdvances) {
     if (getQueryString("s") !== "playlist") {
         log("Playlist mode not active.", "playlist");
@@ -503,51 +468,95 @@ function playlistSet(index) {
     } else {
         showSong(playlist[index - 1]);
         setQueryString([["i", index]]);
-        updatePlaylistPositionIndicator(index)
-        document.getElementById("sidebar-toggle").checked = false;
+        updatePositionIndicator(index);
+        setSidebarVisibility("close");
         log("Playlist advancing to song " + (index) + "/" + playlist.length + ".", "playlist");
     }
 }
 
-// Enters playlist creation mode
-function playlistAdd(id) {
-    playlist.push(id);
-    log(playlist, "playlist");
+function updatePlaylistViewer() {
+    const playlistViewer = document.getElementById("sidebarPlaylistViewer");
+    const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
+    const queryStringP = getQueryString("p");
+    playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
+
+    const playlistViewerIntro = document.getElementById("playlistViewerIntro");
+    if (playlist.length === 0) {
+        playlistViewerIntro.innerText = "No playlist currently selected.";
+        hide(playlistViewerOverflow);
+        return;
+    } else {
+        playlistViewerIntro.innerText = "Current Playlist:";
+        show(playlistViewerOverflow);
+    }
+    
+    // Removes children (otherwise, there would be duplicates)
+    playlistViewerOverflow.replaceChildren();
+
+    for (i = 0; i < playlist.length; i++) {
+        const playlistViewerRow = document.createElement("div");
+        playlistViewerRow.classList.add("playlistViewerRow");
+        if (i % 2 === 0) { playlistViewerRow.classList.add("alternating") };
+        playlistViewerOverflow.appendChild(playlistViewerRow);
+
+        const playlistViewerText = document.createElement("p");
+        playlistViewerText.innerText = BAHAI_SONGS_DATA[playlist[i]].meta.name;
+        playlistViewerRow.appendChild(playlistViewerText);
+
+        const playlistViewerButton = document.createElement("button");
+        (function(j) {
+            playlistViewerButton.addEventListener("click", () => {
+                playlist.splice(j, 1);
+                setQueryString([["p", playlist.join("-")]]);
+                updatePlaylistViewer();
+            });
+        })(i);
+        playlistViewerRow.appendChild(playlistViewerButton);
+
+        const playlistViewerImage = document.createElement("img");
+        playlistViewerImage.src = "Images/X_Icon.png";
+        playlistViewerButton.appendChild(playlistViewerImage);
+    }
+
+    // Sets vertical height of .moving sidebar buttons
+    const movingSidebarArray = [
+        
+    ];
 }
 
-// What happens on clicking "Create Playlist". Deprecated.
-function playlistCreateStart() {
-    mode = "create";
-    updateNavButtons("create");
-    setQueryString([["s", "create"]]);
+// What happens on clicking "Edit Playlist"
+function playlistEdit() {
+    setMode("edit");
+    updateNavButtons("edit");
+    updateNavButtons([["s", "edit"]]);
+    setSidebarVisibility("open");
 }
 
 // What happens on clicking "Save Playlist"
-function playlistCreateFinish() {
-    mode = "main";
+function playlistSave() {
+    setMode("main");
     updateNavButtons("main");
     setQueryString([["s", ""], ["p", playlist.join("-")]]);
-}
-
-function playlistEdit() {
-    window.alert("A");
 }
 
 function playlistCopy() {
     clipboardCopy(playlist.join("-"));
 }
 
-function playlistSave() {
-    window.alert("C");
-}
-
 function sidebarOverlay(input) {
     if (input !== "") {
-        let sidebarOverlayTest = document.getElementById("sidebarOverlay-" + input);
+        const sidebarOverlayTest = document.getElementById("sidebarOverlay-" + input);
         sidebarOverlayTest.classList.toggle("open");
 
         document.querySelectorAll(".sidebarOverlay:not(#sidebarOverlay-" + input + ")").forEach(otherSidebar => {
             otherSidebar.classList.remove("open");
+        });
+
+        const sidebarBtn = document.getElementById("sidebar-" + input);
+        sidebarBtn.classList.toggle("highlighted");
+
+        document.querySelectorAll(".sidebarBtn:not(#sidebar-" + input + ")").forEach(otherBtn => {
+            otherBtn.classList.remove("highlighted");
         });
     } else {
         document.querySelectorAll(".sidebarOverlay").forEach(otherSidebar => {
@@ -556,18 +565,19 @@ function sidebarOverlay(input) {
     }
 }
 
-function playlistViewerDrag(e, row, draggedRow) {
+function playlistViewerDrag(e, row, draggedRow, boolUpdatePlaylist) {
     const rowBound = row.getBoundingClientRect();
     const dropPosition = e.clientY - rowBound.top;
     const halfway = rowBound.height / 2;
 
     if (dropPosition < halfway) {
         row.parentNode.insertBefore(draggedRow, row);
+        // log("inserted before!");
     } else {
         row.parentNode.insertBefore(draggedRow, row.nextSibling);
+        // log("inserted after!");
     }
-
-
+    
     // Updates the alternating color nature of playlistViewer
     document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
         if (index % 2 === 0) {
@@ -576,4 +586,13 @@ function playlistViewerDrag(e, row, draggedRow) {
             rowAlternating.classList.remove("alternating");
         }
     });
+
+    // Updates the internal playlist variable and associated thingies
+    if (boolUpdatePlaylist) {
+        playlist = []
+        Array.from(row.parentNode.children).forEach(child => {
+            playlist.push(songList.indexOf(child.querySelector("p").innerText));
+        });
+        setQueryString([["p", playlist.join("-")]]);
+    }
 }

@@ -1,3 +1,10 @@
+// Returns the contents of a specific query string. Returns null on errors.
+function getQueryString(target) {
+    const params = new URLSearchParams(window.location.search);
+    const currentSong = params.get(target);
+    return currentSong;
+}
+
 // Sets a query string.
 function setQueryString(queryStrings) {
     const params = new URLSearchParams(window.location.search);
@@ -27,11 +34,34 @@ function setQueryString(queryStrings) {
     window.history.pushState({}, "", window.location.pathname + newURL);
 }
 
-// Returns the contents of a specific query string. Returns null on errors.
-function getQueryString(target) {
-    const params = new URLSearchParams(window.location.search);
-    const currentSong = params.get(target);
-    return currentSong;
+function setMode(input) {
+    if (typeof(input) === Number) {
+        mode = "song";
+        log("Successfully set mode to song due to the input being " + input + ".", "mode");
+        return;
+    }
+
+    switch(input) {
+        case "main":
+            mode = "main";
+            break;
+        case "song":
+            mode = "song";
+            break;
+        case "playlist":
+            mode = "playlist";
+            break;
+        case "edit":
+            mode = "edit";
+            break;
+        default:
+            window.alert("Warning! Attempt to set invalid mode (" + input + ").\n" +
+                "If you are an end-user, it is highly improbable that you are seeing this message." +
+                "If this error pops up, please email benmaxtennant@gmail.com to ask him to fix it.");
+            return;
+    }
+
+    log("Successfully set mode to " + input + ".", "mode");
 }
 
 // Handles what to do when a key press is pressed (not mobile).
@@ -40,8 +70,7 @@ function keyPress(event) {
         case "h":
             returnHome();
         case "Escape":
-            const sidebarToggle = document.getElementById("sidebar-toggle");
-            sidebarToggle.checked = !sidebarToggle.checked;
+            setSidebarVisibility("toggle");
             break;
         case "ArrowLeft":
         case "ArrowRight":
@@ -54,46 +83,26 @@ function keyPress(event) {
 
 // Returns to the home page, as if no query strings were entered on page load.
 function returnHome() {
-    mode = "main";
+    setMode("main");
     showSong("main");
     updateNavButtons("main");
     setQueryString([["s", ""], ["i", ""]]);
 }
 
-// Sets global variable "mode" depending on input. Don't use this like "changeModeSwitch('main')", instead just do "mode = 'main'"
-function changeModeSwitch(input) {
-    let mode;
-    switch(input) {
-        case "main":
-            mode = "main";
-            break;
-        case "create":
-            mode = "create";
-            break;
-        case "playlist":
-            mode = "playlist";
-            break;
-        default:
-            mode = "song";
-            break;
-    }
-    // log("changeModeSwitch() mode changed successfully, now: " + mode + ".");
-    return mode;
-}
-
 // Updates the visibility of the buttons at the bottom of the screen.
-function updateNavButtons(input) {
+function updateNavButtons(input = mode) {
+    log("Switching to nav button set " + input + ".", "updateNavButtons");
 
     // Shows/hides footer buttons
     const footerArray = [
-        document.getElementById("sidebarPlaylistStartBtn"),
-        document.getElementById("sidebarPlaylistEndBtn"),
         document.getElementById("sidebarPlaylistEditBtn"),
         document.getElementById("sidebarPlaylistSaveBtn"),
         document.getElementById("sidebarPlaylistCopyBtn"),
-        document.getElementById("mainMenuPlaylistBack"),
-        document.getElementById("mainMenuReturnHomeBtn"),
-        document.getElementById("mainMenuPlaylistForward"),
+        document.getElementById("footerPlaylistBack"),
+        document.getElementById("footerReturnHomeBtn"),
+        document.getElementById("footerPlaylistForward"),
+        document.getElementById("footerPlaylistStart"),
+        document.getElementById("footerPlaylistEdit"),
     ]
 
     const footerArrayQuery = [
@@ -101,14 +110,12 @@ function updateNavButtons(input) {
     ]
     
     const booleanFooterArray = {
-        "main":     [4, 3, 4, 3, 4, 0, 0, 0, 0],
-        "song":     [4, 3, 1, 3, 4, 2, 2, 2, 0],
-        "playlist": [3, 4, 1, 3, 4, 2, 2, 2, 0],
-        "edit":     [1, 3, 3, 4, 4, 0, 0, 0, 1],
+        "main":     [4, 3, 4, 0, 0, 0, 2, 2, 0],
+        "song":     [1, 3, 4, 2, 2, 2, 0, 0, 0],
+        "playlist": [1, 3, 4, 2, 2, 2, 0, 0, 0],
+        "edit":     [3, 4, 3, 0, 0, 0, 0, 0, 1],
     }
-
-    log(input);
-
+    
     if (booleanFooterArray[input]) {
         for (let i = 0; i < footerArray.length; i++) {
             // All buttons that use 3 or 4 must always use those numbers. Otherwise, they must always use 0 or 2. In addition, any can use 1 no matter what.
@@ -161,15 +168,58 @@ function updateNavButtons(input) {
         log("Failed to update nav button visibility. Input is " + input + ".", + "updateNavButtons");
     }
 
-    document.getElementById("footer-toggle").checked = input === "song" || input === "playlist";
-    document.getElementById("position-indicator-toggle").checked = input === "playlist";
+    document.getElementById("footer-toggle").checked = input === "main" || input === "playlist" || input === "song";
+    if (input === "playlist") {
+        document.getElementById("positionIndicator").classList.add("open");
+    } else {
+        document.getElementById("positionIndicator").classList.remove("open");
+    }
+
+    if (playlist.length === 0) {
+        footerArray[7].classList.remove("doubleHide");
+        footerArray[6].classList.add("doubleHide");
+    } else {
+        footerArray[7].classList.add("doubleHide");
+        footerArray[6].classList.remove("doubleHide");
+    }
 }
 
+function setSidebarVisibility(input) {
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggleBtn");
+    const sidebarShadow = document.getElementById("sidebarShadow");
+    const mainMenu = document.getElementById("mainMenu");
+    const contentDiv = document.getElementById("contentDiv");
+    sidebarOverlay("");
+    switch(input) {
+        case "toggle":
+            sidebar.classList.toggle("open");
+            sidebarToggle.classList.toggle("open");
+            sidebarShadow.classList.toggle("open");
+            mainMenu.classList.toggle("sidebarPadding");
+            contentDiv.classList.toggle("sidebarPadding");
+            break;
+        case "open":
+            sidebar.classList.add("open");
+            sidebarToggle.classList.add("open");
+            sidebarShadow.classList.add("open");
+            mainMenu.classList.add("sidebarPadding");
+            contentDiv.classList.add("sidebarPadding");
+            break;
+        case "close":
+            sidebar.classList.remove("open");
+            sidebarToggle.classList.remove("open");
+            sidebarShadow.classList.remove("open");
+            mainMenu.classList.remove("sidebarPadding");
+            contentDiv.classList.remove("sidebarPadding");
+            break;
+    }
+}
 
 // Shows one specific song. When mode === "main", it goes to the homepage
 function showSong(songNumber) {
     log("showSong called");
-    // mode = changeModeSwitch(songNumber);
+    // setMode(songNumber);
     // updateNavButtons(mode);
 
     document.querySelectorAll(".outerDiv").forEach(outerDiv => { hide(outerDiv); });
@@ -187,19 +237,19 @@ function showSong(songNumber) {
 }
 
 // Sets which of the circles at the bottom of the screen is filled in
-function updatePlaylistPositionIndicator(index) {
-    const playlistPositionIndicatorCircleDiv = document.getElementById("playlistPositionIndicatorCircleDiv");
-    playlistPositionIndicatorCircleDiv.replaceChildren();
+function updatePositionIndicator(index) {
+    const positionIndicatorDiv = document.getElementById("positionIndicatorDiv");
+    positionIndicatorDiv.replaceChildren();
 
     for (let i = 1; i < playlist.length + 1; i++) {
         const circle = document.createElement("p");
 
         if (index === i) {
             circle.innerHTML = "&#9679;";
-            circle.classList.add("playlistPositionIndicatorCircle");
+            circle.classList.add("positionIndicatorCircle");
         } else {
             circle.innerHTML = "&#9675;";
-            circle.classList.add("playlistPositionIndicatorCircle", "positionIndicatorFilled");
+            circle.classList.add("positionIndicatorCircle", "filled");
             (function(j) {
                 circle.addEventListener("click", () => {
                     playlistSet(j);
@@ -207,7 +257,7 @@ function updatePlaylistPositionIndicator(index) {
             })(i);
         }
 
-        playlistPositionIndicatorCircleDiv.appendChild(circle);
+        positionIndicatorDiv.appendChild(circle);
     }
 
     // document.getElementById("playlistPositionIndicator").innerHTML = innerText
@@ -216,13 +266,16 @@ function updatePlaylistPositionIndicator(index) {
 // This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
 function mainMenuBtnClicked(id) {
     log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
-    if (mode !== "create") {
+    if (mode !== "edit") {
         mode = "song";
         showSong(id);
         updateNavButtons("song");
         setQueryString([["s", songList[id]]]);
     } else {
-        playlistAdd(id);
+        playlist.push(id);
+        setQueryString([["p", playlist.join("-")]]);
+        updatePlaylistViewer();
+        updatePositionIndicator(getQueryString("i") || 1);
     }
 }
 
@@ -244,6 +297,7 @@ function log(text, origin) {
         "misc": true,
         "queryString": false,
         "clipboard": true,
+        "mode": true,
     }
 
     if (origin === undefined || verbosity[origin]) {

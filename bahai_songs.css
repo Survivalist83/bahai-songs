@@ -14,6 +14,8 @@
     --main-menu-hover: #e0e0e0;
 }
 
+/* //////////////////////////////// Songs //////////////////////////////// */
+
 html {
     font-size: 1px;
 }
@@ -101,7 +103,7 @@ a {
     margin: 25rem;
 }
 
-/* Main menu */
+/* ////////////////////////////// Main Menu ////////////////////////////// */
 
 .mainMenuBtn {
     text-align: center;
@@ -127,7 +129,23 @@ a {
 
 #mainMenu {
     padding-top: 40rem;
+    transition: 0.3s ease;
+    overflow: auto;
 }
+
+#mainMenu.sidebarPadding {
+    padding-left: calc(var(--sidebar-width));
+}
+
+#contentDiv {
+    transition: 0.3s ease;
+}
+
+#contentDiv.sidebarPadding {
+    padding-left: calc(var(--sidebar-width));
+}
+
+/* //////////////////////////////// Footer /////////////////////////////// */
 
 .footer {
     position: fixed;
@@ -161,17 +179,21 @@ a {
     font-size: 20rem;
 
     cursor: pointer;
+
+    width: 100rem;
 }
 
 .footerBtn:hover {
     background: var(--footer-color);
 }
 
-#playlistPositionIndicator {
+/* ////////////////////////// Position Indicator ///////////////////////// */
+
+#positionIndicator {
     position: fixed;
     transition: bottom 0.2s ease;
 
-    bottom: -3vh;
+    bottom: -5vh;
     margin: 0;
 
     left: 50%;
@@ -182,34 +204,47 @@ a {
     flex-direction: row;
 }
 
-#playlistPositionIndicatorCircleDiv {
+#positionIndicator.open {
+    bottom: 10vh;
+}
+
+#positionIndicatorDiv {
     display: flex;
     flex-direction: row;
 }
 
-.playlistPositionIndicatorCircle {
+.positionIndicatorCircle {
     margin: 0;
 
-    width: 22rem;
+    width: 30rem;
+    height: auto;
     aspect-ratio: 1;
-    font: 40rem;
+    font-size: 32rem;
 
     cursor: default;
 }
 
-.positionIndicatorFilled {
+.positionIndicatorCircle.filled {
     cursor: pointer;
 }
 
-.positionIndicatorFilled:hover {
+.positionIndicatorCircle.filled:hover {
     background: var(--main-menu-hover);
 }
 
-#position-indicator-toggle:checked~#playlistPositionIndicator {
-    bottom: 10vh;
+.positionIndicatorCircle.left {
+    padding-bottom: 2rem;
+    border-top-left-radius: 15rem;
+    border-bottom-left-radius: 15rem;
 }
 
-/* Sidebar */
+.positionIndicatorCircle.right {
+    padding-bottom: 2rem;
+    border-top-right-radius: 15rem;
+    border-bottom-right-radius: 15rem;
+}
+
+/* /////////////////////////////// Sidebar /////////////////////////////// */
 
 #sidebar {
     position: fixed;
@@ -227,6 +262,10 @@ a {
     transition: transform 0.3s ease;
 }
 
+#sidebar.open {
+    transform: translateX(0);
+}
+
 .sidebarDiv {
     margin-left: 10rem;
     margin-right: 10rem;
@@ -235,24 +274,19 @@ a {
     flex-direction: column;
 }
 
-#sidebarNavigation {
-    height: 20vh;
-
-    align-items: center;
-
-    overflow: auto;
-}
-
 #sidebarPlaylistViewer {
-    height: 60vh;
+    height: 80vh;
 
     align-items: center;
+
+    padding-top: 20rem;
 }
 
 #sidebarPlaylistViewerOverflow {
     overflow: auto;
     border: 3rem solid black;
     border-radius: 12rem;
+    width: 100%;
 }
 
 #sidebarBottom {
@@ -264,6 +298,10 @@ a {
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
+}
+
+.sidebarBtnVertical {
+    background: red;
 }
 
 .sidebarBtn {
@@ -283,7 +321,7 @@ a {
 }
 
 .sidebarBtn.moving {
-    position: fixed;
+    position: absolute;
     width: calc((var(--sidebar-width) - 20rem) * 0.8);
 
     left: -20vw;
@@ -294,16 +332,8 @@ a {
     left: calc((var(--sidebar-width) - 20rem) * 0.1 + 10rem);
 }
 
-#sidebarPlaylistEditBtn {
-    top: 42rem;
-}
-
-#sidebarPlaylistSaveBtn {
-    top: 42rem;
-}
-
-#sidebarPlaylistCopyBtn {
-    top: 84rem;
+.sidebarBtnVertical {
+    height: 42rem;
 }
 
 .sidebarBtn:not(:disabled):hover {
@@ -344,13 +374,13 @@ a {
     transition: left 0.3s ease;
 }
 
-#sidebar-toggle:checked ~ #sidebarShadow {
+#sidebarShadow.open {
     left: 0;
     box-shadow: 4rem 0 8rem rgba(0, 0, 0, 0.6);
 }
 
 /* Toggle button */
-.sidebarToggleBtn {
+#sidebarToggleBtn {
     position: fixed;
     top: 0;
     left: -1rem;
@@ -366,24 +396,14 @@ a {
     z-index: 75;
 }
 
-/* When checkbox is checked */
-#sidebar-toggle:checked ~ #sidebar {
-    transform: translateX(0);
-    /* box-shadow: 4rem 0 8rem rgba(0, 0, 0, 0.6); */
-}
-
-#sidebar-toggle:checked ~ .sidebarToggleBtn {
+#sidebarToggleBtn.open {
     transform: translateX(var(--sidebar-width));
 }
-
-/* .sidebarToggleBtn:hover {
-    background: #0073cd;
-} */
 
 .sidebarOverlay {
     position: fixed;
     top: 20vh;
-    left: calc(-6rem - var(--sidebar-overlay-width));
+    left: calc(-20rem - var(--sidebar-overlay-width));
 
     width: var(--sidebar-overlay-width);
     height: 60vh;
@@ -394,6 +414,10 @@ a {
     border: 3rem solid black;
     border-radius: 12rem;
 
+    /* Todo: add this padding without making the box overflow on thin pc screens */
+    /* padding-left: 10rem; */
+    /* padding-right: 10rem; */
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -402,32 +426,34 @@ a {
 }
 
 .sidebarOverlay.open {
-    left: 10rem;
+    left: 7rem;
 }
 
-/* #sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
+.sidebarBtn.highlighted {
+    color: gold;
+    border-color: gold;
+    box-shadow: 0 0 10rem rgba(255, 215, 0, 0.6);
+    background-color: var(--sidebar-color);
+    font-weight: bold;
+}
 
-    width: var(--sidebar-width);
-    height: 100vh;
-    padding-left: 0;
-
-    background: var(--sidebar-color);
-    z-index: 100;
-
-    transform: translateX(calc(0px - var(--sidebar-width)));
-    transition: transform 0.3s ease;
-} */
+.sidebarBtn.wide {
+    width: 100%;
+}
 
 /* Stuff regarding playlistViewer */
+
+#playlistViewerIntro {
+    padding-bottom: 4rem;
+}
 
 .playlistViewerRow {
     display: flex;
     flex-direction: row;
     align-items: center;
     text-align: center;
+
+    min-height: 52rem;
 
     padding-top: 8rem;
     padding-bottom: 8rem;
@@ -475,8 +501,7 @@ a {
 }
 
 .playlistViewerRow button:hover {
-    background: var(--sidebar-color-dark);
-    /* rgba(0, 159, 255, 0.1); */
+    background: #b2b2b2;
 }
 
 .playlistViewerRow img {
@@ -484,8 +509,14 @@ a {
     aspect-ratio: 1 / 1;
 }
 
-.dragging {
+.playlistViewerRow.dragging {
+    border: 3px solid gold;
+}
+
+.playlistViewerRow.dragging p {
+    /* color: #00000000; */
     opacity: 0;
+    /* border-radius: 0; */
 }
 
 .dropAbove {
@@ -496,13 +527,16 @@ a {
     border-bottom: 3rem solid black;
 }
 
+/* .purple {
+    background: purple;
+} */
 
-/* Leave at bottom of CSS page */
+/* ///////////////////// Leave at bottom of CSS page ///////////////////// */
 
 @media (min-width: 600px) {
     :root {
         --sidebar-width: 20vw;
-        --sidebar-overlay-width: calc(20vw - 23rem);
+        --sidebar-overlay-width: calc(20vw - 20rem);
     }
 }
 
@@ -514,6 +548,14 @@ a {
 
 .hide {
     display: none;
+}
+
+.doubleHide {
+    display: none;
+}
+
+.dragHide {
+    height: 0;
 }
 
 .checkbox-toggle-hide {
