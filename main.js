@@ -78,54 +78,27 @@ function pageLoad() {
 
     // Handles dragging playlistViewerRow(s)
     let draggedRow = null;
-    let originalRow = null;
-    document.querySelectorAll(".playlistViewerRow").forEach(row => {
+    document.querySelectorAll(".playlistViewerRow").forEach((row, index) => {
+        row.id = index;
         row.setAttribute("draggable", "true");
-        row.addEventListener("dragstart", (e) => {
-            originalRow = e.currentTarget;
-            draggedRow = originalRow.cloneNode(true);
-            draggedRow.classList.add("dragging");
-            originalRow.classList.add("purple");
-            // hide(originalRow);
 
-            log(originalRow);
+        row.addEventListener("dragstart", (e) => {
+            draggedRow = e.currentTarget;
+            draggedRow.classList.add("dragging");
         });
 
         row.addEventListener("dragover", (e) => {
             e.preventDefault();
-            
             if (draggedRow === row) return;
 
-            // log(e.clientY);
-
-            playlistViewerDrag(e, row, draggedRow, false);
-
-            // const rowBound = row.getBoundingClientRect();
-            // const dropPosition = e.clientY - rowBound.top;
-            // const halfway = rowBound.height / 2;
-
-            // document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
-            //     rowClass.classList.remove("dropAbove", "dropBelow");
-            // });
-
-            // if (dropPosition < halfway) {
-            //     row.classList.add("dropAbove");
-            // } else {
-            //     row.classList.add("dropBelow");
-            // }
+            playlistViewerDrag(row, draggedRow, false);
         });
 
         row.addEventListener("drop", (e) => {
             e.preventDefault();
+            if (draggedRow === row) return;
 
-            log(row);
-
-            originalRow.remove();
-            playlistViewerDrag(e, row, draggedRow, true);
-
-            document.querySelectorAll(".playlistViewerRow").forEach(rowClass => {
-                rowClass.classList.remove("dropAbove", "dropBelow");
-            });
+            playlistViewerDrag(row, draggedRow, true);
         });
 
         row.addEventListener("dragend", () => {
@@ -565,17 +538,14 @@ function sidebarOverlay(input) {
     }
 }
 
-function playlistViewerDrag(e, row, draggedRow, boolUpdatePlaylist) {
-    const rowBound = row.getBoundingClientRect();
-    const dropPosition = e.clientY - rowBound.top;
-    const halfway = rowBound.height / 2;
+function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
+    const draggedRowHeight = draggedRow.getBoundingClientRect().top;
+    const thisRowHeight = row.getBoundingClientRect().top;
 
-    if (dropPosition < halfway) {
+    if (draggedRowHeight > thisRowHeight) {
         row.parentNode.insertBefore(draggedRow, row);
-        // log("inserted before!");
     } else {
         row.parentNode.insertBefore(draggedRow, row.nextSibling);
-        // log("inserted after!");
     }
     
     // Updates the alternating color nature of playlistViewer
