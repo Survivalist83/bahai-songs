@@ -359,7 +359,7 @@ function loadSongSelector() {
         // Adds a green divider between themes
         if (songThemes[i].column === songThemes[i + 1]?.column) {
             const mainMenuGreenDivider = document.createElement("img");
-            mainMenuGreenDivider.src = "Images/Green_Divider.png";
+            mainMenuGreenDivider.src = "images/Green_Divider.png";
             mainMenuGreenDivider.classList.add("greenDivider");
             mainMenuThemeDiv.appendChild(mainMenuGreenDivider);
         }
@@ -494,7 +494,7 @@ function updatePlaylistViewer() {
         playlistViewerRow.appendChild(playlistViewerButton);
 
         const playlistViewerImage = document.createElement("img");
-        playlistViewerImage.src = "Images/X_Icon.png";
+        playlistViewerImage.src = "images/X_Icon.png";
         playlistViewerButton.appendChild(playlistViewerImage);
     }
 
