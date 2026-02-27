@@ -361,6 +361,23 @@ a {
     object-fit: contain;
 }
 
+.sidebarPlaylistHowTo {
+    position: absolute;
+    width: calc((var(--sidebar-width) - 20rem) * 0.8);
+
+    left: -20vw;
+    transition: left 0.3s ease;
+
+    font-size: 24rem;
+    text-align: center;
+    
+    margin-bottom: 0;
+}
+
+.sidebarPlaylistHowTo.edit {
+    left: calc((var(--sidebar-width) - 20rem) * 0.1 + 10rem);
+}
+
 #sidebarShadow {
     position: fixed;
 
@@ -459,10 +476,13 @@ a {
     padding-bottom: 8rem;
     padding-left: 4rem;
     padding-right: 4rem;
+
+    border: 3px solid var(--sidebar-color);
 }
 
 .playlistViewerRow.alternating {
     background: var(--sidebar-color-light);
+    border-color: var(--sidebar-color-light);
 }
 
 .playlistViewerRow.edit {
@@ -510,21 +530,25 @@ a {
 }
 
 .playlistViewerRow.dragging {
-    border: 3px solid gold;
+    border-color: gold;
 }
 
 .playlistViewerRow.dragging p {
-    /* color: #00000000; */
     opacity: 0;
-    /* border-radius: 0; */
 }
 
-.dropAbove {
-    border-top: 3rem solid black;
+.playlistViewerRow.ghost {
+    position: absolute;
+    left: -1000vw;
+
+    width: calc(var(--sidebar-overlay-width) - 9rem);
+    border-color: var(--footer-color);
+
+    background: var(--footer-color);
 }
 
-.dropBelow {
-    border-bottom: 3rem solid black;
+.playlistViewerRow.ghost p {
+    opacity: 1;
 }
 
 /* ///////////////////// Leave at bottom of CSS page ///////////////////// */

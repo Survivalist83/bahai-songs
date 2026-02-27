@@ -79,12 +79,19 @@ function pageLoad() {
     // Handles dragging playlistViewerRow(s)
     let draggedRow = null;
     document.querySelectorAll(".playlistViewerRow").forEach((row, index) => {
-        row.id = index;
+        
         row.setAttribute("draggable", "true");
 
         row.addEventListener("dragstart", (e) => {
             draggedRow = e.currentTarget;
             draggedRow.classList.add("dragging");
+
+            // Makes the ghost use different CSS than the main row
+            const ghost = row.cloneNode(true);
+            ghost.classList.add("ghost");
+            document.body.appendChild(ghost);
+            e.dataTransfer.setDragImage(ghost, 0, 0);
+            setTimeout(() => ghost.remove(), 0);
         });
 
         row.addEventListener("dragover", (e) => {

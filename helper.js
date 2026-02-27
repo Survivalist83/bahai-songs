@@ -107,13 +107,14 @@ function updateNavButtons(input = mode) {
 
     const footerArrayQuery = [
         document.querySelectorAll(".playlistViewerRow"),
+        document.querySelectorAll(".sidebarPlaylistHowTo"),
     ]
     
     const booleanFooterArray = {
-        "main":     [4, 3, 4, 0, 0, 0, 2, 2, 0],
-        "song":     [1, 3, 4, 2, 2, 2, 0, 0, 0],
-        "playlist": [1, 3, 4, 2, 2, 2, 0, 0, 0],
-        "edit":     [3, 4, 3, 0, 0, 0, 0, 0, 1],
+        "main":     [4, 3, 4, 0, 0, 0, 2, 2, 0, 0],
+        "song":     [1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
+        "playlist": [1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
+        "edit":     [3, 4, 3, 0, 0, 0, 0, 0, 1, 1],
     }
     
     if (booleanFooterArray[input]) {
@@ -148,7 +149,7 @@ function updateNavButtons(input = mode) {
         }
 
         for (let i = 0; i < footerArrayQuery.length; i++) {
-            // 
+            log(i);
             // 0: normal
             // 1: edit
             footerArrayQuery[i].forEach((row) => {
