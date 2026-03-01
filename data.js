@@ -626,6 +626,65 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
+    {
+        "meta": {
+            "name": "Armed with the power of Thy name",
+            "sourceName": "<i>Prayers and Meditations by Bahá'u'lláh</i>, CXXII",
+            "sourceLink": "www.bahai.org/r/417066504",
+            "theme": "Power of God"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Armed with",
+                    "the power of Thy name",
+                    "nothing can ever hurt me no",
+                    "nothing can ever hurt me,",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "and with Thy love",
+                    "in my heart",
+                    "all the world's afflictions",
+                    "can in no wise alarm me.",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Yá Bahá'u'l-Abhá",
+                ]
+            }
+        ]
+    },
+    // {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
     // {
     //     "meta": {
     //         "name": "",
