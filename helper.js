@@ -176,12 +176,14 @@ function updateNavButtons(input = mode) {
         document.getElementById("positionIndicator").classList.remove("open");
     }
 
+    const footerPlaylistStart = document.getElementById("footerPlaylistStart");
+    const footerPlaylistEdit = document.getElementById("footerPlaylistEdit");
     if (playlist.length === 0) {
-        footerArray[7].classList.remove("doubleHide");
-        footerArray[6].classList.add("doubleHide");
+        footerPlaylistStart.classList.add("doubleHide");
+        footerPlaylistEdit.classList.remove("doubleHide");
     } else {
-        footerArray[7].classList.add("doubleHide");
-        footerArray[6].classList.remove("doubleHide");
+        footerPlaylistStart.classList.remove("doubleHide");
+        footerPlaylistEdit.classList.add("doubleHide");
     }
 }
 

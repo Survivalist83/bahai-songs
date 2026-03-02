@@ -324,7 +324,7 @@ a {
     position: absolute;
     width: calc((var(--sidebar-width) - 20rem) * 0.8);
 
-    left: -20vw;
+    left: calc(0px - var(--sidebar-width));
     transition: left 0.3s ease;
 }
 
@@ -365,7 +365,7 @@ a {
     position: absolute;
     width: calc((var(--sidebar-width) - 20rem) * 0.8);
 
-    left: -20vw;
+    left: calc(0px - var(--sidebar-width));
     transition: left 0.3s ease;
 
     font-size: 24rem;
