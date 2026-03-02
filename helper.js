@@ -34,10 +34,10 @@ function setQueryString(queryStrings) {
     window.history.pushState({}, "", window.location.pathname + newURL);
 }
 
-function setMode(input) {
+function setMode(input, verbose = true) {
     if (typeof(input) === Number) {
         mode = "song";
-        log("Successfully set mode to song due to the input being " + input + ".", "mode");
+        if (verbose) log("Successfully set mode to song due to the input being " + input + ".", "mode");
         return;
     }
 
@@ -61,7 +61,7 @@ function setMode(input) {
             return;
     }
 
-    log("Successfully set mode to " + input + ".", "mode");
+    if (verbose) log("Successfully set mode to " + input + ".", "mode");
 }
 
 // Handles what to do when a key press is pressed (not mobile).
@@ -95,6 +95,7 @@ function updateNavButtons(input = mode) {
 
     // Shows/hides footer buttons
     const footerArray = [
+        document.getElementById("sidebarToggleBtn"),
         document.getElementById("sidebarPlaylistEditBtn"),
         document.getElementById("sidebarPlaylistSaveBtn"),
         document.getElementById("sidebarPlaylistCopyBtn"),
@@ -111,10 +112,10 @@ function updateNavButtons(input = mode) {
     ]
     
     const booleanFooterArray = {
-        "main":     [4, 3, 4, 0, 0, 0, 2, 2, 0, 0],
-        "song":     [1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
-        "playlist": [1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
-        "edit":     [3, 4, 3, 0, 0, 0, 0, 0, 1, 1],
+        "main":     [2, 4, 3, 4, 0, 0, 0, 2, 2, 0, 0],
+        "song":     [2, 1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
+        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
+        "edit":     [1, 3, 4, 3, 0, 0, 0, 0, 0, 1, 1],
     }
     
     if (booleanFooterArray[input]) {
@@ -149,7 +150,6 @@ function updateNavButtons(input = mode) {
         }
 
         for (let i = 0; i < footerArrayQuery.length; i++) {
-            log(i);
             // 0: normal
             // 1: edit
             footerArrayQuery[i].forEach((row) => {
@@ -219,9 +219,7 @@ function setSidebarVisibility(input) {
 
 // Shows one specific song. When mode === "main", it goes to the homepage
 function showSong(songNumber) {
-    log("showSong called");
-    // setMode(songNumber);
-    // updateNavButtons(mode);
+    log("showSong called", "misc");
 
     document.querySelectorAll(".outerDiv").forEach(outerDiv => { hide(outerDiv); });
 
@@ -266,7 +264,7 @@ function updatePositionIndicator(index) {
 
 // This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
 function mainMenuBtnClicked(id) {
-    log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
+    log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".", "mainMenu");
     if (mode !== "edit") {
         mode = "song";
         showSong(id);
@@ -287,7 +285,7 @@ function createBlankDiv() {
     return blankDiv;
 }
 
-// Logs something. For production, change the all of verbosity to false to hide console logs9.
+// Logs something. For production, change the all of verbosity to false to hide console logs.
 function log(text, origin) {
     const verbosity = {
         "pageLoad": true,
@@ -302,7 +300,7 @@ function log(text, origin) {
     }
 
     if (origin === undefined || verbosity[origin]) {
-        console.log(text);
+        console.log(text + (origin === undefined ? " no origin" : ""));
     }
 }
 
@@ -322,6 +320,6 @@ async function clipboardCopy(text) {
         await navigator.clipboard.writeText(text);
         log("Copied text to clipboard: " + text, "clipboard");
     } catch (err) {
-        console.log("Failed to copy text to clipboard: " + text);
+        log("Failed to copy text to clipboard: " + text, "clipboard");
     }
 }

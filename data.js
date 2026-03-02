@@ -526,7 +526,7 @@ const BAHAI_SONGS_DATA = [
     },
     {
         "meta": {
-            "name": "Immserse yourselves",
+            "name": "Immerse yourselves",
             "sourceName": "<i>The Kitáb-i-Aqdas</i>, p. 182",
             "sourceLink": "https://www.bahai.org/r/912049805",
             "theme": "Word of God"

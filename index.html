@@ -15,6 +15,7 @@
     <div id="mainMenu" class="outerDiv hide"></div>
     <div id="contentDiv"></div>
     
+    <!-- Footer -->
     <input type="checkbox" id="footer-toggle" class="checkbox-toggle-hide">
     <footer class="footer" id="footer">
         <button id="footerPlaylistBack" class="footerBtn" onclick="arrowKey('ArrowLeft')"><</button>
@@ -24,7 +25,8 @@
         <button id="footerPlaylistEdit" class="footerBtn" onclick="playlistEdit()">Create Playlist</button>
     </footer>
     
-    <label for="sidebar-toggle" id="sidebarToggleBtn" onclick="setSidebarVisibility('toggle')">
+    <!-- Sidebar -->
+    <label id="sidebarToggleBtn" onclick="setSidebarVisibility('toggle')">
         <img src="images/Settings_Icon.png" alt="Settings" class="icon">
     </label>
     <aside id="sidebar">
@@ -39,12 +41,6 @@
                 <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving" onclick="playlistCopy()">Copy Playlist Link</button>
                 <p class="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them.</p>
             </div>
-            <!-- <div class="sidebarBtnVertical">
-                <p class="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist.</p>
-            </div> -->
-            <!-- <div class="sidebarBtnVertical">
-                <p class="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist.</p>
-            </div> -->
             <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
         </div>
         <div class="sidebarDiv" id="sidebarBottom">
@@ -54,9 +50,9 @@
             <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebarOverlay('howto')">How To</button> -->
         </div>
     </aside>
-    
     <div id="sidebarShadow"></div>
 
+    <!-- Sidebar Overlay -->
     <!-- <aside id="sidebarOverlay-howto" class="sidebarOverlay">
         <h1 class="songHeader noPadding">How To</h1>
         <p class="songLyric">Temp</p>

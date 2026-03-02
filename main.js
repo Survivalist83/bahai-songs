@@ -1,4 +1,5 @@
 let songList = [];
+let songListSorted = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
@@ -22,7 +23,7 @@ function pageLoad() {
     // Loads queryString variables
     const queryStringP = getQueryString("p");
     playlist = queryStringP !== null ? queryStringP.split("-").map(Number) : [];
-    setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song");
+    setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song", false);
 
     // Dedicated functions to specific parts of loading the page
     loadSongSelector();
@@ -74,44 +75,7 @@ function pageLoad() {
         }
     });
 
-    // return;
-
-    // Handles dragging playlistViewerRow(s)
-    let draggedRow = null;
-    document.querySelectorAll(".playlistViewerRow").forEach((row, index) => {
-        
-        row.setAttribute("draggable", "true");
-
-        row.addEventListener("dragstart", (e) => {
-            draggedRow = e.currentTarget;
-            draggedRow.classList.add("dragging");
-
-            // Makes the ghost use different CSS than the main row
-            const ghost = row.cloneNode(true);
-            ghost.classList.add("ghost");
-            document.body.appendChild(ghost);
-            e.dataTransfer.setDragImage(ghost, 0, 0);
-            setTimeout(() => ghost.remove(), 0);
-        });
-
-        row.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            if (draggedRow === row) return;
-
-            playlistViewerDrag(row, draggedRow, false);
-        });
-
-        row.addEventListener("drop", (e) => {
-            e.preventDefault();
-            if (draggedRow === row) return;
-
-            playlistViewerDrag(row, draggedRow, true);
-        });
-
-        row.addEventListener("dragend", () => {
-            draggedRow.classList.remove("dragging");
-        })
-    });
+    playlistViewerEventListeners();
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -349,10 +313,12 @@ function loadSongSelector() {
 
         // Adds the songs themselves
         for (let j = 0; j < songThemes[i].songs.length; j++) {
+            const SONG_NAME = BAHAI_SONGS_DATA[songThemes[i].songs[j]].meta.name;
             const mainMenuBtn = document.createElement("p");
             mainMenuBtn.classList.add("mainMenuBtn");
             mainMenuBtn.addEventListener("click", () => { mainMenuBtnClicked(songThemes[i].songs[j], true); });
-            mainMenuBtn.innerText = BAHAI_SONGS_DATA[songThemes[i].songs[j]].meta.name;
+            mainMenuBtn.innerText = SONG_NAME;
+            songListSorted.push(SONG_NAME);
             mainMenuThemeDiv.appendChild(mainMenuBtn);
         }
 
@@ -391,7 +357,7 @@ function playlistStart() {
     updateNavButtons("playlist");
     setQueryString([["s", "playlist"], ["i", 1]]);
     updatePositionIndicator(1);
-    document.getElementById("sidebar").classList.remove("open");
+    setSidebarVisibility("close");
 
     log("Playlist mode starting with song 1/" + playlist.length + ".", "playlist");
 }
@@ -400,27 +366,17 @@ function arrowKey(input) {
     log("arrowKey() called. Mode is " + mode + ", input is " + input + ".", "misc");
     switch(mode) {
         case "song":
-            const currentIndeces = songLocations.get(songList.indexOf(getQueryString("s")));
-            i = currentIndeces.categoryIndex;
-            j = currentIndeces.songIndex;
-
-            let nextSong = input === "ArrowLeft" ? songThemes[i].songs[j - 1] : songThemes[i].songs[j + 1];
-            if (nextSong) {
-                log("nextSong: " + nextSong + ", " + songList[nextSong]);
-                showSong(nextSong);
-                setQueryString([["s", songList[nextSong]]]);
+            const CURRENT_SONG = songListSorted.indexOf(getQueryString("s"));
+            const NEXT_SONG = CURRENT_SONG + (input === "ArrowLeft" ? -1 : 1);
+            if (NEXT_SONG === -1) {
+                showSong(songList.indexOf(songListSorted.at(-1)));
+                setQueryString([["s", songListSorted.at(-1)]]);
+            } else if (NEXT_SONG === songListSorted.length) {
+                showSong(songList.indexOf(songListSorted[0]));
+                setQueryString([["s", songListSorted[0]]]);
             } else {
-                const I_LENGTH = songThemes.length - 1;
-                const J_LENGTH = songThemes[I_LENGTH].songs.length - 1;
-                if ((input === "ArrowLeft" && i === 0 && j === 0) || (input === "ArrowRight" && i === I_LENGTH && j === J_LENGTH)) {
-                    let overflow = input === "ArrowLeft" ? songThemes[I_LENGTH].songs[songThemes[I_LENGTH].songs.length - 1] : songThemes[0].songs[0];
-                    showSong(overflow);
-                    setQueryString([["s", songList[overflow]]]);
-                } else {
-                    let nextCat = input === "ArrowLeft" ? songThemes[i - 1].songs[songThemes[i - 1].songs.length - 1] : songThemes[i + 1].songs[0];
-                    showSong(nextCat);
-                    setQueryString([["s", songList[nextCat]]]);
-                }
+                showSong(songList.indexOf(songListSorted[NEXT_SONG]));
+                setQueryString([["s", songListSorted[NEXT_SONG]]]);
             }
             break;
         case "playlist":
@@ -476,7 +432,8 @@ function updatePlaylistViewer() {
     for (i = 0; i < playlist.length; i++) {
         const playlistViewerRow = document.createElement("div");
         playlistViewerRow.classList.add("playlistViewerRow");
-        if (i % 2 === 0) { playlistViewerRow.classList.add("alternating") };
+        if (i % 2 === 0) playlistViewerRow.classList.add("alternating");
+        if (mode === "edit") playlistViewerRow.classList.add("edit");
         playlistViewerOverflow.appendChild(playlistViewerRow);
 
         const playlistViewerText = document.createElement("p");
@@ -489,6 +446,7 @@ function updatePlaylistViewer() {
                 playlist.splice(j, 1);
                 setQueryString([["p", playlist.join("-")]]);
                 updatePlaylistViewer();
+                playlistViewerEventListeners();
             });
         })(i);
         playlistViewerRow.appendChild(playlistViewerButton);
@@ -502,6 +460,78 @@ function updatePlaylistViewer() {
     const movingSidebarArray = [
         
     ];
+}
+
+// Handles dragging playlistViewerRow(s)
+function playlistViewerEventListeners() {
+    let draggedRow = null;
+    document.querySelectorAll(".playlistViewerRow").forEach(row => {
+        row.setAttribute("draggable", "true");
+
+        row.addEventListener("dragstart", (e) => {
+            if (mode !== "edit") {
+                e.preventDefault();
+                return;
+            }
+
+            draggedRow = e.currentTarget;
+            draggedRow.classList.add("dragging");
+
+            // Makes the ghost use different CSS than the main row
+            const ghost = row.cloneNode(true);
+            ghost.classList.add("ghost");
+            document.body.appendChild(ghost);
+            e.dataTransfer.setDragImage(ghost, 0, 0);
+            setTimeout(() => ghost.remove(), 0);
+        });
+
+        row.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            if (draggedRow === row) return;
+
+            playlistViewerDrag(row, draggedRow, false);
+        });
+
+        row.addEventListener("drop", (e) => {
+            e.preventDefault();
+            if (draggedRow === row) return;
+
+            playlistViewerDrag(row, draggedRow, true);
+        });
+
+        row.addEventListener("dragend", () => {
+            draggedRow.classList.remove("dragging");
+        })
+    });
+}
+
+function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
+    const draggedRowHeight = draggedRow.getBoundingClientRect().top;
+    const thisRowHeight = row.getBoundingClientRect().top;
+
+    if (draggedRowHeight > thisRowHeight) {
+        row.parentNode.insertBefore(draggedRow, row);
+    } else {
+        row.parentNode.insertBefore(draggedRow, row.nextSibling);
+    }
+    
+    // Updates the alternating color nature of playlistViewer
+    document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
+        if (index % 2 === 0) {
+            rowAlternating.classList.add("alternating");
+        } else {
+            rowAlternating.classList.remove("alternating");
+        }
+    });
+
+    // Updates the internal playlist variable and associated thingies
+    if (boolUpdatePlaylist) {
+        playlist = []
+        Array.from(row.parentNode.children).forEach(child => {
+            playlist.push(songList.indexOf(child.querySelector("p").innerText));
+        });
+        setQueryString([["p", playlist.join("-")]]);
+    }
 }
 
 // What happens on clicking "Edit Playlist"
@@ -542,34 +572,5 @@ function sidebarOverlay(input) {
         document.querySelectorAll(".sidebarOverlay").forEach(otherSidebar => {
             otherSidebar.classList.remove("open");
         });
-    }
-}
-
-function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
-    const draggedRowHeight = draggedRow.getBoundingClientRect().top;
-    const thisRowHeight = row.getBoundingClientRect().top;
-
-    if (draggedRowHeight > thisRowHeight) {
-        row.parentNode.insertBefore(draggedRow, row);
-    } else {
-        row.parentNode.insertBefore(draggedRow, row.nextSibling);
-    }
-    
-    // Updates the alternating color nature of playlistViewer
-    document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
-        if (index % 2 === 0) {
-            rowAlternating.classList.add("alternating");
-        } else {
-            rowAlternating.classList.remove("alternating");
-        }
-    });
-
-    // Updates the internal playlist variable and associated thingies
-    if (boolUpdatePlaylist) {
-        playlist = []
-        Array.from(row.parentNode.children).forEach(child => {
-            playlist.push(songList.indexOf(child.querySelector("p").innerText));
-        });
-        setQueryString([["p", playlist.join("-")]]);
     }
 }
