@@ -95,10 +95,6 @@ function loadSong(songNumber, currentSong) {
         hide(outerDiv);
     }
 
-    // Spacing at the top to "center" it vertically
-    const songTopSpacer = document.createElement("div");
-    songTopSpacer.classList.add("songOuterDivTopSpacer");
-
     // Song header.
     const songTitle = document.createElement("h1");
     songTitle.classList.add("songHeader");
@@ -133,15 +129,14 @@ function loadSong(songNumber, currentSong) {
         columnList = [...new Set(columnList)];
     }
 
-    // Makes a table (only one row) to use for columns. Every song is in the table, even if it only has one column.
-    const table = document.createElement("table");
-    const tableRow = document.createElement("tr");
-    table.appendChild(tableRow);
+    // Makes a row flexbox to store columns
+    const horizontalSongDiv = document.createElement("div");
+    horizontalSongDiv.classList.add("flex-row");
     for (let i = 0; i < columnList.length; i++) {
-        const tableColumn = document.createElement("td");
-        tableColumn.id = "songTdColumn" + columnList[i];
-        tableColumn.classList.add("songTdColumn");
-        tableRow.appendChild(tableColumn);
+        const songColumn = document.createElement("div");
+        songColumn.id = "songColumn" + columnList[i];
+        songColumn.classList.add("songColumn");
+        horizontalSongDiv.appendChild(songColumn);
     }
 
     for (let i = 0; i < lyrics.length; i++) {
@@ -189,11 +184,11 @@ function loadSong(songNumber, currentSong) {
         } else {
             column = sectionMeta?.column ?? 0;
         }
-        const songTdColumn = tableRow.querySelector("#songTdColumn" + column);
+        const songTdColumn = horizontalSongDiv.querySelector("#songColumn" + column);
         songTdColumn.appendChild(sectionDiv);
     }
 
-    outerDiv.appendChild(table);
+    outerDiv.appendChild(horizontalSongDiv);
     contentDiv.appendChild(outerDiv);
 }
 
@@ -277,19 +272,18 @@ function loadSongSelector() {
     }
 
     // Creates columns
-    const mainMenuColumnTable = document.createElement("table");
-    mainMenu.appendChild(mainMenuColumnTable);
-    const mainMenuColumnTr = document.createElement("tr");
-    mainMenuColumnTable.appendChild(mainMenuColumnTr);
+    const horizontalMenuDiv = document.createElement("div")
+    horizontalMenuDiv.classList.add("flex-row");
+    mainMenu.appendChild(horizontalMenuDiv);
     for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
         if (IS_PHONE && i > 0) {
             break;
         }
 
-        const mainMenuColumnTd = document.createElement("td");
-        mainMenuColumnTd.id = "mainMenuColumnTd" + i;
-        mainMenuColumnTd.classList.add("songTdColumn");
-        mainMenuColumnTr.appendChild(mainMenuColumnTd);
+        const menuColumn = document.createElement("div");
+        menuColumn.id = "mainMenuColumn" + i;
+        menuColumn.classList.add("songColumn");
+        horizontalMenuDiv.appendChild(menuColumn);
     }
 
     // Creates categories
@@ -329,8 +323,8 @@ function loadSongSelector() {
             mainMenuGreenDivider.classList.add("greenDivider");
             mainMenuThemeDiv.appendChild(mainMenuGreenDivider);
         }
-
-        document.getElementById("mainMenuColumnTd" + songThemes[i].column).appendChild(mainMenuThemeDiv);
+        
+        document.getElementById("mainMenuColumn" + songThemes[i].column).appendChild(mainMenuThemeDiv);
     }
 
     // Creates map songLocation for later use

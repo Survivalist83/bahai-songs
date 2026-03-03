@@ -8,18 +8,18 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* In this case, this is horizontal alignment */
-
-    height: 90%;
-    /* padding-top: 20vh; */
-    /* box-sizing: border-box; */
 }
 
-.songTdColumn {
+.flex-row {
+    display: flex;
+    flex-direction: row;
+
+    /* align-items: center; */
+}
+
+.songColumn {
     vertical-align: top;
-    padding: 10rem;
-    padding-top: 5rem;
-    padding-bottom: 13vh;
+    padding: 0 10rem 40rem;
 }
 
 .songLyric {
@@ -112,7 +112,7 @@ a {
 }
 
 #mainMenu {
-    padding-top: 40rem;
+    padding: 40rem 0;
     transition: 0.3s ease;
     overflow: auto;
 }
