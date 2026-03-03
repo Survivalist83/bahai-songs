@@ -1,19 +1,3 @@
-:root {
-    --sidebar-width: calc(100vw - 55rem);
-    --sidebar-color: #8fc0ff;
-    --sidebar-color-dark: #46a7ff;
-    --sidebar-color-light: #bbd6ff;
-
-    --sidebar-button-disabled-background: #c6dcff;
-    --sidebar-button-disabled-text: #565656;
-
-    --sidebar-overlay-width: calc(100vw - 78rem);
-
-    --footer-color: #0073cd;
-
-    --main-menu-hover: #e0e0e0;
-}
-
 /* //////////////////////////////// Songs //////////////////////////////// */
 
 html {
@@ -62,7 +46,7 @@ html {
 
 body {
     background-color: #f0f0f0;
-    margin-bottom: 15vh;
+    margin-bottom: var(--body-margin-bottom);
 }
 
 .songHeader {
@@ -134,7 +118,7 @@ a {
 }
 
 #mainMenu.sidebarPadding {
-    padding-left: calc(var(--sidebar-width));
+    padding-left: var(--sidebar-padding);
 }
 
 #contentDiv {
@@ -142,17 +126,17 @@ a {
 }
 
 #contentDiv.sidebarPadding {
-    padding-left: calc(var(--sidebar-width));
+    padding-left: var(--sidebar-padding);
 }
 
 /* //////////////////////////////// Footer /////////////////////////////// */
 
 .footer {
     position: fixed;
-    bottom: -10vh;
+    bottom: calc(0px - var(--footer-height));
     left: 0;
     width: 100vw;
-    height: 10vh;
+    height: var(--footer-height);
 
     transition: bottom 0.3s ease;
 
@@ -205,7 +189,7 @@ a {
 }
 
 #positionIndicator.open {
-    bottom: 10vh;
+    bottom: var(--footer-height);
 }
 
 #positionIndicatorDiv {
@@ -258,7 +242,7 @@ a {
     background: var(--sidebar-color);
     z-index: 100;
 
-    transform: translateX(calc(0px - var(--sidebar-width)));
+    transform: translateX(var(--negative-sidebar-width));
     transition: transform 0.3s ease;
 }
 
@@ -322,14 +306,14 @@ a {
 
 .sidebarBtn.moving {
     position: absolute;
-    width: calc((var(--sidebar-width) - 20rem) * 0.8);
+    width: calc(var(--sidebar-width-no-padding) * 0.8);
 
-    left: calc(0px - var(--sidebar-width));
+    left: var(--negative-sidebar-width);
     transition: left 0.3s ease;
 }
 
 .sidebarBtn.moving.open {
-    left: calc((var(--sidebar-width) - 20rem) * 0.1 + 10rem);
+    left: calc(var(--sidebar-width-no-padding) * 0.1 + 10rem);
 }
 
 .sidebarBtnVertical {
@@ -363,9 +347,9 @@ a {
 
 .sidebarPlaylistHowTo {
     position: absolute;
-    width: calc((var(--sidebar-width) - 20rem) * 0.8);
+    width: calc(var(--sidebar-width-no-padding) * 0.8);
 
-    left: calc(0px - var(--sidebar-width));
+    left: var(--negative-sidebar-width);
     transition: left 0.3s ease;
 
     font-size: 24rem;
@@ -375,7 +359,7 @@ a {
 }
 
 .sidebarPlaylistHowTo.edit {
-    left: calc((var(--sidebar-width) - 20rem) * 0.1 + 10rem);
+    left: calc(var(--sidebar-width-no-padding) * 0.1 + 10rem);
 }
 
 #sidebarShadow {
@@ -403,10 +387,17 @@ a {
     left: -1rem;
 
     background: var(--sidebar-color);
+    border: none;
     border-bottom-right-radius: 30rem;
     box-shadow: 4rem 4rem 8rem rgba(0, 0, 0, 0.6);
 
-    padding: 20rem 20rem;
+    width: 60rem;
+    height: 60rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: none;
+
     cursor: pointer;
 
     transition: transform 0.3s ease;
@@ -417,12 +408,18 @@ a {
     transform: translateX(var(--sidebar-width));
 }
 
+#sidebarToggleBtn img {
+    display: block;
+    width: 35rem;
+    height: auto;
+}
+
 .sidebarOverlay {
     position: fixed;
     top: 20vh;
-    left: calc(-20rem - var(--sidebar-overlay-width));
+    left: calc(-20rem - var(--sidebar-width-no-padding));
 
-    width: var(--sidebar-overlay-width);
+    width: var(--sidebar-width-no-padding);
     height: 60vh;
 
     background: var(--sidebar-color-dark);
@@ -543,7 +540,7 @@ a {
     position: absolute;
     left: -1000vw;
 
-    width: calc(var(--sidebar-overlay-width) - 9rem);
+    width: calc(var(--sidebar-width-no-padding) - 9rem); /* Shouldn't be using --sidebar-width-no-padding */
     border-color: var(--footer-color);
 
     background: var(--footer-color);
@@ -555,17 +552,43 @@ a {
 
 /* ///////////////////// Leave at bottom of CSS page ///////////////////// */
 
-@media (min-width: 600px) {
-    :root {
-        --sidebar-width: 20vw;
-        --sidebar-overlay-width: calc(20vw - 20rem);
-    }
-}
-
 @media (max-width: 599px) {
+    :root {
+        --sidebar-width: calc(100vw - 58rem);
+        --sidebar-padding: 0;
+    }
+
     .pc {
         display: none;
     }
+}
+
+@media (min-width: 600px) {
+    :root {
+        --sidebar-width: 20vw;
+        --sidebar-padding: var(--sidebar-width);
+    }
+}
+
+:root {
+    /* Colors */
+    --sidebar-color: #8fc0ff;
+    --sidebar-color-dark: #46a7ff;
+    --sidebar-color-light: #bbd6ff;
+
+    --sidebar-button-disabled-background: #c6dcff;
+    --sidebar-button-disabled-text: #565656;
+
+    --footer-color: #0073cd;
+
+    --main-menu-hover: #e0e0e0;
+
+    /* Positioning */
+    --negative-sidebar-width: calc(0px - var(--sidebar-width));
+    --sidebar-width-no-padding: calc(var(--sidebar-width) - 20rem);
+
+    --footer-height: 10vh;
+    --body-margin-bottom: var(--footer-height);
 }
 
 .hide {

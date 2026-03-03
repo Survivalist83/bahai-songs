@@ -185,6 +185,8 @@ function updateNavButtons(input = mode) {
         footerPlaylistStart.classList.remove("doubleHide");
         footerPlaylistEdit.classList.add("doubleHide");
     }
+
+    if (IS_PHONE) document.getElementById("sidebarToggleBtn").disabled = false;
 }
 
 function setSidebarVisibility(input) {

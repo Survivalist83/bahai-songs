@@ -325,7 +325,7 @@ function loadSongSelector() {
         // Adds a green divider between themes
         if (songThemes[i].column === songThemes[i + 1]?.column) {
             const mainMenuGreenDivider = document.createElement("img");
-            mainMenuGreenDivider.src = "images/Green_Divider.png";
+            mainMenuGreenDivider.src = "images/Green_Divider.svg";
             mainMenuGreenDivider.classList.add("greenDivider");
             mainMenuThemeDiv.appendChild(mainMenuGreenDivider);
         }
