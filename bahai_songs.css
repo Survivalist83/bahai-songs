@@ -289,7 +289,7 @@ a {
 }
 
 .sidebarBtn {
-    width: 80%;
+    width: calc(var(--sidebar-width-no-padding) * 0.8);
     text-align: center;
 
     margin-top: 15rem;
@@ -306,8 +306,6 @@ a {
 
 .sidebarBtn.moving {
     position: absolute;
-    width: calc(var(--sidebar-width-no-padding) * 0.8);
-
     left: var(--negative-sidebar-width);
     transition: left 0.3s ease;
 }
@@ -451,9 +449,9 @@ a {
     font-weight: bold;
 }
 
-.sidebarBtn.wide {
+/* .sidebarBtn.wide {
     width: 100%;
-}
+} */
 
 /* Stuff regarding playlistViewer */
 
@@ -560,6 +558,11 @@ a {
 
     .pc {
         display: none;
+    }
+
+    .songHeader {
+        padding-left: 40rem;
+        padding-right: 40rem;
     }
 }
 

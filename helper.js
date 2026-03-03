@@ -181,6 +181,7 @@ function updateNavButtons(input = mode) {
     if (playlist.length === 0) {
         footerPlaylistStart.classList.add("doubleHide");
         footerPlaylistEdit.classList.remove("doubleHide");
+        document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
     } else {
         footerPlaylistStart.classList.remove("doubleHide");
         footerPlaylistEdit.classList.add("doubleHide");
