@@ -89,6 +89,11 @@ function pageLoad() {
             document.getElementById("sidebarPlaylistHowTo").getBoundingClientRect().height
         ) + "px"
     );
+
+    sidebar = document.getElementById("sidebar");
+    resizeObserver = new ResizeObserver(checkSidebarScrollbar);
+    resizeObserver.observe(sidebar);
+    checkSidebarScrollbar();
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -418,7 +423,7 @@ function playlistSet(index) {
 }
 
 function updatePlaylistViewer() {
-    const playlistViewer = document.getElementById("sidebarPlaylistViewer");
+    // const playlistViewer = document.getElementById("sidebarPlaylistViewer");
     const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
     const queryStringP = getQueryString("p");
     playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
@@ -462,11 +467,6 @@ function updatePlaylistViewer() {
         playlistViewerImage.src = "images/X_Icon.png";
         playlistViewerButton.appendChild(playlistViewerImage);
     }
-
-    // Sets vertical height of .moving sidebar buttons
-    const movingSidebarArray = [
-        
-    ];
 }
 
 // Handles dragging playlistViewerRow(s)

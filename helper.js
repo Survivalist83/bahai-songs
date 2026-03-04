@@ -140,7 +140,6 @@ function updateNavButtons(input = mode) {
                     footerArray[i].disabled = false;
                     break;
                 case 3:
-                    log(i)
                     footerArray[i].disabled = false;
                     footerArray[i].classList.remove("open");
                     break;
@@ -329,4 +328,12 @@ async function clipboardCopy(text) {
     } catch (err) {
         log("Failed to copy text to clipboard: " + text, "clipboard");
     }
+}
+
+// Offsets position: absolute .sidebarBtn.moving elements when the scrollbar is present, so they are still centered
+let sidebar;
+let resizeObserver;
+function checkSidebarScrollbar() {
+    document.documentElement.style.setProperty("--sidebar-scrollbar-offset", 
+    (sidebar.scrollHeight > sidebar.clientHeight) ? "5rem" : "0rem");
 }

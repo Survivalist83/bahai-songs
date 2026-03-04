@@ -305,10 +305,14 @@ a {
     flex-shrink: 0;
 
     display: flex;
-    flex-direction: column-reverse;
-    /* todo: make this not reverse */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#sidebarBottomSpacer {
+    height: 15rem;
+    /* Could potentially overlap this div with the createBlankDiv() function */
 }
 
 .sidebarBtnVertical {
@@ -338,7 +342,7 @@ a {
 }
 
 .sidebarBtn.moving.open {
-    left: calc(var(--sidebar-width-no-padding) * 0.1 + 10rem);
+    left: calc(var(--sidebar-width-no-padding) * 0.1 + 10rem - var(--sidebar-scrollbar-offset));
 }
 
 .sidebarBtnVertical {
@@ -624,6 +628,7 @@ a {
     /* Set using JavaScript */
     --sidebar-middle-padding: 0;
     --sidebar-middle-padding-edit: 0;
+    --sidebar-scrollbar-offset: 0rem;
 }
 
 .hide {
