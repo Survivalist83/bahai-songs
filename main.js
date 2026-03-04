@@ -40,7 +40,7 @@ function pageLoad() {
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
         if (currentSong === "playlist") {
-            showSong(playlist[Number(getQueryString("i")) - 1]);
+            playlistSet(getQueryString("i"));
             updateNavButtons("playlist");
         } else {
             currentSong = getQueryString("s");

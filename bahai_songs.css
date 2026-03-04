@@ -208,11 +208,11 @@ a {
     cursor: default;
 }
 
-.positionIndicatorCircle.filled {
+.positionIndicatorCircle.empty {
     cursor: pointer;
 }
 
-.positionIndicatorCircle.filled:hover {
+.positionIndicatorCircle.empty:hover {
     background: var(--main-menu-hover);
 }
 

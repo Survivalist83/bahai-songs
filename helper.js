@@ -243,6 +243,7 @@ function showSong(songNumber) {
 
 // Sets which of the circles at the bottom of the screen is filled in
 function updatePositionIndicator(index) {
+    index = Number(index);
     const positionIndicatorDiv = document.getElementById("positionIndicatorDiv");
     positionIndicatorDiv.replaceChildren();
 
@@ -254,7 +255,7 @@ function updatePositionIndicator(index) {
             circle.classList.add("positionIndicatorCircle");
         } else {
             circle.innerHTML = "&#9675;";
-            circle.classList.add("positionIndicatorCircle", "filled");
+            circle.classList.add("positionIndicatorCircle", "empty");
             (function(j) {
                 circle.addEventListener("click", () => {
                     playlistSet(j);
