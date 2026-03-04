@@ -39,16 +39,17 @@ function pageLoad() {
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
+        currentSong = getQueryString("s") || "main";
+        log("Popstate detected. Moving to song " + currentSongIndex + ".", "popstate");
         if (currentSong === "playlist") {
             playlistSet(getQueryString("i"));
             updateNavButtons("playlist");
         } else {
-            currentSong = getQueryString("s");
             let currentSongIndex = songList.indexOf(currentSong);
             if (currentSongIndex === -1) {
                 currentSongIndex = "main";
+                setMode("main", false);
             }
-            log("Popstate detected. Moving to song " + currentSongIndex + ".", "popstate");
             showSong(currentSongIndex);
             updateNavButtons(currentSong);
         }

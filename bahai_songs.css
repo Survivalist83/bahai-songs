@@ -219,13 +219,11 @@ a {
 .positionIndicatorCircle.left {
     padding-bottom: 2rem;
     border-top-left-radius: 15rem;
-    border-bottom-left-radius: 15rem;
 }
 
 .positionIndicatorCircle.right {
     padding-bottom: 2rem;
     border-top-right-radius: 15rem;
-    border-bottom-right-radius: 15rem;
 }
 
 /* /////////////////////////////// Sidebar /////////////////////////////// */

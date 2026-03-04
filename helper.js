@@ -225,7 +225,7 @@ function setSidebarVisibility(input) {
 
 // Shows one specific song. When mode === "main", it goes to the homepage
 function showSong(songNumber) {
-    log("showSong called", "misc");
+    log("ShowSong called with songNumber" + songNumber + ".", "showSong");
 
     document.querySelectorAll(".outerDiv").forEach(outerDiv => { hide(outerDiv); });
 
@@ -304,6 +304,7 @@ function log(text, origin) {
         "queryString": false,
         "clipboard": true,
         "mode": true,
+        "showSong": false,
     }
 
     if (origin === undefined || verbosity[origin]) {
