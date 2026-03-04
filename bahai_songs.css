@@ -233,10 +233,10 @@ a {
 #sidebar {
     position: fixed;
     top: 0;
+    bottom: 0;
     left: 0;
 
     width: var(--sidebar-width);
-    height: 100vh;
     padding-left: 0;
 
     background: var(--sidebar-color);
@@ -244,6 +244,27 @@ a {
 
     transform: translateX(var(--negative-sidebar-width));
     transition: transform 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#sidebar::-webkit-scrollbar {
+    width: 10rem;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: var(--sidebar-color);
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: var(--sidebar-color-light);
+    border-radius: 10rem;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-color-dark);
 }
 
 #sidebar.open {
@@ -259,27 +280,33 @@ a {
 }
 
 #sidebarPlaylistViewer {
-    height: 80vh;
+    flex: 1 0 auto;
+    min-height: 0;
 
     align-items: center;
 
     padding-top: 20rem;
+    padding-bottom: var(--sidebar-middle-padding);
+    transition: 0.3s ease-out;
+}
+
+#sidebarPlaylistViewer.open {
+    padding-bottom: var(--sidebar-middle-padding-edit);
 }
 
 #sidebarPlaylistViewerOverflow {
-    overflow: auto;
+    overflow: hidden;
     border: 3rem solid black;
     border-radius: 12rem;
     width: 100%;
 }
 
 #sidebarBottom {
-    height: 20vh;
-
-    overflow: auto;
+    flex-shrink: 0;
 
     display: flex;
     flex-direction: column-reverse;
+    /* todo: make this not reverse */
     align-items: center;
     justify-content: center;
 }
@@ -343,7 +370,7 @@ a {
     object-fit: contain;
 }
 
-.sidebarPlaylistHowTo {
+#sidebarPlaylistHowTo {
     position: absolute;
     width: calc(var(--sidebar-width-no-padding) * 0.8);
 
@@ -352,11 +379,11 @@ a {
 
     font-size: 24rem;
     text-align: center;
-    
+
     margin-bottom: 0;
 }
 
-.sidebarPlaylistHowTo.edit {
+#sidebarPlaylistHowTo.open {
     left: calc(var(--sidebar-width-no-padding) * 0.1 + 10rem);
 }
 
@@ -449,10 +476,6 @@ a {
     font-weight: bold;
 }
 
-/* .sidebarBtn.wide {
-    width: 100%;
-} */
-
 /* Stuff regarding playlistViewer */
 
 #playlistViewerIntro {
@@ -482,7 +505,11 @@ a {
 
 .playlistViewerRow.edit {
     padding-right: 0;
-    cursor: hand;
+    cursor: grab;
+}
+
+.playlistViewerRow.edit:active {
+    cursor: grabbing;
 }
 
 .playlistViewerRow p {
@@ -494,18 +521,18 @@ a {
 }
 
 .playlistViewerRow.edit p {
-    width: 80%
+    width: calc(100% - min(20%, 50rem));
 }
 
 .playlistViewerRow button {
-    width: 20%;
-    aspect-ratio: 1 / 1;
+    width: 40rem;
+    height: 40rem;
+    margin: 0 calc(min(10% - 20rem, 5rem));
 
+    padding: 0;
     background: none;
     border: none;
     border-radius: 100%;
-
-    padding: 0;
 
     cursor: pointer;
 
@@ -538,7 +565,8 @@ a {
     position: absolute;
     left: -1000vw;
 
-    width: calc(var(--sidebar-width-no-padding) - 9rem); /* Shouldn't be using --sidebar-width-no-padding */
+    width: calc(var(--sidebar-width-no-padding) - 9rem);
+    /* Shouldn't be using --sidebar-width-no-padding */
     border-color: var(--footer-color);
 
     background: var(--footer-color);
@@ -592,6 +620,10 @@ a {
 
     --footer-height: 10vh;
     --body-margin-bottom: var(--footer-height);
+
+    /* Set using JavaScript */
+    --sidebar-middle-padding: 0;
+    --sidebar-middle-padding-edit: 0;
 }
 
 .hide {

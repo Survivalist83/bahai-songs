@@ -77,7 +77,7 @@ function keyPress(event) {
             arrowKey(event);
             break;
         case "a":
-            sidebarOverlay("");
+            // log(getComputedStyle(document.documentElement).getPropertyValue("--sidebar-middle-padding").trim());
     }
 }
 
@@ -104,18 +104,19 @@ function updateNavButtons(input = mode) {
         document.getElementById("footerPlaylistForward"),
         document.getElementById("footerPlaylistStart"),
         document.getElementById("footerPlaylistEdit"),
+        document.getElementById("sidebarPlaylistViewer"),
+        document.getElementById("sidebarPlaylistHowTo"),
     ]
 
     const footerArrayQuery = [
         document.querySelectorAll(".playlistViewerRow"),
-        document.querySelectorAll(".sidebarPlaylistHowTo"),
     ]
     
     const booleanFooterArray = {
-        "main":     [2, 4, 3, 4, 0, 0, 0, 2, 2, 0, 0],
-        "song":     [2, 1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
-        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 0, 0],
-        "edit":     [1, 3, 4, 3, 0, 0, 0, 0, 0, 1, 1],
+        "main":     [2, 4, 3, 4, 0, 0, 0, 2, 2, 3, 3, 0],
+        "song":     [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
+        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
+        "edit":     [1, 3, 4, 3, 0, 0, 0, 0, 0, 4, 4, 1],
     }
     
     if (booleanFooterArray[input]) {
@@ -139,6 +140,7 @@ function updateNavButtons(input = mode) {
                     footerArray[i].disabled = false;
                     break;
                 case 3:
+                    log(i)
                     footerArray[i].disabled = false;
                     footerArray[i].classList.remove("open");
                     break;

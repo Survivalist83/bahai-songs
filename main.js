@@ -76,6 +76,19 @@ function pageLoad() {
     });
 
     playlistViewerEventListeners();
+
+    // Sets the correct amount of padding to account for position: absolute .sidebarBtn.moving elements
+    document.documentElement.style.setProperty("--sidebar-middle-padding",
+        "" + (
+            document.getElementById("sidebarPlaylistSaveBtn").getBoundingClientRect().height
+        ) + "px"
+    );
+    document.documentElement.style.setProperty("--sidebar-middle-padding-edit",
+        "" + (
+            document.getElementById("sidebarPlaylistSaveBtn").getBoundingClientRect().height + 
+            document.getElementById("sidebarPlaylistHowTo").getBoundingClientRect().height
+        ) + "px"
+    );
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
