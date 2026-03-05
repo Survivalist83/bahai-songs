@@ -78,7 +78,7 @@ const BAHAI_SONGS_DATA = [
             "name": "First of all",
             "sourceName": "<i>'Abdu'l-Bahá on Divine Philosophy</i>, p. 112",
             "sourceLink": "https://bahai-library.com/abdul-baha_divine_philosophy&chapter=all#112",
-            "theme": "Uncategorized"
+            "theme": "Striving for Excellence"
         },
         "lyrics": [
             {
@@ -501,21 +501,16 @@ const BAHAI_SONGS_DATA = [
         "lyrics": [
             {
                 "sectionMeta": {
-                    "callAndResponse": true,
-                    "repetitions": 1
+                    "callAndResponse": true
                 },
                 "sectionLyrics": [
                     "O Lord!",
                     "I am weak,",
                     "strengthen me",
-                    "with Thy power and potency.",
+                    "* with Thy power and potency.",
                     "My tongue falters,",
-                ]
-            },
-            {
-                "sectionLyrics": [
                     "suffer me to utter",
-                    "Thy commemoration and praise.",
+                    "* Thy commemoration and praise.",
                     "I am lowly,",
                     "honor me",
                     "through admitting",
@@ -666,44 +661,458 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
-    // {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
-    // {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
-    //     ]
-    // },
+    {
+        "meta": {
+            "name": "O Lord my God!",
+            "sourceName": "‘Abdu’l‑Bahá, Unknown Source",
+            "sourceLink": "",
+            "theme": "Confirmation"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "O Lord my God!",
+                    "Open Thou the door,",
+                    "provide the means,",
+                    "make safe the path",
+                    "and guide the way.",
+                    "For verily Thou art",
+                    "the help in peril",
+                    "the Self-Subsisting",
+                    "Yá-Bahá’u’lláh-Abhá"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Look at Me",
+            "sourceName": "Unknown Source",
+            "sourceLink": "",
+            "theme": "Striving for Excellence"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Look at Me",
+                    "follow Me",
+                    "be as I am"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "take no thought",
+                    "for yourselves",
+                    "or your lives",
+                    "whether you eat",
+                    "whether you sleep",
+                    "whether you are comfortable"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Noble",
+            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #22",
+            "sourceLink": "https://www.bahai.org/r/536853978",
+            "theme": "Spiritual Qualities"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "[O SON OF SPIRIT!] (N. O. B. L. E.)",
+                    "[Noble have I created thee,] (N. O. B. L. E.)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 4
+                },
+                "sectionLyrics": [
+                    "yet thou hast",
+                    "abased thyself."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "[Rise then] (N. O. B. L. E.)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "[Rise then] (rise then)",
+                    "[unto that] (unto that)",
+                    "(all together) for which thou wast created."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "How couldst thou ignore thine own faults",
+            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #26",
+            "sourceLink": "https://www.bahai.org/r/568477331",
+            "theme": "Spiritual Qualities"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "O SON OF BEING!",
+                    "How couldst thou",
+                    "forget thine own faults",
+                    "and busy thyself",
+                    "with the faults of others?"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Whoso doeth this",
+                    "is accursed of Me."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Without truthfulness",
+            "sourceName": "Extracts from the Writings of ‘Abdu’l-Bahá, #40",
+            "sourceLink": "https://www.bahai.org/r/758916201",
+            "theme": "Spiritual Qualities"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Without truthfulness",
+                    "progress and success",
+                    "in all the worlds of God",
+                    "are impossible"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 4
+                },
+                "sectionLyrics": [
+                    "for any soul"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Ye are even as the fire",
+            "sourceName": "Unknown Citation",
+            "sourceLink": "",
+            "theme": "Spiritual Qualities"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Ye are even as the fire",
+                    "which in the darkness of the night",
+                    "has been kindled upon the mountain-top."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Let your light shine",
+                    "before the eyes of men."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "The incomparable Creator",
+            "sourceName": "<i>Gleanings from the Writings of Bahá’u’lláh</i>, XXXIV",
+            "sourceLink": "https://www.bahai.org/r/772383632",
+            "theme": "Striving for Excellence"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": true
+                },
+                "sectionLyrics": [
+                    "The incomparable Creator",
+                    "hath created all men",
+                    "from one same substance,"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false
+                },
+                "sectionLyrics": [
+                    "and hath exalted their reality",
+                    "above the rest of His creatures."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "Success or failure,",
+                    "gain or loss,"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "must, therefore, depend",
+                    "upon man’s own exertions."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2,
+                    "column": 2
+                },
+                "sectionLyrics": [
+                    "The more he striveth,",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "column": 2
+                },
+                "sectionLyrics": [
+                    "The more he striveth,",
+                    "the greater will be his progress.",
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Spirit has influence",
+            "sourceName": "‘Abdu’l-Bahá, <i>The Promulgation of Universal Peace</i>, #87, pg6",
+            "sourceLink": "https://www.bahai.org/r/823238376",
+            "theme": "Prayer"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Spirit has influence;",
+                    "prayer has spiritual effect. (x2)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false
+                },
+                "sectionLyrics": [
+                    "Therefore, we pray,",
+                    "“O God! Heal this sick one!”",
+                    "Perchance God will answer. (x2)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false
+                },
+                "sectionLyrics": [
+                    "Does it matter",
+                    "who prays?",
+                    "God will answer the prayer",
+                    "of every servant",
+                    "if that prayer is urgent. (x2)",
+                    "His mercy (His mercy)",
+                    "is vast, (is vast)",
+                    "[and] illi- (and illi)",
+                    "mitable. (mitiable)",
+                    "(x2)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "His mercy",
+                    "is vast,",
+                    "and illi-",
+                    "mitable."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Blessed is the spot",
+            "sourceName": "Bahá’u’lláh, <i>Bahá'í Prayers</i>",
+            "sourceLink": "https://www.bahai.org/r/521936016",
+            "theme": "Prayer"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": false
+                },
+                "sectionLyrics": [
+                    "Blessed is the spot,",
+                    "and the house, and the place,",
+                    "and the city, and the heart,",
+                    "and the mountain, and the refuge,",
+                    "and the cave, and the valley,",
+                    "and the land, and the sea,",
+                    "and the island, and the meadow",
+                    "where mention of God",
+                    "hath been made,",
+                    "and His Praise",
+                    "glorified."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "At all times",
+            "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #17",
+            "sourceLink": "https://www.bahai.org/r/888491605",
+            "theme": "Prayer"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": false
+                },
+                "sectionLyrics": [
+                    "At all times do I",
+                    "speak of you and call you to mind.",
+                    "I pray unto the Lord,",
+                    "and with tears I implore",
+                    "Him to rain down",
+                    "all these blessings upon you,",
+                    "rain down all these blessings upon you, (x3)",
+                    "and",
+                    "gladden your hearts, and make",
+                    "blissful your souls, and grant",
+                    "you exceeding joy and heavenly delights.…"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "True Friendship",
+            "sourceName": "Based on the 2025 CA-SE Youth Conference Handouts",
+            "sourceLink": "",
+            "theme": ""
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "No one should ever feel helpless",
+                    "We are assured of God's help."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 4
+                },
+                "sectionLyrics": [
+                    "We're helping each other to grow."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 3
+                },
+                "sectionLyrics": [
+                    "We have to believe it,",
+                    "I mean really believe it."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Friendship is not just playing,",
+                    "Friendship is not just laughing."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 4
+                },
+                "sectionLyrics": [
+                    "We're helping each other to grow."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 3
+                },
+                "sectionLyrics": [
+                    "We have to believe it,",
+                    "I mean really believe it. (x3)"
+                ]
+            }
+        ]
+    },
     // {
     //     "meta": {
     //         "name": "",

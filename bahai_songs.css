@@ -65,7 +65,10 @@ a {
     text-align: center;
 
     font-size: 16rem;
-    padding-bottom: 20rem;
+}
+
+.sectionDiv {
+    padding-top: 15rem;
 }
 
 .sansLink {

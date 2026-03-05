@@ -122,7 +122,8 @@ function loadSong(songNumber, currentSong) {
 
     // Song source.
     const songLink = document.createElement("a");
-    songLink.href = meta.sourceLink;
+    if (meta.sourceLink) songLink.href = meta.sourceLink;
+    // if (!meta.sourceLink) songLink.classList.add("missing-href"); // todo: add this in properly
     songLink.target = "_blank";
     songLink.innerHTML = meta.sourceName;
     outerDiv.appendChild(songLink);
@@ -162,6 +163,7 @@ function loadSong(songNumber, currentSong) {
         const sectionLyrics = lyrics[i].sectionLyrics;
         const sectionMeta = lyrics[i].sectionMeta;
         const sectionDiv = document.createElement("div");
+        sectionDiv.classList.add("sectionDiv");
 
         // Adds "Call and response:" or "All together:" to each section, if needed.
         if (sectionMeta && sectionMeta.callAndResponse) {
@@ -251,9 +253,9 @@ function loadSongSelector() {
 
     }
 
-    const NUM_OF_CATEGORY_COLUMNS = 3;
-
     // Assigns each category to a columns
+    const NUM_OF_CATEGORY_COLUMNS = 3;
+    const THRESHHOLD_ADJUSTER = 3; // hard-coded to shift the category-column distribution around
     if (!IS_PHONE) {
         let numCategoriesAssigned = 0;
         let numSongsAssigned = 0;
@@ -263,7 +265,7 @@ function loadSongSelector() {
             log("C" + i, "mainMenu");
 
             let numSongsPerColumn = 0;
-            const THRESHHOLD_TARGET = (BAHAI_SONGS_DATA.length - numSongsAssigned) / (NUM_OF_CATEGORY_COLUMNS - i);
+            const THRESHHOLD_TARGET = (BAHAI_SONGS_DATA.length - numSongsAssigned) / (NUM_OF_CATEGORY_COLUMNS - i) + THRESHHOLD_ADJUSTER;
             for (let j = numCategoriesAssigned; j < songThemes.length; j++) {
 
                 const POTENTIAL_SONGS_PER_COLUMN = numSongsPerColumn + songThemes[j].songs.length;
