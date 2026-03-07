@@ -307,8 +307,10 @@ function log(text, origin) {
         "showSong": false,
     }
 
-    if (origin === undefined || verbosity[origin]) {
-        console.log(text + (origin === undefined ? " no origin" : ""));
+    if (origin === undefined) {
+        console.log(text + " no origin");
+    } else if (verbosity[origin]) {
+        console.log(text);
     }
 }
 

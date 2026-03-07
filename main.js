@@ -7,12 +7,17 @@ let playlist;
 let mode;
 let songLocations = new Map();
 
+// used to in category-column assignments
+let NUM_OF_CATEGORY_COLUMNS;
+const THRESHHOLD_ADJUSTER = 3; // bigger number = more songs in later columns
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// Page Load Stuff ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 function pageLoad() {
     let currentSong = getQueryString("s"); // the song currently in the URL
+    NUM_OF_CATEGORY_COLUMNS = getQueryString("n") || 3;
 
     // This loads (but hides) the songs, only showing the requested one.
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
@@ -250,34 +255,43 @@ function loadSongSelector() {
     // Plans which songs go in which category
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         songThemes.find(item => item.name === (BAHAI_SONGS_DATA[i].meta?.theme || "Uncategorized")).songs.push(i);
-
     }
 
+    // Finds height of each category card
+    for (let i = 0; i < songThemes.length; i++) {
+        songThemes[i].height = songThemes[i].songs.length + 2;
+    }
+    const TOTAL_CATEGORY_HEIGHT = songThemes.reduce((total, element) => total + element.height, 0);
+
     // Assigns each category to a columns
-    const NUM_OF_CATEGORY_COLUMNS = 3;
-    const THRESHHOLD_ADJUSTER = 3; // hard-coded to shift the category-column distribution around
     if (!IS_PHONE) {
         let numCategoriesAssigned = 0;
-        let numSongsAssigned = 0;
+        let numHeightAssigned = 0;
 
         // Logic to give (most) categories a column
         for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
             log("C" + i, "mainMenu");
 
-            let numSongsPerColumn = 0;
-            const THRESHHOLD_TARGET = (BAHAI_SONGS_DATA.length - numSongsAssigned) / (NUM_OF_CATEGORY_COLUMNS - i) + THRESHHOLD_ADJUSTER;
+            let currentColumnHeight = 0;
+            const THRESHHOLD_TARGET = (TOTAL_CATEGORY_HEIGHT - numHeightAssigned) / (NUM_OF_CATEGORY_COLUMNS - i);
+
             for (let j = numCategoriesAssigned; j < songThemes.length; j++) {
 
-                const POTENTIAL_SONGS_PER_COLUMN = numSongsPerColumn + songThemes[j].songs.length;
-                const COLUMN_UNDER = THRESHHOLD_TARGET - numSongsPerColumn
-                const COLUMN_OVER = Math.abs(THRESHHOLD_TARGET - POTENTIAL_SONGS_PER_COLUMN);
+                const COLUMN_UNDER = THRESHHOLD_TARGET - currentColumnHeight;
+                const COLUMN_OVER = Math.abs(THRESHHOLD_TARGET - currentColumnHeight - songThemes[j].height);
 
-                log(songThemes[j].name + " " + numCategoriesAssigned + " " + COLUMN_UNDER + " " + COLUMN_OVER, "mainMenu");
-                if (COLUMN_UNDER >= 3 || COLUMN_UNDER > COLUMN_OVER) {
+                log({"name": songThemes[j].name,
+                    "i": numCategoriesAssigned,
+                    "THRESHHOLD_TARGET": THRESHHOLD_TARGET,
+                    "COLUMN_UNDER": COLUMN_UNDER,
+                    "COLUMN_OVER": COLUMN_OVER,
+                    "height": songThemes[j].height
+                }, "mainMenu");
+
+                if (COLUMN_UNDER > THRESHHOLD_ADJUSTER || COLUMN_UNDER > COLUMN_OVER) {
                     numCategoriesAssigned++;
-                    numSongsAssigned += songThemes[j].songs.length;
-                    numSongsPerColumn += songThemes[j].songs.length;
-
+                    numHeightAssigned += songThemes[j].height;
+                    currentColumnHeight += songThemes[j].height;
                     songThemes[j].column = i;
                 } else {
                     break;
@@ -293,7 +307,7 @@ function loadSongSelector() {
     }
 
     // Creates columns
-    const horizontalMenuDiv = document.createElement("div")
+    const horizontalMenuDiv = document.createElement("div");
     horizontalMenuDiv.classList.add("flex-row");
     mainMenu.appendChild(horizontalMenuDiv);
     for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
@@ -309,12 +323,15 @@ function loadSongSelector() {
 
     // Creates categories
     for (let i = 0; i < songThemes.length; i++) {
-        const mainMenuThemeDiv = document.createElement("div");
-        mainMenuThemeDiv.classList.add("mainMenuThemeDiv");
+        const mainMenuCard = document.createElement("div");
+        mainMenuCard.classList.add("mainMenuCard");
+
         const mainMenuThemeHeader = document.createElement("h1");
-        mainMenuThemeHeader.classList.add("mainMenuHeader");
         mainMenuThemeHeader.innerText = songThemes[i].name;
-        mainMenuThemeDiv.appendChild(mainMenuThemeHeader);
+        mainMenuCard.appendChild(mainMenuThemeHeader);
+
+        const mainMenuBorder = document.createElement("div");
+        mainMenuCard.appendChild(mainMenuBorder);
 
         // Alphabetizes the songs in each category
         songThemes[i].songs.sort((a, b) => {
@@ -330,22 +347,22 @@ function loadSongSelector() {
         for (let j = 0; j < songThemes[i].songs.length; j++) {
             const SONG_NAME = BAHAI_SONGS_DATA[songThemes[i].songs[j]].meta.name;
             const mainMenuBtn = document.createElement("p");
-            mainMenuBtn.classList.add("mainMenuBtn");
             mainMenuBtn.addEventListener("click", () => { mainMenuBtnClicked(songThemes[i].songs[j], true); });
             mainMenuBtn.innerText = SONG_NAME;
             songListSorted.push(SONG_NAME);
-            mainMenuThemeDiv.appendChild(mainMenuBtn);
+            mainMenuCard.appendChild(mainMenuBtn);
         }
 
         // Adds a green divider between themes
+        let mainMenuGreenDivider;
         if (songThemes[i].column === songThemes[i + 1]?.column) {
-            const mainMenuGreenDivider = document.createElement("img");
+            mainMenuGreenDivider = document.createElement("img");
             mainMenuGreenDivider.src = "images/Green_Divider.png";
             mainMenuGreenDivider.classList.add("greenDivider");
-            mainMenuThemeDiv.appendChild(mainMenuGreenDivider);
+            mainMenuCard.appendChild(mainMenuGreenDivider);
         }
         
-        document.getElementById("mainMenuColumn" + songThemes[i].column).appendChild(mainMenuThemeDiv);
+        document.getElementById("mainMenuColumn" + songThemes[i].column).append(mainMenuCard, mainMenuGreenDivider);
     }
 
     // Creates map songLocation for later use

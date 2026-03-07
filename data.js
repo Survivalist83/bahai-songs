@@ -403,7 +403,7 @@ const BAHAI_SONGS_DATA = [
             "name": "Close one eye and open the other",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #12",
             "sourceLink": "https://www.bahai.org/r/775762706",
-            "theme": "Spiritual/Material"
+            "theme": "Material World"
         },
         "lyrics": [
             {
@@ -425,7 +425,7 @@ const BAHAI_SONGS_DATA = [
             "name": "Abandon not the Everlasting",
             "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #14",
             "sourceLink": "https://www.bahai.org/r/909085672",
-            "theme": "Spiritual/Material"
+            "theme": "Material World"
         },
         "lyrics": [
             {
@@ -1050,7 +1050,7 @@ const BAHAI_SONGS_DATA = [
             "name": "True Friendship",
             "sourceName": "Based on the 2025 CA-SE Youth Conference Handouts",
             "sourceLink": "",
-            "theme": ""
+            "theme": "Striving for Excellence"
         },
         "lyrics": [
             {
