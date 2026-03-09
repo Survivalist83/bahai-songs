@@ -101,10 +101,10 @@ a {
     flex-direction: column;
     align-items: center;
 
-    background-color: var(--blue-pale);
-    border: 2px solid var(--blue-dark);
+    background-color: rgb(var(--blue-pale));
+    border: 2px solid rgb(var(--blue-dark));
     border-radius: 25px;
-    box-shadow: 0 0 8px #0073cd4d;
+    box-shadow: 0 0 8px rgba(var(--blue-dark) / 1);
 
     padding: 15px 10px 5px;
     overflow: hidden;
@@ -140,7 +140,7 @@ a {
     margin: 4rem;
 
     border-radius: 10rem;
-    background-color: var(--blue-light);
+    background-color: rgb(var(--blue-light));
 
     cursor: pointer;
 
@@ -148,7 +148,7 @@ a {
 }
 
 .mainMenuCard p:hover {
-    background-color: var(--blue-medium);
+    background-color: rgb(var(--blue-medium));
 }
 
 .greenDivider {
@@ -178,7 +178,7 @@ a {
     box-sizing: border-box;
     padding: 12rem 16rem;
 
-    background-color: var(--blue-dark);
+    background-color: rgb(var(--blue-dark));
     border-top: 3rem solid black;
 
     display: flex;
@@ -193,7 +193,7 @@ a {
 .footerBtn {
     border: 2rem solid black;
     border-radius: 10rem;
-    background: var(--blue-medium);
+    background: rgb(var(--blue-medium));
 
     font-size: 20rem;
 
@@ -203,7 +203,7 @@ a {
 }
 
 .footerBtn:hover {
-    background: var(--blue-dark);
+    background: rgb(var(--blue-dark));
 }
 
 /* ////////////////////////// Position Indicator ///////////////////////// */
@@ -272,7 +272,7 @@ a {
     width: var(--sidebar-width);
     padding-left: 0;
 
-    background: var(--blue-light);
+    background: rgb(var(--blue-light));
     z-index: 100;
 
     transform: translateX(var(--negative-sidebar-width));
@@ -288,16 +288,16 @@ a {
 }
 
 #sidebar::-webkit-scrollbar-track {
-    background: var(--blue-light);
+    background: rgb(var(--blue-light));
 }
 
 #sidebar::-webkit-scrollbar-thumb {
-    background: var(--blue-pale);
+    background: rgb(var(--blue-pale));
     border-radius: 10rem;
 }
 
 #sidebar::-webkit-scrollbar-thumb:hover {
-    background: var(--blue-medium);
+    background: rgb(var(--blue-medium));
 }
 
 #sidebar.open {
@@ -361,7 +361,7 @@ a {
 
     border: 2rem solid black;
     border-radius: 10rem;
-    background: var(--blue-medium);
+    background: rgb(var(--blue-medium));
 
     font-size: 20rem;
 
@@ -383,11 +383,11 @@ a {
 }
 
 .sidebarBtn:not(:disabled):hover {
-    background: var(--blue-light);
+    background: rgb(var(--blue-light));
 }
 
 .sidebarBtn:disabled {
-    background: var(--blue-light);
+    background: rgb(var(--blue-light));
     color: var(--gray-medium);
     cursor: not-allowed;
 }
@@ -448,7 +448,7 @@ a {
     top: 0;
     left: -1rem;
 
-    background: var(--blue-light);
+    background: rgb(var(--blue-light));
     border: none;
     border-bottom-right-radius: 30rem;
     box-shadow: 4rem 4rem 8rem rgba(0, 0, 0, 0.6);
@@ -484,7 +484,7 @@ a {
     width: var(--sidebar-width-no-padding);
     height: 60vh;
 
-    background: var(--blue-medium);
+    background: rgb(var(--blue-medium));
     z-index: 200;
 
     border: 3rem solid black;
@@ -506,10 +506,10 @@ a {
 }
 
 .sidebarBtn.highlighted {
-    color: gold;
-    border-color: gold;
-    box-shadow: 0 0 10rem rgba(255, 215, 0, 0.6);
-    background-color: var(--blue-light);
+    color: rgb(var(--gold));
+    border-color: rgb(var(--gold));
+    box-shadow: 0 0 10rem rgba(var(--gold) / 0.6);
+    background-color: rgb(var(--blue-light));
     font-weight: bold;
 }
 
@@ -532,12 +532,12 @@ a {
     padding-left: 4rem;
     padding-right: 4rem;
 
-    border: 3px solid var(--blue-light);
+    border: 3px solid rgb(var(--blue-light));
 }
 
 .playlistViewerRow.alternating {
-    background: var(--blue-pale);
-    border-color: var(--blue-pale);
+    background: rgb(var(--blue-pale));
+    border-color: rgb(var(--blue-pale));
 }
 
 .playlistViewerRow.edit {
@@ -591,7 +591,7 @@ a {
 }
 
 .playlistViewerRow.dragging {
-    border-color: gold;
+    border-color: var(--gold);
 }
 
 .playlistViewerRow.dragging p {
@@ -604,9 +604,9 @@ a {
 
     width: calc(var(--sidebar-width-no-padding) - 9rem);
     /* Shouldn't be using --sidebar-width-no-padding */
-    border-color: var(--blue-dark);
+    border-color: rgb(var(--blue-dark));
 
-    background: var(--blue-dark);
+    background: rgb(var(--blue-dark));
 }
 
 .playlistViewerRow.ghost p {
@@ -640,14 +640,15 @@ a {
 
 :root {
     /* Colors */
-    --blue-pale: rgb(187, 214, 255);
-    --blue-light: rgb(143, 192, 255);
-    --blue-medium: rgb(70, 167, 255);
-    --blue-dark: rgb(0, 115, 205);
+    --blue-pale: 187 214 255;
+    --blue-light: 143 192 255;
+    --blue-medium: 70 167 255;
+    --blue-dark: 0 115 205;
 
     --white-off: #f0f0f0;
     --gray-light: #e0e0e0;
     --gray-medium: #565656;
+    --gold: 255 215 0;
 
     /* Positioning */
     --negative-sidebar-width: calc(0px - var(--sidebar-width));
