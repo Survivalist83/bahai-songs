@@ -166,11 +166,13 @@ a {
 
 /* //////////////////////////////// Footer /////////////////////////////// */
 
-.footer {
+#footer {
     position: fixed;
     bottom: calc(0px - var(--footer-height));
     left: 0;
     width: 100vw;
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
     height: var(--footer-height);
 
     transition: bottom 0.3s ease;
@@ -180,13 +182,17 @@ a {
 
     background-color: rgb(var(--blue-dark));
     border-top: 3rem solid black;
+    /* border: 3rem solid black; */
+    /* border-bottom: none; */
+    /* border-top-left-radius: 40rem; */
+    /* border-top-right-radius: 40rem; */
 
     display: flex;
     justify-content: center;
     gap: 12rem;
 }
 
-#footer-toggle:checked~.footer {
+#footer.open {
     bottom: 0;
 }
 

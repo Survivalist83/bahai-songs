@@ -170,7 +170,12 @@ function updateNavButtons(input = mode) {
         log("Failed to update nav button visibility. Input is " + input + ".", + "updateNavButtons");
     }
 
-    document.getElementById("footer-toggle").checked = input === "main" || input === "playlist" || input === "song";
+    if (input === "main" || input === "playlist" || input === "song") {
+        document.getElementById("footer").classList.add("open");
+    } else {
+        document.getElementById("footer").classList.remove("open");
+    }
+    
     if (input === "playlist") {
         document.getElementById("positionIndicator").classList.add("open");
     } else {
