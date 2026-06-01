@@ -100,6 +100,22 @@ function pageLoad() {
     resizeObserver = new ResizeObserver(checkSidebarScrollbar);
     resizeObserver.observe(sidebar);
     checkSidebarScrollbar();
+
+    // Handles copying the page URL with sidebarPlaylistCopyBtn
+    sidebarPlaylistCopyBtn = document.getElementById("sidebarPlaylistCopyBtn");
+    sidebarPlaylistCopyBtn.addEventListener("click", async () => {
+        await clipboardCopy(window.location.href);
+
+        sidebarPlaylistCopyBtn.textContent = "Copied!";
+        sidebarPlaylistCopyBtn.disabled = true;
+        sidebarPlaylistCopyBtn.classList.add("disabled");
+
+        setTimeout(() => {
+            sidebarPlaylistCopyBtn.textContent = "Copy Playlist Link";
+            sidebarPlaylistCopyBtn.disabled = false;
+            sidebarPlaylistCopyBtn.classList.remove("disabled");
+        }, 1500);
+    });
 };
 
 // Initializes the website on page load such that every song is loaded, but hidden.
@@ -574,10 +590,6 @@ function playlistSave() {
     setMode("main");
     updateNavButtons("main");
     setQueryString([["s", ""], ["p", playlist.join("-")]]);
-}
-
-function playlistCopy() {
-    clipboardCopy(playlist.join("-"));
 }
 
 function sidebarOverlay(input) {

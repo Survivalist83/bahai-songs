@@ -465,12 +465,14 @@ const BAHAI_SONGS_DATA = [
         },
         "lyrics": [
             {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
                 "sectionLyrics": [
                     "If thou lovest Me,",
                     "turn away from thyself;",
                     "and if thou seekest My pleasure,",
                     "regard not thine own;",
-                    "that thou",
                 ]
             },
             {
@@ -479,6 +481,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
+                    "that thou",
                     "that thou mayest die",
                     "in Me and I",
                     "may eternally live in thee",
@@ -486,7 +489,7 @@ const BAHAI_SONGS_DATA = [
             },
             {
                 "sectionLyrics": [
-                    "O Son of Man! (×3-4?)",
+                    "O Son of Man! (×3)",
                 ]
             }
         ]
@@ -1113,6 +1116,98 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
+    {
+        "meta": {
+            "name": "Ruta (Swahili)",
+            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #4",
+            "sourceLink": "https://www.bahai.org/r/486363123",
+            "theme": "Multilingual"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "O son of man, O son of man!",
+                    "I loved thy creation, Hence I created thee.",
+                ]
+            },
+            {
+                // "sectionMeta": {
+                //     "chorus": true
+                // },
+                "sectionLyrics": [
+                    "Eeeyo, aaoo, aaoo, eya wuoo (×2)",
+                    "Ruta, ruta ya tumelo, tumelo ya Bahá'u'lláh, eya wuoo (×2)",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "This movement, this movement of Bahá'u'lláh",
+                    "is gathering momentum, eya wuoo",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "callAndResponse": false,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "We're lighting, candle after candle,",
+                    "ignited by Bahá'u'lláh, eya wuoo",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "O son of man, O son of man!",
+                    "I loved thy creation, Hence I created thee.",
+                    "Wherefore, do thou love Me,",
+                    "that I may name thy name",
+                    "and fill thy soul",
+                    "with the spirit of life (×2)",
+                ]
+            }
+        ]
+    },
+    // {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
+    // {
+    //     "meta": {
+    //         "name": "",
+    //         "sourceName": "",
+    //         "sourceLink": "",
+    //         "theme": ""
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "",
+    //             ]
+    //         }
+    //     ]
+    // },
     // {
     //     "meta": {
     //         "name": "",
