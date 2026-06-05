@@ -111,7 +111,7 @@ function pageLoad() {
         sidebarPlaylistCopyBtn.classList.add("disabled");
 
         setTimeout(() => {
-            sidebarPlaylistCopyBtn.textContent = "Copy Playlist Link";
+            sidebarPlaylistCopyBtn.textContent = "Copy Link";
             sidebarPlaylistCopyBtn.disabled = false;
             sidebarPlaylistCopyBtn.classList.remove("disabled");
         }, 1500);
@@ -173,6 +173,9 @@ function loadSong(songNumber, currentSong) {
     // Makes a row flexbox to store columns
     const horizontalSongDiv = document.createElement("div");
     horizontalSongDiv.classList.add("flex-row");
+    outerDiv.appendChild(horizontalSongDiv);
+    contentDiv.appendChild(outerDiv);
+
     for (let i = 0; i < columnList.length; i++) {
         const songColumn = document.createElement("div");
         songColumn.id = "songColumn" + columnList[i];
@@ -185,6 +188,16 @@ function loadSong(songNumber, currentSong) {
         const sectionMeta = lyrics[i].sectionMeta;
         const sectionDiv = document.createElement("div");
         sectionDiv.classList.add("sectionDiv");
+        
+
+        let column;
+        if (IS_PHONE) {
+            column = 0;
+        } else {
+            column = sectionMeta?.column ?? 0;
+        }
+        const songTdColumn = horizontalSongDiv.querySelector("#songColumn" + column);
+        songTdColumn.appendChild(sectionDiv);
 
         // Adds "Call and response:" or "All together:" to each section, if needed.
         if (sectionMeta && sectionMeta.callAndResponse) {
@@ -199,12 +212,51 @@ function loadSong(songNumber, currentSong) {
             sectionDiv.appendChild(allTogether);
         }
 
-        // Adds the verses themselves.
+        // Adds the verses themselves, including chords above the verses. This loops over each line
         for (let j = 0; j < sectionLyrics.length; j++) {
-            const lyric = document.createElement("p");
-            lyric.innerHTML = sectionLyrics[j];
-            lyric.classList.add("songLyric");
-            sectionDiv.appendChild(lyric);
+            const verseAndChords = [];
+            let previousChord = "";
+            for (const match of sectionLyrics[j].matchAll(/([^[]+)|\[(.*?)\]/g)) {
+                if (match[1] !== undefined) {
+                    verseAndChords.push([match[1], previousChord]);
+                } else {
+                    const content = match[2];
+                    if (!content.startsWith("*")) {
+                        previousChord = content;
+                    } else {
+                        verseAndChords.push(["[" + content.slice(1) + "]", previousChord]);
+                    }
+                }
+            }
+
+            const lyricContainer = document.createElement("div");
+            lyricContainer.classList.add("songLine");
+            const HAS_CHORDS = verseAndChords.some(item => item[1] !== ""); // true if any of the line has a chord, false otherwise
+
+            for (const [index, matchedVerse] of verseAndChords.entries()) {
+                const lyric = document.createElement("span");
+
+                if (HAS_CHORDS) {
+                    const lyricChord = document.createElement("div");
+                    lyricChord.classList.add("songChord");
+                    lyric.appendChild(lyricChord);
+
+                    const lyricChordText = document.createElement("p");
+                    lyricChordText.classList.add("songChordToHide");
+                    lyricChordText.innerText = matchedVerse[1] || "\u00A0";
+                    lyricChord.appendChild(lyricChordText);
+                }
+
+                const lyricText = document.createElement("p");
+                lyricText.classList.add("songText");
+                lyricText.innerText = matchedVerse[0];
+                lyric.appendChild(lyricText);
+
+                lyric.classList.add("songSpan");
+                lyricContainer.appendChild(lyric);
+            }
+
+            sectionDiv.appendChild(lyricContainer);            
         }
 
         // Adds repetitions - i.e. (×2)
@@ -219,19 +271,7 @@ function loadSong(songNumber, currentSong) {
         if (Number(i) + 1 !== lyrics.length && !(sectionMeta && sectionMeta.repetitions) && !hasCallAndResponse) {
             sectionDiv.appendChild(createBlankDiv());
         }
-
-        let column;
-        if (IS_PHONE) {
-            column = 0;
-        } else {
-            column = sectionMeta?.column ?? 0;
-        }
-        const songTdColumn = horizontalSongDiv.querySelector("#songColumn" + column);
-        songTdColumn.appendChild(sectionDiv);
     }
-
-    outerDiv.appendChild(horizontalSongDiv);
-    contentDiv.appendChild(outerDiv);
 }
 
 // Runs on page load that adds the main menu's song selector (center of the screen)

@@ -9,10 +9,10 @@ const BAHAI_SONGS_DATA = [
         "lyrics": [
             {
                 "sectionLyrics": [
-                    "Kindle the fire of love",
-                    "and burn away all things;",
-                    "Then set thy foot",
-                    "into the land of the lovers.",
+                    "K[A]indle the f[E]ire of l[F#m]ove",
+                    "and b[D]urn aw[A]ay all th[E]ings;",
+                    "Th[E7]en set thy f[F#m]oot",
+                    "into the l[D]and [A]of the l[E]overs.",
                 ]
             }
         ]
@@ -60,14 +60,14 @@ const BAHAI_SONGS_DATA = [
         "lyrics": [
             {
                 "sectionLyrics": [
-                    "May this boundless love",
-                    "so fill your hearts and minds",
-                    "that sadness may find",
-                    "no room to enter,",
-                    "and may you with joyful hearts",
-                    "soar",
-                    "like birds",
-                    "into Divine Radiance."
+                    "[C] May this b[E7]oundless l[Am]ove",
+                    "so f[C7]ill your hearts and m[F]inds[Fm] ",
+                    "that sadness m[C]ay find",
+                    "no r[E7]oom to [Am]ente[C7]r,",
+                    "[F] and may you with j[Fm]oyful he[C]arts",
+                    "soa-[E7 Am C7]r",
+                    "like b[F]irds",
+                    "into Div[Fm]ine Radiance."
                 ]
             }
                     
@@ -76,7 +76,7 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "First of all",
-            "sourceName": "<i>'Abdu'l-Bahá on Divine Philosophy</i>, p. 112",
+            "sourceName": "<i>'Abdu'l-Bahá on Divine Philosophy</i>, ¶. 112",
             "sourceLink": "https://bahai-library.com/abdul-baha_divine_philosophy&chapter=all#112",
             "theme": "Striving for Excellence"
         },
@@ -134,8 +134,8 @@ const BAHAI_SONGS_DATA = [
                     "column": 1
                 },
                 "sectionLyrics": [
-                    "<i>Boys:</i> in the world.",
-                    "<i>Girls:</i> in the world."
+                    "Boys: in the world.",
+                    "Girls: in the world."
                 ]
             },
             {
@@ -319,24 +319,20 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Unite and bind",
-                    "together the hearts,",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "repetitions": 2
-                },
-                "sectionLyrics": [
-                    "join in accord all the souls,"
-
+                    "Un[C]ite and b[G]ind",
+                    "tog[Am]ether the h[F]earts,",
                 ]
             },
             {
                 "sectionLyrics": [
-                    "O Lord! Make these faces radiant",
-                    "through the light",
-                    "of Thy oneness.  ",
+                    "j[C]oin in accord all the soul[G]s,",
+                    "j[Am]oin in accord all the soul[F]s,",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "O L[C]ord! Make these faces radi[G]ant",
+                    "through the l[Am]ight of Thy one[F]ness.  ",
                 ]
             }
         ]
@@ -392,7 +388,7 @@ const BAHAI_SONGS_DATA = [
                     "and give them spiritual power",
                     "that they may wing their flight",
                     "through this limitless space",
-                    "[and may soar] (to the heights of the Abhá Kingdom) (×4-6?)",
+                    "[*and may soar] (to the heights of the Abhá Kingdom) (×4-6?)",
                     "O Thou O Thou kind Lord!",
                 ]
             }
@@ -469,10 +465,8 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "If thou lovest Me,",
-                    "turn away from thyself;",
-                    "and if thou seekest My pleasure,",
-                    "regard not thine own;",
+                    "If thou [Am]lovest Me,[Em] []turn aw[F]ay from thyself;[C C/B] ",
+                    "and if thou s[Am]eekest My pl[Em]easure, reg[F]ard not thine [C C/B]own;",
                 ]
             },
             {
@@ -481,15 +475,13 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "that thou",
-                    "that thou mayest die",
-                    "in Me and I",
-                    "may eternally live in thee",
+                    "that th[Am]ou, that th[Em]ou mayest d[F]ie",
+                    "in M[C C/B]e and [Am]I may et[Em]ernally l[F]ive in the[C]e",
                 ]
             },
             {
                 "sectionLyrics": [
-                    "O Son of Man! (×3)",
+                    "[D]O Son of M[F]an! (×3)",
                 ]
             }
         ]
@@ -525,7 +517,7 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Immerse yourselves",
-            "sourceName": "<i>The Kitáb-i-Aqdas</i>, p. 182",
+            "sourceName": "<i>The Kitáb-i-Aqdas</i>, ¶. 182",
             "sourceLink": "https://www.bahai.org/r/912049805",
             "theme": "Word of God"
         },
@@ -604,11 +596,9 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Say: God sufficeth",
-                    "all things above all things,",
-                    "and nothing in the heavens",
-                    "or in the earth",
-                    "but God sufficeth.",
+                    "Say: G[D]od sufficeth [G]all things ab[A]ove all things,",
+                    "and n[D]othing in the h[G]eavens or in the [A]earth",
+                    "but God suffice[G A]th.",
                 ]
             },
             {
@@ -616,10 +606,8 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Verily, He is in Himself",
-                    "the Knower,",
-                    "the Sustainer,",
-                    "the Omnipotent.",
+                    "V[D]erily, H[G]e is in Hims[A]elf the Kn[D]ower,",
+                    "the Sustainer, the [D]Omni[G]pot[A]ent.",
                 ]
             }
         ]
@@ -637,10 +625,9 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Armed with",
-                    "the power of Thy name",
-                    "nothing can ever hurt me no",
-                    "nothing can ever hurt me,",
+                    "[D]Armed with the p[Bm]ower of Thy name",
+                    "n[G]othing can ever hurt me no",
+                    "n[D]othing can ever hurt me,",
                 ]
             },
             {
@@ -648,10 +635,9 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "and with Thy love",
-                    "in my heart",
-                    "all the world's afflictions",
-                    "can in no wise alarm me.",
+                    "and with T[D]hy love in m[F#m7]y heart",
+                    "[G]all the world's afflictions can in",
+                    "n[D]o wise alarm me.",
                 ]
             },
             {
@@ -659,7 +645,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Yá Bahá'u'l-Abhá",
+                    "[D]Yá B[F#m7]ahá'u'l-Abh[D]á",
                 ]
             }
         ]
@@ -736,8 +722,8 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "[O SON OF SPIRIT!] (N. O. B. L. E.)",
-                    "[Noble have I created thee,] (N. O. B. L. E.)"
+                    "[*O SON OF SPIRIT!] (N. O. B. L. E.)",
+                    "[*Noble have I created thee,] (N. O. B. L. E.)"
                 ]
             },
             {
@@ -756,7 +742,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "[Rise then] (N. O. B. L. E.)"
+                    "[*Rise then] (N. O. B. L. E.)"
                 ]
             },
             {
@@ -765,8 +751,8 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "[Rise then] (rise then)",
-                    "[unto that] (unto that)",
+                    "[*Rise then] (rise then)",
+                    "[*unto that] (unto that)",
                     "(all together) for which thou wast created."
                 ]
             }
@@ -836,30 +822,27 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Ye are even as the fire",
-            "sourceName": "Unknown Citation",
+            "sourceName": "The Dawn Breakers, p. 92",
             "sourceLink": "",
             "theme": "Spiritual Qualities"
         },
         "lyrics": [
             {
                 "sectionMeta": {
-                    "callAndResponse": false,
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Ye are even as the fire",
-                    "which in the darkness of the night",
-                    "has been kindled upon the mountain-top."
+                    "Ye are [Am]even as the fire",
+                    "which in the d[Dm]arkness of the night",
+                    "has been k[G]indled upon the mountain-t[Am]op."
                 ]
             },
             {
-                "sectionMeta": {
-                    "callAndResponse": false,
-                    "repetitions": 2
-                },
                 "sectionLyrics": [
-                    "Let your light shine",
-                    "before the eyes of men."
+                    "Let your l[F]ight shine before the [G]eyes of men.",
+                    "Let your l[Dm]ight shine before the [Am]eyes of men.",
+                    "Let your l[F]ight shine before the [C]eyes of men.",
+                    "Let your l[Dm]ight shine before the [E]eyes of men.",
                 ]
             }
         ]
@@ -963,7 +946,8 @@ const BAHAI_SONGS_DATA = [
             },
             {
                 "sectionMeta": {
-                    "callAndResponse": false
+                    "callAndResponse": false,
+                    "column": 1,
                 },
                 "sectionLyrics": [
                     "Does it matter",
@@ -973,7 +957,7 @@ const BAHAI_SONGS_DATA = [
                     "if that prayer is urgent. (x2)",
                     "His mercy (His mercy)",
                     "is vast, (is vast)",
-                    "[and] illi- (and illi)",
+                    "[*and] illi- (and illi)",
                     "mitable. (mitiable)",
                     "(x2)"
                 ]
@@ -981,7 +965,8 @@ const BAHAI_SONGS_DATA = [
             {
                 "sectionMeta": {
                     "callAndResponse": true,
-                    "repetitions": 2
+                    "repetitions": 2,
+                    "column": 2
                 },
                 "sectionLyrics": [
                     "His mercy",
@@ -1001,21 +986,26 @@ const BAHAI_SONGS_DATA = [
         },
         "lyrics": [
             {
+                "sectionLyrics": [
+                    "Bl[Am]essed is the [Am/F]spot,",
+                    "and the [Am/F#]house, and the [Am/F]place,",
+                    "[Am]and the [Am/F]city,",
+                    "and the [Am/F#]heart, and the [Am/F]mountain,",
+                    "[Am]and the [Am/F]refuge,",
+                    "and the [Am/F#]cave, and the [Am/F]valley,",
+                ]
+            },
+            {
                 "sectionMeta": {
-                    "callAndResponse": false
+                    column: 1
                 },
                 "sectionLyrics": [
-                    "Blessed is the spot,",
-                    "and the house, and the place,",
-                    "and the city, and the heart,",
-                    "and the mountain, and the refuge,",
-                    "and the cave, and the valley,",
-                    "and the land, and the sea,",
-                    "and the island, and the meadow",
-                    "where mention of God",
-                    "hath been made,",
-                    "and His Praise",
-                    "glorified."
+                    "[F]and the land, [G]and the sea,",
+                    "and the [C]island,[C/B]",
+                    "[Am]and the [Am/G]meadow",
+                    "where [Am/F#]mention of [Am/F]God",
+                    "hath been [Am]made,[Am/G] ",
+                    "and His [Am/F#]Praise[Am/F] glori[Am]fied."
                 ]
             }
         ]
@@ -1029,21 +1019,14 @@ const BAHAI_SONGS_DATA = [
         },
         "lyrics": [
             {
-                "sectionMeta": {
-                    "callAndResponse": false
-                },
                 "sectionLyrics": [
-                    "At all times do I",
-                    "speak of you and call you to mind.",
-                    "I pray unto the Lord,",
-                    "and with tears I implore",
-                    "Him to rain down",
-                    "all these blessings upon you,",
-                    "rain down all these blessings upon you, (x3)",
-                    "and",
-                    "gladden your hearts, and make",
-                    "blissful your souls, and grant",
-                    "you exceeding joy and heavenly delights.…"
+                    "[D]At all t[Bm]imes do I sp[G]eak of you and c[D]all you to mind.",
+                    "I pr[D]ay unto the Lord, and with t[Bm]ears I implore",
+                    "H[G]im to rain d[D]own all these bl[D]essings upon y[Bm]ou,",
+                    "rain down all these bl[G]essings upon y[D (2nd: Bm)]ou, (x3)",
+                    "[D]and gl[Bm]adden your hearts, and [G]make",
+                    "bl[D]issful your souls, and [D]grant",
+                    "you [Bm]exceeding joy and h[G]eavenly del[D]ights.…"
                 ]
             }
         ]
@@ -1170,6 +1153,32 @@ const BAHAI_SONGS_DATA = [
             }
         ]
     },
+    {
+        "meta": {
+            "name": "There is no time to lose",
+            "sourceName": "Shoghi Effendi, <i>This Decisive Hour</i>, #46, ¶5",
+            "sourceLink": "https://www.bahai.org/r/836722447",
+            "theme": "Service"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "There is no time to lose. (×2)",
+                    "Multitudes hunger for the Bread of Life.",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "The stage is set.",
+                    "The Promise is given.",
+                    "arise (×2)",
+                ]
+            },
+        ]
+    },
     // {
     //     "meta": {
     //         "name": "",
@@ -1186,7 +1195,7 @@ const BAHAI_SONGS_DATA = [
     //             "sectionLyrics": [
     //                 "",
     //             ]
-    //         }
+    //         },
     //     ]
     // },
     // {
@@ -1205,26 +1214,7 @@ const BAHAI_SONGS_DATA = [
     //             "sectionLyrics": [
     //                 "",
     //             ]
-    //         }
-    //     ]
-    // },
-    // {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         }
+    //         },
     //     ]
     // },
 ]
