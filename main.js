@@ -91,7 +91,7 @@ function pageLoad() {
     );
     document.documentElement.style.setProperty("--sidebar-middle-padding-edit",
         "" + (
-            document.getElementById("sidebarPlaylistSaveBtn").getBoundingClientRect().height + 
+            document.getElementById("sidebarPlaylistSaveBtn").getBoundingClientRect().height +
             document.getElementById("sidebarPlaylistHowTo").getBoundingClientRect().height
         ) + "px"
     );
@@ -188,7 +188,7 @@ function loadSong(songNumber, currentSong) {
         const sectionMeta = lyrics[i].sectionMeta;
         const sectionDiv = document.createElement("div");
         sectionDiv.classList.add("sectionDiv");
-        
+
 
         let column;
         if (IS_PHONE) {
@@ -231,6 +231,8 @@ function loadSong(songNumber, currentSong) {
 
             const lyricContainer = document.createElement("div");
             lyricContainer.classList.add("songLine");
+            if ((sectionMeta?.withChords || []).includes(j)) { lyricContainer.classList.add("fadesWithChords", "shrinksWithChords") };
+            if ((sectionMeta?.withoutChords || []).includes(j)) { lyricContainer.classList.add("appearWithChords", "growWithChords", "fade", "shrink") };
             const HAS_CHORDS = verseAndChords.some(item => item[1] !== ""); // true if any of the line has a chord, false otherwise
 
             for (const [index, matchedVerse] of verseAndChords.entries()) {
@@ -238,11 +240,11 @@ function loadSong(songNumber, currentSong) {
 
                 if (HAS_CHORDS) {
                     const lyricChord = document.createElement("div");
-                    lyricChord.classList.add("songChord");
+                    lyricChord.classList.add("songChord", "shrinksWithChords");
                     lyric.appendChild(lyricChord);
 
                     const lyricChordText = document.createElement("p");
-                    lyricChordText.classList.add("songChordToHide");
+                    lyricChordText.classList.add("songChordToHide", "fadesWithChords");
                     lyricChordText.innerText = matchedVerse[1] || "\u00A0";
                     lyricChord.appendChild(lyricChordText);
                 }
@@ -256,7 +258,7 @@ function loadSong(songNumber, currentSong) {
                 lyricContainer.appendChild(lyric);
             }
 
-            sectionDiv.appendChild(lyricContainer);            
+            sectionDiv.appendChild(lyricContainer);
         }
 
         // Adds repetitions - i.e. (×2)
@@ -336,7 +338,8 @@ function loadSongSelector() {
                 const COLUMN_UNDER = THRESHHOLD_TARGET - currentColumnHeight;
                 const COLUMN_OVER = Math.abs(THRESHHOLD_TARGET - currentColumnHeight - songThemes[j].height);
 
-                log({"name": songThemes[j].name,
+                log({
+                    "name": songThemes[j].name,
                     "i": numCategoriesAssigned,
                     "THRESHHOLD_TARGET": THRESHHOLD_TARGET,
                     "COLUMN_UNDER": COLUMN_UNDER,
@@ -393,7 +396,7 @@ function loadSongSelector() {
         songThemes[i].songs.sort((a, b) => {
             const FIRST_NAME = BAHAI_SONGS_DATA[a].meta.name;
             const SECOND_NAME = BAHAI_SONGS_DATA[b].meta.name
-            
+
             if (FIRST_NAME < SECOND_NAME) return -1;
             if (FIRST_NAME > SECOND_NAME) return 1;
             return 0;
@@ -417,7 +420,7 @@ function loadSongSelector() {
             mainMenuGreenDivider.classList.add("greenDivider");
             mainMenuCard.appendChild(mainMenuGreenDivider);
         }
-        
+
         document.getElementById("mainMenuColumn" + songThemes[i].column).append(mainMenuCard, mainMenuGreenDivider);
     }
 
@@ -452,7 +455,7 @@ function playlistStart() {
 
 function arrowKey(input) {
     log("arrowKey() called. Mode is " + mode + ", input is " + input + ".", "misc");
-    switch(mode) {
+    switch (mode) {
         case "song":
             const CURRENT_SONG = songListSorted.indexOf(getQueryString("s"));
             const NEXT_SONG = CURRENT_SONG + (input === "ArrowLeft" ? -1 : 1);
@@ -513,7 +516,7 @@ function updatePlaylistViewer() {
         playlistViewerIntro.innerText = "Current Playlist:";
         show(playlistViewerOverflow);
     }
-    
+
     // Removes children (otherwise, there would be duplicates)
     playlistViewerOverflow.replaceChildren();
 
@@ -529,7 +532,7 @@ function updatePlaylistViewer() {
         playlistViewerRow.appendChild(playlistViewerText);
 
         const playlistViewerButton = document.createElement("button");
-        (function(j) {
+        (function (j) {
             playlistViewerButton.addEventListener("click", () => {
                 playlist.splice(j, 1);
                 setQueryString([["p", playlist.join("-")]]);
@@ -597,7 +600,7 @@ function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
     } else {
         row.parentNode.insertBefore(draggedRow, row.nextSibling);
     }
-    
+
     // Updates the alternating color nature of playlistViewer
     document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
         if (index % 2 === 0) {

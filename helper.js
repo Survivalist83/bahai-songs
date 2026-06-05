@@ -351,14 +351,20 @@ function checkSidebarScrollbar() {
 
 function toggleChordVisibility(checkbox) {
     log("Toggling chord visibility!", "chords");
-    const guitarChords = document.querySelectorAll(".songChordToHide");
-    const whiteSpace = document.querySelectorAll(".songChord");
+    const fadesWithChords = document.querySelectorAll(".fadesWithChords");
+    const shrinksWithChords = document.querySelectorAll(".shrinksWithChords");
+    const appearWithChords = document.querySelectorAll(".appearWithChords");
+    const growWithChords = document.querySelectorAll(".growWithChords");
 
     if (checkbox.checked) {
-        guitarChords.forEach(chord => chord.classList.add("noChords"));
-        whiteSpace.forEach(chord => chord.classList.add("noChords"));
+        fadesWithChords.forEach(chord => chord.classList.add("fade"));
+        shrinksWithChords.forEach(chord => chord.classList.add("shrink"));
+        appearWithChords.forEach(chord => chord.classList.remove("fade"));
+        growWithChords.forEach(chord => chord.classList.remove("shrink"));
     } else {
-        guitarChords.forEach(chord => chord.classList.remove("noChords"));
-        whiteSpace.forEach(chord => chord.classList.remove("noChords"));
+        fadesWithChords.forEach(chord => chord.classList.remove("fade"));
+        shrinksWithChords.forEach(chord => chord.classList.remove("shrink"));
+        appearWithChords.forEach(chord => chord.classList.add("fade"));
+        growWithChords.forEach(chord => chord.classList.add("shrink"));
     }
 }

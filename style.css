@@ -61,7 +61,6 @@ html {
     margin: 0;
 
     height: 20rem;
-    transition: height 0.45s ease;
 
     display: flex;
     flex-direction: row;
@@ -73,18 +72,7 @@ html {
 
         margin: 0;
         white-space: nowrap;
-
-        opacity: 1;
-        transition: opacity 0.25s ease;
     }
-}
-
-.songChord.noChords {
-    height: 0;
-}
-
-.songChordToHide.noChords {
-    opacity: 0;
 }
 
 .songLyricContainer {
@@ -815,4 +803,21 @@ a {
 
 .noPadding {
     padding: 0;
+}
+
+.fadesWithChords {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.fade {
+    opacity: 0;
+}
+
+.shrinksWithChords {
+    transition: height 0.45s ease;
+}
+
+.shrink {
+    height: 0;
 }
