@@ -25,7 +25,7 @@ function setQueryString(queryStrings) {
         log("From setQueryString(): returning due to already set params.", "queryString");
         return;
     }
-    
+
     let newURL = "";
     if ([...params.entries()].length > 0) {
         newURL = "?" + params.toString();
@@ -35,13 +35,13 @@ function setQueryString(queryStrings) {
 }
 
 function setMode(input, verbose = true) {
-    if (typeof(input) === Number) {
+    if (typeof (input) === Number) {
         mode = "song";
         if (verbose) log("Successfully set mode to song due to the input being " + input + ".", "mode");
         return;
     }
 
-    switch(input) {
+    switch (input) {
         case "main":
             mode = "main";
             break;
@@ -76,8 +76,8 @@ function keyPress(event) {
         case "ArrowRight":
             arrowKey(event);
             break;
-        case "a":
-            // log(getComputedStyle(document.documentElement).getPropertyValue("--sidebar-middle-padding").trim());
+        // case "a":
+            // for testing only
     }
 }
 
@@ -106,19 +106,20 @@ function updateNavButtons(input = mode) {
         document.getElementById("footerPlaylistEdit"),
         document.getElementById("sidebarPlaylistViewer"),
         document.getElementById("sidebarPlaylistHowTo"),
+        document.getElementById("sidebarHideChords")
     ]
 
     const footerArrayQuery = [
         document.querySelectorAll(".playlistViewerRow"),
     ]
-    
+
     const booleanFooterArray = {
-        "main":     [2, 4, 3, 4, 0, 0, 0, 2, 2, 3, 3, 0],
-        "song":     [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
-        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
-        "edit":     [1, 3, 4, 3, 0, 0, 0, 0, 0, 4, 4, 1],
+        "main":/* */[2, 4, 3, 4, 0, 0, 0, 2, 2, 3, 3, 4, 0],
+        "song":/* */[2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 4, 0],
+        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 4, 0],
+        "edit":/* */[1, 3, 4, 3, 0, 0, 0, 0, 0, 4, 4, 3, 1],
     }
-    
+
     if (booleanFooterArray[input]) {
         for (let i = 0; i < footerArray.length; i++) {
             // All buttons that use 3 or 4 must always use those numbers. Otherwise, they must always use 0 or 2. In addition, any can use 1 no matter what.
@@ -175,7 +176,7 @@ function updateNavButtons(input = mode) {
     } else {
         document.getElementById("footer").classList.remove("open");
     }
-    
+
     if (input === "playlist") {
         document.getElementById("positionIndicator").classList.add("open");
     } else {
@@ -203,7 +204,7 @@ function setSidebarVisibility(input) {
     const mainMenu = document.getElementById("mainMenu");
     const contentDiv = document.getElementById("contentDiv");
     sidebarOverlay("");
-    switch(input) {
+    switch (input) {
         case "toggle":
             sidebar.classList.toggle("open");
             sidebarToggle.classList.toggle("open");
@@ -261,7 +262,7 @@ function updatePositionIndicator(index) {
         } else {
             circle.innerHTML = "&#9675;";
             circle.classList.add("positionIndicatorCircle", "empty");
-            (function(j) {
+            (function (j) {
                 circle.addEventListener("click", () => {
                     playlistSet(j);
                 })
@@ -310,6 +311,7 @@ function log(text, origin) {
         "clipboard": true,
         "mode": true,
         "showSong": false,
+        "chords": true,
     }
 
     if (origin === undefined) {
@@ -343,6 +345,20 @@ async function clipboardCopy(text) {
 let sidebar;
 let resizeObserver;
 function checkSidebarScrollbar() {
-    document.documentElement.style.setProperty("--sidebar-scrollbar-offset", 
-    (sidebar.scrollHeight > sidebar.clientHeight) ? "5rem" : "0rem");
+    document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
+        (sidebar.scrollHeight > sidebar.clientHeight) ? "5rem" : "0rem");
+}
+
+function toggleChordVisibility(checkbox) {
+    log("Toggling chord visibility!", "chords");
+    const guitarChords = document.querySelectorAll(".songChordToHide");
+    const whiteSpace = document.querySelectorAll(".songChord");
+
+    if (checkbox.checked) {
+        guitarChords.forEach(chord => chord.classList.add("noChords"));
+        whiteSpace.forEach(chord => chord.classList.add("noChords"));
+    } else {
+        guitarChords.forEach(chord => chord.classList.remove("noChords"));
+        whiteSpace.forEach(chord => chord.classList.remove("noChords"));
+    }
 }
