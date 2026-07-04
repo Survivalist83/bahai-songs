@@ -1,5 +1,6 @@
 let songList = [];
 let songListSorted = [];
+let songListAlphabetical = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
@@ -375,7 +376,8 @@ function loadSongSelector() {
 
     // Creates columns
     const horizontalMenuDiv = document.createElement("div");
-    horizontalMenuDiv.classList.add("flex-row");
+    horizontalMenuDiv.classList.add("flex-row", "hide");
+    horizontalMenuDiv.id = "mainMenuCategorized";
     mainMenu.appendChild(horizontalMenuDiv);
     for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
         if (IS_PHONE && i > 0) {
@@ -438,6 +440,77 @@ function loadSongSelector() {
             songLocations.set(song, { categoryIndex: i, songIndex: j });
         });
     });
+
+    //////////////////////////////////////
+    ////////// alphabetized mode /////////
+    //////////////////////////////////////
+
+    songListAlphabetical = [...songList].sort();
+
+    const mainMenuAlphabetized = document.createElement("div");
+    mainMenuAlphabetized.classList.add("flex-row");
+    mainMenuAlphabetized.id = "mainMenuAlphabetized";
+    mainMenu.appendChild(mainMenuAlphabetized);
+
+    // Creates columns
+    let numOfSongsAssigned = 0
+    let PREVIOUS_LETTER = "";
+    for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
+        if (IS_PHONE && i > 0) {
+            break;
+        }
+
+        const menuColumn = document.createElement("div");
+        menuColumn.id = "mainMenuColumnAlphabetized" + i;
+        menuColumn.classList.add("songColumn");
+        mainMenuAlphabetized.appendChild(menuColumn);
+
+        // Adds songs to columns
+        // to make this more efficient: create cards first, then add songs in a separate loop
+        const SONG_BREAKPOINT = IS_PHONE ? songList.length : songList.length * (i + 1) / NUM_OF_CATEGORY_COLUMNS;
+        for (let j = numOfSongsAssigned; j < SONG_BREAKPOINT; j++) {
+            const CURRENT_LETTER = songListAlphabetical[j][0];
+
+            if (CURRENT_LETTER !== PREVIOUS_LETTER) {
+                const mainMenuCard = document.createElement("div");
+                mainMenuCard.classList.add("mainMenuCard", "mainMenuCardAlphabetized");
+                mainMenuCard.id = "mainMenuCard-Letter" + CURRENT_LETTER;
+                menuColumn.appendChild(mainMenuCard);
+                
+                // Adds a green divider between themes
+                const mainMenuGreenDivider = document.createElement("img");
+                mainMenuGreenDivider.src = "images/Green_Divider.png";
+                mainMenuGreenDivider.classList.add("greenDivider");
+                menuColumn.appendChild(mainMenuGreenDivider);
+            }
+
+            const SONG_NAME = BAHAI_SONGS_DATA[songList.indexOf(songListAlphabetical[j])].meta.name;
+            const mainMenuBtn = document.createElement("p");
+            mainMenuBtn.addEventListener("click", () => { mainMenuBtnClicked(songList.indexOf(songListAlphabetical[j]), true); });
+            mainMenuBtn.innerText = SONG_NAME;
+            mainMenuBtn.classList.add("alphabetizedMenuBtn");
+            document.getElementById("mainMenuCard-Letter" + CURRENT_LETTER).appendChild(mainMenuBtn);
+
+            PREVIOUS_LETTER = songListAlphabetical[j][0];
+            numOfSongsAssigned += 1;
+        }
+
+        // hides the last green squiggle, since they should only be between cards
+        menuColumn.lastElementChild.classList.add("hide");
+    }
+}
+
+function toggleMainMenu(checkbox) {
+    const mainMenuAlphabetized = document.getElementById("mainMenuAlphabetized");
+    const mainMenuCategorized = document.getElementById("mainMenuCategorized");
+
+    if (checkbox.checked) {
+        mainMenuAlphabetized.classList.add("hide");
+        mainMenuCategorized.classList.remove("hide");
+    } else {
+        mainMenuAlphabetized.classList.remove("hide");
+        mainMenuCategorized.classList.add("hide");
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
