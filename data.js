@@ -838,11 +838,16 @@ const BAHAI_SONGS_DATA = [
                 ]
             },
             {
+                "sectionMeta": {
+                    "withChords": [0, 1, 2, 3],
+                    "withoutChords": [4]
+                },
                 "sectionLyrics": [
                     "Let your l[F]ight shine before the [G]eyes of men.",
                     "Let your l[Dm]ight shine before the [Am]eyes of men.",
                     "Let your l[F]ight shine before the [C]eyes of men.",
                     "Let your l[Dm]ight shine before the [E]eyes of men.",
+                    "Let your light shine before the eyes of men. (×4)",
                 ]
             }
         ]
