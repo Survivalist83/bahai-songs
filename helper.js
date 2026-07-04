@@ -69,6 +69,7 @@ function keyPress(event) {
     switch (event) {
         case "h":
             returnHome();
+            break;
         case "Escape":
             setSidebarVisibility("toggle");
             break;
@@ -76,8 +77,6 @@ function keyPress(event) {
         case "ArrowRight":
             arrowKey(event);
             break;
-        // case "a":
-            // for testing only
     }
 }
 
@@ -106,7 +105,6 @@ function updateNavButtons(input = mode) {
         document.getElementById("footerPlaylistEdit"),
         document.getElementById("sidebarPlaylistViewer"),
         document.getElementById("sidebarPlaylistHowTo"),
-        document.getElementById("sidebarHideChords")
     ]
 
     const footerArrayQuery = [
@@ -114,10 +112,10 @@ function updateNavButtons(input = mode) {
     ]
 
     const booleanFooterArray = {
-        "main":/* */[2, 4, 3, 4, 0, 0, 0, 2, 2, 3, 3, 4, 0],
-        "song":/* */[2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 4, 0],
-        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 4, 0],
-        "edit":/* */[1, 3, 4, 3, 0, 0, 0, 0, 0, 4, 4, 3, 1],
+        "main":/* */[2, 4, 3, 4, 0, 0, 0, 2, 2, 3, 3, 0],
+        "song":/* */[2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
+        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
+        "edit":/* */[1, 3, 4, 3, 0, 0, 0, 0, 0, 4, 4, 1],
     }
 
     if (booleanFooterArray[input]) {
@@ -202,48 +200,138 @@ function setSidebarVisibility(input) {
     const sidebarToggle = document.getElementById("sidebarToggleBtn");
     const sidebarShadow = document.getElementById("sidebarShadow");
     const mainMenu = document.getElementById("mainMenu");
-    const contentDiv = document.getElementById("contentDiv");
+    const contentDivChildren = [...document.getElementById("contentDiv").children];
+
     sidebarOverlay("");
+
     switch (input) {
         case "toggle":
             sidebar.classList.toggle("open");
             sidebarToggle.classList.toggle("open");
             sidebarShadow.classList.toggle("open");
             mainMenu.classList.toggle("sidebarPadding");
-            contentDiv.classList.toggle("sidebarPadding");
+            contentDivChildren.forEach(song => {song.classList.toggle("sidebarPadding")});
             break;
         case "open":
             sidebar.classList.add("open");
             sidebarToggle.classList.add("open");
             sidebarShadow.classList.add("open");
             mainMenu.classList.add("sidebarPadding");
-            contentDiv.classList.add("sidebarPadding");
+            contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")});
             break;
         case "close":
             sidebar.classList.remove("open");
             sidebarToggle.classList.remove("open");
             sidebarShadow.classList.remove("open");
             mainMenu.classList.remove("sidebarPadding");
-            contentDiv.classList.remove("sidebarPadding");
+            contentDivChildren.forEach(song => {song.classList.remove("sidebarPadding")});
             break;
     }
 }
 
 // Shows one specific song. When mode === "main", it goes to the homepage
-function showSong(songNumber) {
-    log("ShowSong called with songNumber" + songNumber + ".", "showSong");
+function showSong(songNumber, startLocation = 1) {
+    log("ShowSong called with songNumber " + songNumber + " and startLocation " + startLocation + ". Mode is " + mode + ".", "showSong");
 
-    document.querySelectorAll(".outerDiv").forEach(outerDiv => { hide(outerDiv); });
+    switch(mode) {
+        case "song":
+            const queryStringS = songList.indexOf(getQueryString("s"));
+            const location_s = queryStringS === -1 ? "main" : queryStringS;
+            console.log("location_s: " + location_s);
+            slideSong(songNumber, startLocation, 1);
+            slideSong(location_s, 1, 2 - startLocation);
+            break;
+        case "playlist":
+            // const location_s = songList.indexOf(getQueryString("s"));
+            // const location_i = playlist[getQueryString("i") - 1];
+            // const location_final = location_s === -1 ? location_i : location_s;
+            
+            // console.log("location_s: " + location_s + "\nlocation_i: " + location_i + "\nlocation_final: " + location_final);
+            // slideSong(songNumber, startLocation, 1);
+            // if (Number.isInteger(location_final)) { slideSong(location_final, 1, 2 - startLocation) };
+            // break;
 
-    if (mode === "song" || mode === "playlist") {
-        show(document.getElementById("outerDiv" + songNumber));
+            // const location_i = playlist[getQueryString("i") + 2 - startLocation];
+            // console.log("location_i: " + location_i);
+
+            document.querySelectorAll(".setMiddle").forEach(outerDiv => {
+                slideSong(outerDiv.id.slice(8) || "main", 1, 2 - startLocation);
+            });
+
+            slideSong(songNumber, startLocation, 1);
+            // slideSong(location_i, 1, 2 - startLocation);
+            break;
+        default:
+            document.querySelectorAll(".setMiddle").forEach(outerDiv => {
+                slideSong(outerDiv.id.slice(8), 1, 2);
+            });
+            // if (mode === "main") { slideSong("main", 0, 1) }
+            break;
     }
 
     // Shows/hides the main menu
     if (mode === "main") {
-        show(document.getElementById("mainMenu"));
+        slideSong("main", 0, 1);
     } else {
-        hide(document.getElementById("mainMenu"));
+        if (document.getElementById("mainMenu").classList.contains("setMiddle")) { slideSong("main", 1, 0); }
+    }
+}
+
+function slideSong(songIndex, start, end) {
+    log("Sliding song " + songIndex + " from position " + start + " to position " + end + ".", "showSong");
+
+    const song = songIndex === "main" ? document.getElementById("mainMenu") : document.getElementById("outerDiv" + songIndex);
+    song.classList.remove("sliding");
+
+    switch(start) {
+        case 0:
+            song.classList.add("setLeft");
+            song.classList.remove("setMiddle");
+            song.classList.remove("setRight");
+            break;
+        case 1:
+            song.classList.remove("setLeft");
+            song.classList.add("setMiddle");
+            song.classList.remove("setRight");
+            break;
+        case 2:
+            song.classList.remove("setLeft");
+            song.classList.remove("setMiddle");
+            song.classList.add("setRight");
+            break;
+    }
+
+    requestAnimationFrame(() => {
+        song.classList.add("sliding");
+        switch(end) {
+            case 0:
+                song.classList.add("setLeft");
+                song.classList.remove("setMiddle");
+                song.classList.remove("setRight");
+                break;
+            case 1:
+                song.classList.remove("setLeft");
+                song.classList.add("setMiddle");
+                song.classList.remove("setRight");
+                break;
+            case 2:
+                song.classList.remove("setLeft");
+                song.classList.remove("setMiddle");
+                song.classList.add("setRight");
+                break;
+        }
+    });
+
+    // in theory, this is good code, but I didn't actually need it
+    if (songIndex === "main") {
+        setTimeout(() => {
+            if (mode !== "main" && mode !== "edit") {
+                // console.log("Removing mainMenu's sliding class! " + songIndex)
+                song.classList.remove("sliding");
+            }
+        }, sliderSpeed * 1000);
+    } else {
+        // console.log("Doing nothing to mainMenu's sliding class.")
     }
 }
 
@@ -280,7 +368,7 @@ function mainMenuBtnClicked(id) {
     log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".", "mainMenu");
     if (mode !== "edit") {
         mode = "song";
-        showSong(id);
+        showSong(id, 2);
         updateNavButtons("song");
         setQueryString([["s", songList[id]]]);
     } else {
@@ -310,7 +398,7 @@ function log(text, origin) {
         "queryString": false,
         "clipboard": true,
         "mode": true,
-        "showSong": false,
+        "showSong": true,
         "chords": true,
     }
 
@@ -346,7 +434,7 @@ let sidebar;
 let resizeObserver;
 function checkSidebarScrollbar() {
     document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
-        (sidebar.scrollHeight > sidebar.clientHeight) ? "5rem" : "0rem");
+        (sidebar.scrollHeight > sidebar.clientHeight) ? "5px" : "0rem");
 }
 
 function toggleChordVisibility(checkbox) {
@@ -367,4 +455,9 @@ function toggleChordVisibility(checkbox) {
         appearWithChords.forEach(chord => chord.classList.add("fade"));
         growWithChords.forEach(chord => chord.classList.add("shrink"));
     }
+}
+
+function stopSliding(checkbox) {
+    sliderSpeed = checkbox.checked ? "0s" : "0.65s";
+    document.documentElement.style.setProperty("--slider-speed", sliderSpeed);
 }

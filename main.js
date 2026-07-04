@@ -11,11 +11,18 @@ let songLocations = new Map();
 let NUM_OF_CATEGORY_COLUMNS;
 const THRESHHOLD_ADJUSTER = 3; // bigger number = more songs in later columns
 
+let mainMenu;
+
+const styles = getComputedStyle(document.documentElement);
+let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// Page Load Stuff ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 function pageLoad() {
+    mainMenu = document.getElementById("mainMenu");
+
     let currentSong = getQueryString("s"); // the song currently in the URL
     NUM_OF_CATEGORY_COLUMNS = getQueryString("n") || 3;
 
@@ -37,6 +44,8 @@ function pageLoad() {
     // Handles logic for loading song when starting from playlist mode.
     if (mode === "playlist") {
         showSong(playlist[Number(getQueryString("i")) - 1]);
+        mainMenu.classList.remove("sliding", "setMiddle"); // kinda a cheaty way to make this work, but it works
+        mainMenu.classList.add("setLeft");
     }
 
     updatePlaylistViewer();
@@ -129,10 +138,10 @@ function loadSong(songNumber, currentSong) {
     outerDiv.classList.add("outerDiv");
 
     // Hides the song by default, unless the URL says this is the one to be displayed.
-    if (songList[songNumber] === currentSong || (currentSong === "playlist" && getQueryString("i") === String(songNumber))) {
-        show(outerDiv);
+    if (songList[songNumber] === currentSong) { // || (currentSong === "playlist" && getQueryString("i") === String(songNumber)) // removed, probably bugged code snippet
+        outerDiv.classList.add("setMiddle");
     } else {
-        hide(outerDiv);
+        outerDiv.classList.add("setRight");
     }
 
     // Song header.
@@ -278,11 +287,10 @@ function loadSong(songNumber, currentSong) {
 
 // Runs on page load that adds the main menu's song selector (center of the screen)
 function loadSongSelector() {
-    const mainMenu = document.getElementById("mainMenu");
-
     // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
     if (mode === "main" | mode === "create") {
-        show(mainMenu);
+        mainMenu.classList.add("setMiddle");
+        mainMenu.classList.remove("setLeft");
     }
 
     // Finds all categories
@@ -421,7 +429,7 @@ function loadSongSelector() {
             mainMenuCard.appendChild(mainMenuGreenDivider);
         }
 
-        document.getElementById("mainMenuColumn" + songThemes[i].column).append(mainMenuCard, mainMenuGreenDivider);
+        document.getElementById("mainMenuColumn" + songThemes[i].column).append(mainMenuCard, mainMenuGreenDivider || "");
     }
 
     // Creates map songLocation for later use
@@ -444,7 +452,7 @@ function playlistStart() {
     }
 
     setMode("playlist");
-    showSong(playlist[0]);
+    showSong(playlist[0], 2);
     updateNavButtons("playlist");
     setQueryString([["s", "playlist"], ["i", 1]]);
     updatePositionIndicator(1);
@@ -454,24 +462,26 @@ function playlistStart() {
 }
 
 function arrowKey(input) {
-    log("arrowKey() called. Mode is " + mode + ", input is " + input + ".", "misc");
+    log("\n\narrowKey() called. Mode is " + mode + ", input is " + input + ".", "misc");
     switch (mode) {
         case "song":
             const CURRENT_SONG = songListSorted.indexOf(getQueryString("s"));
             const NEXT_SONG = CURRENT_SONG + (input === "ArrowLeft" ? -1 : 1);
+            const START_LOCATION = input === "ArrowLeft" ? 0 : 2;
             if (NEXT_SONG === -1) {
-                showSong(songList.indexOf(songListSorted.at(-1)));
+                showSong(songList.indexOf(songListSorted.at(-1)), START_LOCATION);
                 setQueryString([["s", songListSorted.at(-1)]]);
             } else if (NEXT_SONG === songListSorted.length) {
-                showSong(songList.indexOf(songListSorted[0]));
+                showSong(songList.indexOf(songListSorted[0]), START_LOCATION);
                 setQueryString([["s", songListSorted[0]]]);
             } else {
-                showSong(songList.indexOf(songListSorted[NEXT_SONG]));
+                showSong(songList.indexOf(songListSorted[NEXT_SONG]), START_LOCATION);
                 setQueryString([["s", songListSorted[NEXT_SONG]]]);
             }
             break;
         case "playlist":
-            playlistSet(Number(getQueryString("i")) + (input === "ArrowLeft" ? -1 : 1));
+            const numberOfAdvances = input === "ArrowLeft" ? -1 : 1;
+            playlistSet(Number(getQueryString("i")) + numberOfAdvances, numberOfAdvances);
             break;
         default:
             log("Error: not in mode song or playlist. Arrow keys do nothing.", "misc");
@@ -485,16 +495,19 @@ function playlistAdvance(numberOfAdvances) {
         return;
     }
 
-    playlistSet(Number(getQueryString("i")) + numberOfAdvances);
+    playlistSet(Number(getQueryString("i")) + numberOfAdvances, numberOfAdvances);
 }
 
-function playlistSet(index) {
+function playlistSet(index, numberOfAdvances) {
     if (index <= 0 | (index - 1) >= playlist.length) {
         returnHome();
         log("Exiting playlist mode.", "playlist");
     } else {
-        showSong(playlist[index - 1]);
+        const direction = numberOfAdvances < 0 ? 0 : 2;
+        console.log("playlistSet() switching to song " + index + " from direction " + direction + ", numberofAdvances is " + numberOfAdvances + ".");
+
         setQueryString([["i", index]]);
+        showSong(playlist[index - 1], direction);
         updatePositionIndicator(index);
         setSidebarVisibility("close");
         log("Playlist advancing to song " + (index) + "/" + playlist.length + ".", "playlist");
@@ -651,8 +664,12 @@ function sidebarOverlay(input) {
             otherBtn.classList.remove("highlighted");
         });
     } else {
-        document.querySelectorAll(".sidebarOverlay").forEach(otherSidebar => {
-            otherSidebar.classList.remove("open");
+        document.querySelectorAll(".sidebarOverlay").forEach(sidebarOverlay => {
+            sidebarOverlay.classList.remove("open");
+        });
+
+        document.querySelectorAll(".sidebarBtn").forEach(sidebarBtn => {
+            sidebarBtn.classList.remove("highlighted");
         });
     }
 }
