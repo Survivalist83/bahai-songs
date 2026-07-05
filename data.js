@@ -1184,9 +1184,399 @@ const BAHAI_SONGS_DATA = [
             },
         ]
     },
+    {
+        "meta": {
+            "name": "Anis",
+            "sourceName": "Unknown Citation",
+            "sourceLink": "",
+            "theme": "The Báb"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "You can't keep me here,",
+                    "the love in my heart is too great",
+                    "This world gives me no fear,",
+                    "this fire will burn all the darkness away",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "And I will give it all for you.",
+                    "My life, I would give it too",
+                    "All I want is to be close with you",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "I prayed for weeks on end,",
+                    "till one day you appeared",
+                    "In a mighty vision,",
+                    "you said my desire would be fulfilled",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "And I will give it all for you.",
+                    "My life, I would give it too",
+                    "All I want is to be close with you",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Be thou as a flame",
+            "sourceName": "Tablet of Aḥmad",
+            "sourceLink": "https://www.bahai.org/r/307833060",
+            "theme": "Steadfastness"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Be thou as a flame of fire to My enemies",
+                    "and a river of life eternal to My loved ones,",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "O Aḥmad (×3)",
+                    "and be not of those who doubt.",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Dame (Spanish)",
+            "sourceName": "Unknown Citation",
+            "sourceLink": "",
+            "theme": "Multilingual"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Dame, dame un corazón",
+                    "que como un espejo pueda",
+                    "iluminarse con la luz de tu amor",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "Y confiere me un pensamiento",
+                    "que cambie este mundo",
+                    "en un jardín de rosas",
+                    "por medio de la gracia",
+                    "Espiritual (×2)",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Enseñar es aprender (Spanish)",
+            "sourceName": "Unknown Citation",
+            "sourceLink": "",
+            "theme": "Multilingual"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "Enseñar es aprender",
+                    "Aprender es trabajar",
+                    "Trabajar es servir",
+                    "Y servir es amar",
+                    "Amar es morir",
+                    "Morir es vivir",
+                    "Vivir es esforzarse",
+                    "Esforzarse ees levantarse",
+                    "Por encima de todas las limitaciones",
+                    "Que hay en la tierra",
+                    "Y entonces entrar",
+                    "Al Reino entero",
+                    "Eso dice 'Abdu'l-Bahá",
+                    "El siervo de la Gloria",
+                    "El ejemplo más perfecto de la vida Bahá'í",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "He who puts his trust in God",
+            "sourceName": "Unknown Citation",
+            "sourceLink": "",
+            "theme": "Confirmation"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "He who puts his trust in God",
+                    "God will suffice him",
+                    "He who fears God",
+                    "God will send him relief",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "He whom the grace",
+            "sourceName": "'Abdu'l-Bahá, <i>Bahá'í Prayers</i>",
+            "sourceLink": "www.bahai.org/r/160340226",
+            "theme": "Confirmation"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "He whom the grace of Thy mercy aideth,",
+                    "though he be but a drop,",
+                    "shall become the boundless ocean,",
+                    "though he be but a drop,",
+                    "he shall shine (×2)",
+                    "Even as the radiant star (×3)",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "I adjure Thee by Thy might",
+            "sourceName": "The Báb, <i>Bahá'í Prayers</i>",
+            "sourceLink": "https://www.bahai.org/r/678180399",
+            "theme": "Confirmation"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "I adjure Thee by Thy might,",
+                    "O my God! (O my God!)",
+                    "Let no harm beset me",
+                    "in times of tests (in times of tests),",
+                    "and in moments of heedlessness",
+                    "guide me steps (guide me steps)",
+                    "aright through Thine inspiration.",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "Thou art God (Thou art God),",
+                    "potent art Thou (potent art Thou)",
+                    "to do what Thou desirest.",
+                    "No one can (No one can)",
+                    "withstand Thy Will (withstand Thy Will)",
+                    "or thwart Thy Purpose",
+                ]
+            },
+        ]
+    },
     // {
     //     "meta": {
-    //         "name": "",
+    //         "name": "I want you to be happy",
+    //         "sourceName": "'Abdu'l-Bahá, <i>The Promulgation of Universal Peace</i>",
+    //         "sourceLink": "https://www.bahai.org/r/000750473",
+    //         "theme": "Joy"
+    //     },
+    //     "lyrics": [
+    //         {
+    //             "sectionMeta": {
+    //                 "callAndResponse": false,
+    //                 "repetitions": 1
+    //             },
+    //             "sectionLyrics": [
+    //                 "I want you to be happy",
+    //                 "to laugh, smile and rejoice",
+    //                 "in order that others may",
+    //                 "may be made happy by you",
+    //                 "by you",
+    //                 "may be made happy by you",
+    //             ]
+    //         },
+    //     ]
+    // },
+    {
+        "meta": {
+            "name": "Is there any Remover",
+            "sourceName": "The Báb, <i>Bahá'í Prayers</i>",
+            "sourceLink": "https://www.bahai.org/r/590097641",
+            "theme": "Prayer"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "Is there any Remover of difficulties",
+                    "save God?",
+                    "Say: Praised by God!",
+                    "He is God!",
+                    "All are His servants,",
+                    "and all abide by His bidding!",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Joy gives us wings",
+            "sourceName": "'Abdu'l-Bahá, <i>Paris Talks</i>",
+            "sourceLink": "https://www.bahai.org/r/606696514",
+            "theme": "Joy"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "Joy gives us wings! O joy gives us... wings! (×2)",
+                    "In times of joy our strength is more vital, (×2)",
+                    "Joy gives us wings! O joy gives us... wings! (×2)",
+                    "In times of joy, our intellect is keener, (×2)",
+                    "Joy gives us wings! O joy gives us... wings! (×2)",
+                    "In times of joy O, in times of joy O, In times of joy our understanding...",
+                    "less clouded! (×16)",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Make my prayer",
+            "sourceName": "Bahá'i'lláh, Long Obligatory Prayer",
+            "sourceLink": "https://www.bahai.org/r/418478411",
+            "theme": "Prayer"
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "Make my prayer, O my Lord,",
+                    "a fountain of living waters",
+                    "whereby I may live",
+                    "as long as Thy sovereignty endureth,",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "and may make mention of Thee",
+                    "in every world of Thy worlds",
+                    "of Thy world.",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Make thou an effort",
+            "sourceName": "'Abdu'l-Bahá, <i>Selections from the Writings of 'Abdu'l-Bahá</i>, #27",
+            "sourceLink": "https://www.bahai.org/r/979962410",
+            "theme": "Striving for Excellence"
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Make thou an effort",
+                    "that thou mayest",
+                    "take thy place",
+                    "under the sun",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "and receive",
+                    "an abundant share",
+                    "of its",
+                    "dazzling light. (×3)",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "My God, my Adored One",
+            "sourceName": "",
+            "sourceLink": "",
+            "theme": ""
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "My God (My God),",
+                    "my Adored One,",
+                    "my King, my Desire!",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "What tongue can voice my thanks to Thee?",
+                    "I was heedless, Thou didst awaken me.",
+                    "I was as one dead, Thou didst quicken me",
+                    "Thou didst quicken me",
+                    "with the water of life.",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "O friends",
+            "sourceName": "Bahá'u'lláh, <i>Gleanings from the Writings of Bahá'u'lláh</i>, XCVI",
+            "sourceLink": "https://www.bahai.org/r/039491767",
+            "sourceName2": "Bahá'u'lláh, <i>Bahá'í Prayers</i>",
+            "sourceLink2": "https://www.bahai.org/r/045469980",
+            "theme": ""
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "O friends! Be not careless of the virtues",
+                    "with which ye have been endowed,",
+                    "neither be neglectful of your high destiny.",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "Suffer not your labors to be wasted",
+                    "through the vain imaginations",
+                    "which certain hearts have devised.",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "Ye are the stars of the heaven of understanding,",
+                    "the breeze that stirreth at the break of day,",
+                    "the soft-flowing waters upon which must depend",
+                    "the very life of all men,",
+                    "the letters inscribed upon His sacred scroll.",
+                    "Be ever mindful.",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "Make me as a lamp",
+                    "shining throughout Thy lands",
+                    "that those in whose hearts",
+                    "the light of Thy knoeledge gloweth",
+                    "and the yearning",
+                    "for Thy love lingereth",
+                    "may be guided by its radiance.",
+                ]
+            },
+        ]
+    },
+    // {
+    //     "meta": {
+    //         "name": "Remember at all times",
     //         "sourceName": "",
     //         "sourceLink": "",
     //         "theme": ""

@@ -434,7 +434,7 @@ let sidebar;
 let resizeObserver;
 function checkSidebarScrollbar() {
     document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
-        (sidebar.scrollHeight > sidebar.clientHeight) ? "5px" : "0rem");
+        (sidebar.scrollHeight > sidebar.clientHeight) ? "5px" : "0px");
 }
 
 function toggleChordVisibility(checkbox) {

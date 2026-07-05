@@ -467,8 +467,9 @@ function loadSongSelector() {
 
         // Adds songs to columns
         // to make this more efficient: create cards first, then add songs in a separate loop
-        const SONG_BREAKPOINT = IS_PHONE ? songList.length : songList.length * (i + 1) / NUM_OF_CATEGORY_COLUMNS;
-        for (let j = numOfSongsAssigned; j < SONG_BREAKPOINT; j++) {
+        const SONG_BREAKPOINT_OFFSET = -2
+        const SONG_BREAKPOINT = IS_PHONE ? songList.length : songList.length * (i + 1) / NUM_OF_CATEGORY_COLUMNS + SONG_BREAKPOINT_OFFSET;
+        for (let j = numOfSongsAssigned; j < SONG_BREAKPOINT && j < songList.length; j++) {
             const CURRENT_LETTER = songListAlphabetical[j][0];
 
             if (CURRENT_LETTER !== PREVIOUS_LETTER) {
