@@ -58,7 +58,7 @@ body {
 .center-align {
     align-items: center;
 }
- 
+
 .songColumn {
     vertical-align: top;
     padding: 0 15px;
@@ -77,7 +77,7 @@ body {
     margin: 0;
     padding-top: 6px;
 }
-
+ 
 .songLine {
     text-align: center;
 }
