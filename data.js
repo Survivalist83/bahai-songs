@@ -252,20 +252,20 @@ const BAHAI_SONGS_DATA = [
         "lyrics": [
             {
                 "sectionLyrics": [
-                    "help me to triumph",
-                    "by the hosts",
-                    "of Thy",
-                    "glorious kingdom,",
-                    "and shower upon me",
-                    "Thy confirmation,",
-                    "which alone can",
-                    "change a gnat into an eagle,",
-                    "a drop of water",
-                    "into rivers and seas,",
-                    "an atom into",
-                    "lights and suns",
-                    "an atom into",
-                    "lights and suns",
+                    "h[Ab]elp me to tr[C]iumph",
+                    "b[G]y the h[Am]osts",
+                    "o[Am]f Th[C]y",
+                    "gl[G]orious k[Am]ingdom,",
+                    "and sh[Am]ower up[C]on me",
+                    "Thy c[G]onfirm[Am]ations,",
+                    "wh[Am]ich alone c[C]an",
+                    "change a gn[G]at into an [Am]eagle,",
+                    "a dr[Am]op of wat[C]er",
+                    "into r[G]ivers and s[Am]eas,",
+                    "an [Am]atom [C]into",
+                    "l[G]ights and s[Am]uns",
+                    "an [Am]atom [C]into",
+                    "l[G]ights and s[Am]uns",
                 ]
             }
         ]
