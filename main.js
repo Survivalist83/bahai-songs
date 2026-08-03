@@ -151,13 +151,25 @@ function loadSong(songNumber, currentSong) {
     songTitle.innerText = meta.name;
     outerDiv.appendChild(songTitle);
 
-    // Song source.
-    const songLink = document.createElement("a");
-    if (meta.sourceLink) songLink.href = meta.sourceLink;
-    // if (!meta.sourceLink) songLink.classList.add("missing-href"); // todo: add this in properly
-    songLink.target = "_blank";
-    songLink.innerHTML = meta.sourceName;
-    outerDiv.appendChild(songLink);
+    // Song source. Allows for deprecated sourceName and sourceLink, but only as a last resort
+    const songSource = meta.sources ? meta.sources :
+                       meta.source ? [meta.source] :
+                       (meta.sourceName || meta.sourceLink ? [[meta.sourceName, meta.sourceLink]] : [])
+    if (songSource) {
+        // console.log(songSource)
+        const songLinkContainer = document.createElement("div");
+        songLinkContainer.classList.add("songLinkContainer");
+        outerDiv.appendChild(songLinkContainer);
+        for (const [index, source] of songSource.entries()) {
+            const songLink = document.createElement("a");
+            if (source[1]) songLink.href = source[1];
+            // if (!meta.sourceLink) songLink.classList.add("missing-href"); // todo: add this in properly
+            songLink.target = "_blank";
+            songLink.innerHTML = source[0] || "Unknown Citation";
+            songLinkContainer.appendChild(songLink);
+            if (index !== songSource.length - 1) songLinkContainer.append(" | ")
+        }
+    }
 
     // Checks if the song has any call and response.
     let hasCallAndResponse = false;
@@ -208,6 +220,18 @@ function loadSong(songNumber, currentSong) {
         }
         const songTdColumn = horizontalSongDiv.querySelector("#songColumn" + column);
         songTdColumn.appendChild(sectionDiv);
+
+        // Adds per-stanza chords if applicable
+        if (sectionMeta && sectionMeta.chords) {
+            const sectionChordsContainer = document.createElement("i");
+            sectionChordsContainer.classList.add("sectionChordsContainer");
+            sectionDiv.appendChild(sectionChordsContainer)
+
+            const sectionChords = document.createElement("p");
+            sectionChords.innerText = sectionMeta.chords;
+            sectionChords.classList.add("sectionChords");
+            sectionChordsContainer.appendChild(sectionChords);
+        }
 
         // Adds "Call and response:" or "All together:" to each section, if needed.
         if (sectionMeta && sectionMeta.callAndResponse) {

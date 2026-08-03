@@ -99,6 +99,22 @@ body {
     text-align: left;
 }
 
+.sectionChordsContainer {
+    font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    padding-top: 6px;
+
+    text-align: center;
+}
+
+.sectionChordsContainer p {
+    margin: 0;
+}
+
 .songChord {
     margin: 0;
 
@@ -165,9 +181,14 @@ p {
     font-family: var(--font-family);
 }
 
+.songLinkContainer {
+    font-weight: bold;
+    font-size: 22px;
+}
+
 a {
     text-align: center;
-
+    font-weight: normal;
     font-size: 16px;
 }
 

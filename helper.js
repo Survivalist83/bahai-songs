@@ -56,8 +56,8 @@ function setMode(input, verbose = true) {
             break;
         default:
             window.alert("Warning! Attempt to set invalid mode (" + input + ").\n" +
-                "If you are an end-user, it is highly improbable that you are seeing this message." +
-                "If this error pops up, please email benmaxtennant@gmail.com to ask him to fix it.");
+                "If you are an end-user, it is highly improbable that you are seeing this message. " +
+                "If this error pops up, please email sdbahaisongs@gmail.com.");
             return;
     }
 
