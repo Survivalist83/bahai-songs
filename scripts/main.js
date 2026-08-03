@@ -1,84 +1,41 @@
-// Returns the contents of a specific query string. Returns null on errors.
-function getQueryString(target) {
-    const params = new URLSearchParams(window.location.search);
-    const currentSong = params.get(target);
-    return currentSong;
-}
+let songList = [];
+let songListSorted = [];
+let songListAlphabetical = [];
+const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
+const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
-// Sets a query string.
-function setQueryString(queryStrings) {
-    const params = new URLSearchParams(window.location.search);
-    const oldParams = params.toString();
+let playlist;
+let mode;
+let songLocations = new Map();
 
-    log("About to set query strings: " + JSON.stringify(queryStrings), "queryString");
+// used to in category-column assignments
+let NUM_OF_CATEGORY_COLUMNS;
+const THRESHHOLD_ADJUSTER = 3; // bigger number = more songs in later columns
 
-    for (let i = 0; i < queryStrings.length; i++) {
-        if (queryStrings[i][1] !== "") {
-            params.set(queryStrings[i][0], queryStrings[i][1]);
-        } else {
-            params.delete(queryStrings[i][0]);
-        }
-    }
+let mainMenu;
 
-    // No need to set the parameters to something they already are; this just unneccesarily creates lag and more in history
-    if (oldParams === params.toString()) {
-        log("From setQueryString(): returning due to already set params.", "queryString");
-        return;
-    }
+const styles = getComputedStyle(document.documentElement);
+let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
 
-    let newURL = "";
-    if ([...params.entries()].length > 0) {
-        newURL = "?" + params.toString();
-    }
+// Page load stuff used to be here
 
-    window.history.pushState({}, "", window.location.pathname + newURL);
-}
+function toggleMainMenu(checkbox) {
+    const mainMenuAlphabetized = document.getElementById("mainMenuAlphabetized");
+    const mainMenuCategorized = document.getElementById("mainMenuCategorized");
 
-function setMode(input, verbose = true) {
-    if (typeof (input) === Number) {
-        mode = "song";
-        if (verbose) log("Successfully set mode to song due to the input being " + input + ".", "mode");
-        return;
-    }
-
-    switch (input) {
-        case "main":
-            mode = "main";
-            break;
-        case "song":
-            mode = "song";
-            break;
-        case "playlist":
-            mode = "playlist";
-            break;
-        case "edit":
-            mode = "edit";
-            break;
-        default:
-            window.alert("Warning! Attempt to set invalid mode (" + input + ").\n" +
-                "If you are an end-user, it is highly improbable that you are seeing this message. " +
-                "If this error pops up, please email sdbahaisongs@gmail.com.");
-            return;
-    }
-
-    if (verbose) log("Successfully set mode to " + input + ".", "mode");
-}
-
-// Handles what to do when a key press is pressed (not mobile).
-function keyPress(event) {
-    switch (event) {
-        case "h":
-            returnHome();
-            break;
-        case "Escape":
-            setSidebarVisibility("toggle");
-            break;
-        case "ArrowLeft":
-        case "ArrowRight":
-            arrowKey(event);
-            break;
+    if (checkbox.checked) {
+        mainMenuAlphabetized.classList.add("hide");
+        mainMenuCategorized.classList.remove("hide");
+    } else {
+        mainMenuAlphabetized.classList.remove("hide");
+        mainMenuCategorized.classList.add("hide");
     }
 }
+
+// Playlist stuff used to be here
+
+// Sidebar stuff used to be here
+
 
 // Returns to the home page, as if no query strings were entered on page load.
 function returnHome() {
@@ -193,40 +150,6 @@ function updateNavButtons(input = mode) {
     }
 
     if (IS_PHONE) document.getElementById("sidebarToggleBtn").disabled = false;
-}
-
-function setSidebarVisibility(input) {
-    const sidebar = document.getElementById("sidebar");
-    const sidebarToggle = document.getElementById("sidebarToggleBtn");
-    const sidebarShadow = document.getElementById("sidebarShadow");
-    const mainMenu = document.getElementById("mainMenu");
-    const contentDivChildren = [...document.getElementById("contentDiv").children];
-
-    sidebarOverlay("");
-
-    switch (input) {
-        case "toggle":
-            sidebar.classList.toggle("open");
-            sidebarToggle.classList.toggle("open");
-            sidebarShadow.classList.toggle("open");
-            mainMenu.classList.toggle("sidebarPadding");
-            contentDivChildren.forEach(song => {song.classList.toggle("sidebarPadding")});
-            break;
-        case "open":
-            sidebar.classList.add("open");
-            sidebarToggle.classList.add("open");
-            sidebarShadow.classList.add("open");
-            mainMenu.classList.add("sidebarPadding");
-            contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")});
-            break;
-        case "close":
-            sidebar.classList.remove("open");
-            sidebarToggle.classList.remove("open");
-            sidebarShadow.classList.remove("open");
-            mainMenu.classList.remove("sidebarPadding");
-            contentDivChildren.forEach(song => {song.classList.remove("sidebarPadding")});
-            break;
-    }
 }
 
 // Shows one specific song. When mode === "main", it goes to the homepage
@@ -377,64 +300,6 @@ function mainMenuBtnClicked(id) {
         updatePlaylistViewer();
         updatePositionIndicator(getQueryString("i") || 1);
     }
-}
-
-// A helper function for function loadSong() that creates a blank div for visual appeal/spacing.
-function createBlankDiv() {
-    const blankDiv = document.createElement("div");
-    blankDiv.classList.add("blankDiv");
-    return blankDiv;
-}
-
-// Logs something. For production, change the all of verbosity to false to hide console logs.
-function log(text, origin) {
-    const verbosity = {
-        "pageLoad": true,
-        "popstate": true,
-        "mainMenu": false,
-        "playlist": true,
-        "updateNavButtons": false,
-        "misc": true,
-        "queryString": false,
-        "clipboard": true,
-        "mode": true,
-        "showSong": true,
-        "chords": true,
-    }
-
-    if (origin === undefined) {
-        console.log(text + " no origin");
-    } else if (verbosity[origin]) {
-        console.log(text);
-    }
-}
-
-// Shows the element (keeping block/flex display).
-function show(element) {
-    element.classList.remove("hide");
-}
-
-// Hides the element.
-function hide(element) {
-    element.classList.add("hide");
-}
-
-// Copies the text to the clipboard
-async function clipboardCopy(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        log("Copied text to clipboard: " + text, "clipboard");
-    } catch (err) {
-        log("Failed to copy text to clipboard: " + text, "clipboard");
-    }
-}
-
-// Offsets position: absolute .sidebarBtn.moving elements when the scrollbar is present, so they are still centered
-let sidebar;
-let resizeObserver;
-function checkSidebarScrollbar() {
-    document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
-        (sidebar.scrollHeight > sidebar.clientHeight) ? "5px" : "0px");
 }
 
 function toggleChordVisibility(checkbox) {
