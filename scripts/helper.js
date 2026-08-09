@@ -61,6 +61,8 @@ function setMode(input, verbose = true) {
             return;
     }
 
+    footer.setMode();
+
     if (verbose) log("Successfully set mode to " + input + ".", "mode");
 }
 

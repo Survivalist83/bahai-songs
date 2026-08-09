@@ -8,6 +8,44 @@ let playlist;
 let mode;
 let songLocations = new Map();
 
+/////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// Class stuff ////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+const footer = new Footer([
+    {
+        "text": "<",
+        "onclick": () => arrowKey('ArrowLeft'),
+        "modes": ["song", "playlist"],
+    },
+    {
+        "text": "Home",
+        "onclick": () => returnHome(),
+        "modes": ["song", "playlist"],
+    },
+    {
+        "text": ">",
+        "onclick": () => arrowKey('ArrowRight'),
+        "modes": ["song", "playlist"],
+    },
+    {
+        "text": "Start Playlist",
+        "onclick": () => playlistStart(),
+        "modes": ["main"],
+        "condition": () => playlist.length !== 0,
+    },
+    {
+        "text": "Create Playlist",
+        "onclick": () => playlistEdit(),
+        "modes": ["main"],
+        "condition": () => playlist.length === 0,
+    },
+]);
+
+/////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Non-class stuff //////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 // used to in category-column assignments
 let NUM_OF_CATEGORY_COLUMNS;
 const THRESHHOLD_ADJUSTER = 3; // bigger number = more songs in later columns
@@ -55,11 +93,6 @@ function updateNavButtons(input = mode) {
         document.getElementById("sidebarPlaylistEditBtn"),
         document.getElementById("sidebarPlaylistSaveBtn"),
         document.getElementById("sidebarPlaylistCopyBtn"),
-        document.getElementById("footerPlaylistBack"),
-        document.getElementById("footerReturnHomeBtn"),
-        document.getElementById("footerPlaylistForward"),
-        document.getElementById("footerPlaylistStart"),
-        document.getElementById("footerPlaylistEdit"),
         document.getElementById("sidebarPlaylistViewer"),
         document.getElementById("sidebarPlaylistHowTo"),
     ]
@@ -69,10 +102,10 @@ function updateNavButtons(input = mode) {
     ]
 
     const booleanFooterArray = {
-        "main":/* */[2, 4, 3, 4, 0, 0, 0, 2, 2, 3, 3, 0],
-        "song":/* */[2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
-        "playlist": [2, 1, 3, 4, 2, 2, 2, 0, 0, 3, 3, 0],
-        "edit":/* */[1, 3, 4, 3, 0, 0, 0, 0, 0, 4, 4, 1],
+        "main":/* */[2, 4, 3, 4, 3, 3, 0],
+        "song":/* */[2, 1, 3, 4, 3, 3, 0],
+        "playlist": [2, 1, 3, 4, 3, 3, 0],
+        "edit":/* */[1, 3, 4, 3, 4, 4, 1],
     }
 
     if (booleanFooterArray[input]) {
@@ -126,27 +159,14 @@ function updateNavButtons(input = mode) {
         log("Failed to update nav button visibility. Input is " + input + ".", + "updateNavButtons");
     }
 
-    if (input === "main" || input === "playlist" || input === "song") {
-        document.getElementById("footer").classList.add("open");
-    } else {
-        document.getElementById("footer").classList.remove("open");
-    }
-
     if (input === "playlist") {
         document.getElementById("positionIndicator").classList.add("open");
     } else {
         document.getElementById("positionIndicator").classList.remove("open");
     }
 
-    const footerPlaylistStart = document.getElementById("footerPlaylistStart");
-    const footerPlaylistEdit = document.getElementById("footerPlaylistEdit");
     if (playlist.length === 0) {
-        footerPlaylistStart.classList.add("doubleHide");
-        footerPlaylistEdit.classList.remove("doubleHide");
         document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
-    } else {
-        footerPlaylistStart.classList.remove("doubleHide");
-        footerPlaylistEdit.classList.add("doubleHide");
     }
 
     if (IS_PHONE) document.getElementById("sidebarToggleBtn").disabled = false;
@@ -198,6 +218,8 @@ function showSong(songNumber, startLocation = 1) {
     } else {
         if (document.getElementById("mainMenu").classList.contains("setMiddle")) { slideSong("main", 1, 0); }
     }
+
+    footer.setMode()
 }
 
 function slideSong(songIndex, start, end) {

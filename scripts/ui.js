@@ -1,3 +1,46 @@
+class Footer {
+    #buttons = [];
+    #verbose = true;
+
+    constructor(args) {
+        this.dom = document.createElement("div");
+        this.dom.classList.add("footer");
+
+        for (const arg of args) {
+            const button = document.createElement("button");
+            button.classList.add("footerBtn");
+            button.innerText = arg.text || "";
+            button.onclick = arg.onclick || "";
+            button.modes = arg.modes || [];
+            button.condition = arg.condition || (() => true);
+            this.dom.appendChild(button);
+            this.#buttons.push(button);
+        }
+
+        document.body.appendChild(this.dom);
+    }
+
+    setMode(input = mode) {
+        if (this.#verbose) console.log(input);
+
+        let showFooter = false;
+        for (const button of this.#buttons) {
+            if (button.modes.includes(input) && button.condition()) {
+                button.classList.remove("hide");
+                showFooter = true;
+            } else {
+                button.classList.add("hide");
+            }
+        }
+
+        if (showFooter) {
+            this.dom.classList.add("open");
+        } else {
+            this.dom.classList.remove("open");
+        }
+    }
+}
+
 function sidebarOverlay(input) {
     if (input !== "") {
         const sidebarOverlayTest = document.getElementById("sidebarOverlay-" + input);
