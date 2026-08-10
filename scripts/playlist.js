@@ -12,11 +12,11 @@ function playlistStart() {
     positionIndicator.update(1);
     setSidebarVisibility("close");
 
-    log("Playlist mode starting with song 1/" + playlist.length + ".", "playlist");
+    if (verbosity.playlist) console.log("Playlist mode starting with song 1/" + playlist.length + ".");
 }
 
 function arrowKey(input) {
-    log("\n\narrowKey() called. Mode is " + mode + ", input is " + input + ".", "misc");
+    if (verbosity.misc) console.log("\n\narrowKey() called. Mode is " + mode + ", input is " + input + ".");
     switch (mode) {
         case "song":
             const CURRENT_SONG = songListSorted.indexOf(getQueryString("s"));
@@ -38,14 +38,14 @@ function arrowKey(input) {
             playlistSet(Number(getQueryString("i")) + numberOfAdvances, numberOfAdvances);
             break;
         default:
-            log("Error: not in mode song or playlist. Arrow keys do nothing.", "misc");
+            if (verbosity.misc) console.log("Error: not in mode song or playlist. Arrow keys do nothing.");
     }
 }
 
 // Goes forward/backward in the playlist. Half-deprecated.
 function playlistAdvance(numberOfAdvances) {
     if (getQueryString("s") !== "playlist") {
-        log("Playlist mode not active.", "playlist");
+        if (verbosity.playlist) console.log("Playlist mode not active.");
         return;
     }
 
@@ -55,7 +55,7 @@ function playlistAdvance(numberOfAdvances) {
 function playlistSet(index, numberOfAdvances) {
     if (index <= 0 | (index - 1) >= playlist.length) {
         returnHome();
-        log("Exiting playlist mode.", "playlist");
+        if (verbosity.playlist) console.log("Exiting playlist mode.");
     } else {
         const direction = numberOfAdvances < 0 ? 0 : 2;
         console.log("playlistSet() switching to song " + index + " from direction " + direction + ", numberofAdvances is " + numberOfAdvances + ".");
@@ -64,7 +64,7 @@ function playlistSet(index, numberOfAdvances) {
         showSong(playlist[index - 1], direction);
         positionIndicator.update(index);
         setSidebarVisibility("close");
-        log("Playlist advancing to song " + (index) + "/" + playlist.length + ".", "playlist");
+        if (verbosity.playlist) console.log("Playlist advancing to song " + (index) + "/" + playlist.length + ".");
     }
 }
 

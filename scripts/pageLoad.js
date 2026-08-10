@@ -32,7 +32,7 @@ function pageLoad() {
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
         currentSong = getQueryString("s") || "main";
-        log("Popstate detected. Moving to song " + currentSongIndex + ".", "popstate");
+        if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSongIndex + ".");
         if (currentSong === "playlist") {
             playlistSet(getQueryString("i"));
             updateNavButtons("playlist");
@@ -338,7 +338,7 @@ function loadSongSelector() {
 
         // Logic to give (most) categories a column
         for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
-            log("C" + i, "mainMenu");
+            if (verbosity.mainMenu) console.log("C" + i);
 
             let currentColumnHeight = 0;
             const THRESHHOLD_TARGET = (TOTAL_CATEGORY_HEIGHT - numHeightAssigned) / (NUM_OF_CATEGORY_COLUMNS - i);
@@ -348,14 +348,14 @@ function loadSongSelector() {
                 const COLUMN_UNDER = THRESHHOLD_TARGET - currentColumnHeight;
                 const COLUMN_OVER = Math.abs(THRESHHOLD_TARGET - currentColumnHeight - songThemes[j].height);
 
-                log({
+                if (verbosity.mainMenu) console.log({
                     "name": songThemes[j].name,
                     "i": numCategoriesAssigned,
                     "THRESHHOLD_TARGET": THRESHHOLD_TARGET,
                     "COLUMN_UNDER": COLUMN_UNDER,
                     "COLUMN_OVER": COLUMN_OVER,
                     "height": songThemes[j].height
-                }, "mainMenu");
+                });
 
                 if (COLUMN_UNDER > THRESHHOLD_ADJUSTER || COLUMN_UNDER > COLUMN_OVER) {
                     numCategoriesAssigned++;
@@ -369,7 +369,7 @@ function loadSongSelector() {
         }
 
         // Sets any straggler categories to the final column
-        log("About to set straggler categories. numCategoriesAssigned is " + numCategoriesAssigned + ".", "mainMenu");
+        if (verbosity.mainMenu) console.log("About to set straggler categories. numCategoriesAssigned is " + numCategoriesAssigned + ".");
         for (let i = numCategoriesAssigned; i < songThemes.length; i++) {
             songThemes[i].column = NUM_OF_CATEGORY_COLUMNS - 1;
         }

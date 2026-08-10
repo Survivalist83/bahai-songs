@@ -10,7 +10,7 @@ function setQueryString(queryStrings) {
     const params = new URLSearchParams(window.location.search);
     const oldParams = params.toString();
 
-    log("About to set query strings: " + JSON.stringify(queryStrings), "queryString");
+    if (verbosity.queryString) console.log("About to set query strings: " + JSON.stringify(queryStrings));
 
     for (let i = 0; i < queryStrings.length; i++) {
         if (queryStrings[i][1] !== "") {
@@ -22,7 +22,7 @@ function setQueryString(queryStrings) {
 
     // No need to set the parameters to something they already are; this just unneccesarily creates lag and more in history
     if (oldParams === params.toString()) {
-        log("From setQueryString(): returning due to already set params.", "queryString");
+        if (verbosity.queryString) console.log("From setQueryString(): returning due to already set params.");
         return;
     }
 
@@ -34,36 +34,25 @@ function setQueryString(queryStrings) {
     window.history.pushState({}, "", window.location.pathname + newURL);
 }
 
-function setMode(input, verbose = true) {
+function setMode(input) {
     if (typeof (input) === Number) {
         mode = "song";
-        if (verbose) log("Successfully set mode to song due to the input being " + input + ".", "mode");
+        if (verbosity.mode) console.log("Successfully set mode to song due to the input being " + input + ".");
         return;
     }
 
-    switch (input) {
-        case "main":
-            mode = "main";
-            break;
-        case "song":
-            mode = "song";
-            break;
-        case "playlist":
-            mode = "playlist";
-            break;
-        case "edit":
-            mode = "edit";
-            break;
-        default:
-            window.alert("Warning! Attempt to set invalid mode (" + input + ").\n" +
-                "If you are an end-user, it is highly improbable that you are seeing this message. " +
-                "If this error pops up, please email sdbahaisongs@gmail.com.");
-            return;
+    const validModes = ["main", "song", "playlist", "edit"];
+    if (validModes.includes(input)) {
+        mode = input;
+    } else {
+        console.log("Warning! Attempt to set invalid mode (" + input + ").\n" +
+            "If you are an end-user, it is highly improbable that you are seeing this message. " +
+            "If this error pops up, please email sdbahaisongs@gmail.com.");
     }
 
     footer.setMode();
 
-    if (verbose) log("Successfully set mode to " + input + ".", "mode");
+    if (verbosity.mode) console.log("Successfully set mode to " + input + ".");
 }
 
 // Handles what to do when a key press is pressed (not mobile).
@@ -89,29 +78,6 @@ function createBlankDiv() {
     return blankDiv;
 }
 
-// Logs something. For production, change the all of verbosity to false to hide console logs.
-function log(text, origin) {
-    const verbosity = {
-        "pageLoad": true,
-        "popstate": true,
-        "mainMenu": false,
-        "playlist": true,
-        "updateNavButtons": false,
-        "misc": true,
-        "queryString": false,
-        "clipboard": true,
-        "mode": true,
-        "showSong": true,
-        "chords": true,
-    }
-
-    if (origin === undefined) {
-        console.log(text + " no origin");
-    } else if (verbosity[origin]) {
-        console.log(text);
-    }
-}
-
 // Shows the element (keeping block/flex display).
 function show(element) {
     element.classList.remove("hide");
@@ -126,8 +92,8 @@ function hide(element) {
 async function clipboardCopy(text) {
     try {
         await navigator.clipboard.writeText(text);
-        log("Copied text to clipboard: " + text, "clipboard");
+        if (verbosity.clipboard) console.log("Copied text to clipboard: " + text);
     } catch (err) {
-        log("Failed to copy text to clipboard: " + text, "clipboard");
+        if (verbosity.clipboard) console.log("Failed to copy text to clipboard: " + text);
     }
 }

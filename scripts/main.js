@@ -11,6 +11,20 @@ let songLocations = new Map();
 let footer;
 let positionIndicator;
 
+const verbosity = {
+    pageLoad: true,
+    popstate: true,
+    mainMenu: false,
+    playlist: true,
+    updateNavButtons: false,
+    misc: true,
+    queryString: false,
+    clipboard: true,
+    mode: false,
+    showSong: true,
+    chords: true,
+}
+
 /////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// Class stuff ////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -94,7 +108,7 @@ function returnHome() {
 
 // Updates the visibility of the buttons at the bottom of the screen.
 function updateNavButtons(input = mode) {
-    log("Switching to nav button set " + input + ".", "updateNavButtons");
+    if (verbosity.updateNavButtons) console.log("Switching to nav button set " + input + ".");
 
     // Shows/hides footer buttons
     const footerArray = [
@@ -163,9 +177,9 @@ function updateNavButtons(input = mode) {
             });
         }
 
-        log("Successfully updated nav button visibility. Input is " + input + ".", "updateNavButtons");
+        if (verbosity.updateNavButtons) console.log("Successfully updated nav button visibility. Input is " + input + ".");
     } else {
-        log("Failed to update nav button visibility. Input is " + input + ".", + "updateNavButtons");
+        if (verbosity.updateNavButtons) console.log("Failed to update nav button visibility. Input is " + input + ".");
     }
 
     if (input === "playlist") {
@@ -183,7 +197,7 @@ function updateNavButtons(input = mode) {
 
 // Shows one specific song. When mode === "main", it goes to the homepage
 function showSong(songNumber, startLocation = 1) {
-    log("ShowSong called with songNumber " + songNumber + " and startLocation " + startLocation + ". Mode is " + mode + ".", "showSong");
+    if (verbosity.showSong) console.log("ShowSong called with songNumber " + songNumber + " and startLocation " + startLocation + ". Mode is " + mode + ".");
 
     switch(mode) {
         case "song":
@@ -232,7 +246,7 @@ function showSong(songNumber, startLocation = 1) {
 }
 
 function slideSong(songIndex, start, end) {
-    log("Sliding song " + songIndex + " from position " + start + " to position " + end + ".", "showSong");
+    if (verbosity.showSong) console.log("Sliding song " + songIndex + " from position " + start + " to position " + end + ".");
 
     const song = songIndex === "main" ? document.getElementById("mainMenu") : document.getElementById("outerDiv" + songIndex);
     song.classList.remove("sliding");
@@ -291,7 +305,7 @@ function slideSong(songIndex, start, end) {
 
 // This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
 function mainMenuBtnClicked(id) {
-    log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".", "mainMenu");
+    if (verbosity.mainMenu) console.log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
     if (mode !== "edit") {
         mode = "song";
         showSong(id, 2);
@@ -306,7 +320,7 @@ function mainMenuBtnClicked(id) {
 }
 
 function toggleChordVisibility(checkbox) {
-    log("Toggling chord visibility!", "chords");
+    if (verbosity.chords) console.log("Toggling chord visibility!");
     const fadesWithChords = document.querySelectorAll(".fadesWithChords");
     const shrinksWithChords = document.querySelectorAll(".shrinksWithChords");
     const appearWithChords = document.querySelectorAll(".appearWithChords");
