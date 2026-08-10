@@ -86,20 +86,15 @@
         <p class="songLyric">Optionally, you can include a video of the song and/or its guitar chords.</p>
     </aside>
 
-    <!-- Position Indicator -->
-    <div id="positionIndicator">
-        <p class="positionIndicatorCircle left empty" onclick="playlistAdvance(-1)">&#8249;</p>
-        <div id="positionIndicatorDiv"></div>
-        <p class="positionIndicatorCircle right empty" onclick="playlistAdvance(1)">&#8250;</p>
-    </div>
-
-
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/main.js"></script>
     <script src="scripts/helper.js"></script>
     <script src="scripts/pageLoad.js"></script>
     <script src="scripts/playlist.js"></script>
-    <script src="scripts/ui.js"></script>
-    <script src="scripts/main.js"></script>
-    <script>pageLoad()</script>
+    <script>
+        main()
+        pageLoad()
+    </script>
 
 </body>
 

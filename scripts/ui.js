@@ -1,6 +1,6 @@
 class Footer {
     #buttons = [];
-    #verbose = true;
+    #verbose = false;
 
     constructor(args) {
         this.dom = document.createElement("div");
@@ -37,6 +37,67 @@ class Footer {
             this.dom.classList.add("open");
         } else {
             this.dom.classList.remove("open");
+        }
+    }
+}
+
+class PositionIndicator {
+    #div = document.createElement("div");
+    #verbose = false;
+
+    constructor() {
+        this.dom = document.createElement("div");
+        this.dom.classList.add("positionIndicator");
+
+        const leftArrow = document.createElement("p");
+        leftArrow.classList.add("positionIndicatorCircle", "left", "empty");
+        leftArrow.innerText = "‹";
+        leftArrow.onclick = () => playlistAdvance(-1);
+        this.dom.appendChild(leftArrow);
+
+        this.#div.classList.add("positionIndicatorDiv");
+        this.dom.appendChild(this.#div);
+
+        const rightArrow = document.createElement("p");
+        rightArrow.classList.add("positionIndicatorCircle", "right", "empty");
+        rightArrow.innerText = "›";
+        rightArrow.onclick = () => playlistAdvance(1);
+        this.dom.appendChild(rightArrow);
+
+        document.body.appendChild(this.dom);
+    }
+
+    show() {
+        this.dom.classList.add("open");
+    }
+
+    hide() {
+        this.dom.classList.remove("open");
+    }
+
+    update(index) {
+        index = Number(index);
+        this.#div.replaceChildren();
+
+        if (playlist) for (let i of playlist.keys()) {
+            i += 1;
+
+            if (this.#verbose) console.log(i);
+
+            const circle = document.createElement("p");
+            circle.classList.add("positionIndicatorCircle");
+
+            if (index === i) {
+                circle.innerText = "●";
+            } else {
+                circle.innerText = "○";
+                circle.classList.add("empty");
+                circle.addEventListener("click", () => {
+                    playlistSet(i);
+                });
+            }
+
+            this.#div.appendChild(circle);
         }
     }
 }

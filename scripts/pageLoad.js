@@ -27,7 +27,7 @@ function pageLoad() {
     }
 
     updatePlaylistViewer();
-    updatePositionIndicator(getQueryString("i") || 1);
+    positionIndicator.update(getQueryString("i") || 1);
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {

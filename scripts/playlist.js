@@ -9,7 +9,7 @@ function playlistStart() {
     showSong(playlist[0], 2);
     updateNavButtons("playlist");
     setQueryString([["s", "playlist"], ["i", 1]]);
-    updatePositionIndicator(1);
+    positionIndicator.update(1);
     setSidebarVisibility("close");
 
     log("Playlist mode starting with song 1/" + playlist.length + ".", "playlist");
@@ -62,17 +62,21 @@ function playlistSet(index, numberOfAdvances) {
 
         setQueryString([["i", index]]);
         showSong(playlist[index - 1], direction);
-        updatePositionIndicator(index);
+        positionIndicator.update(index);
         setSidebarVisibility("close");
         log("Playlist advancing to song " + (index) + "/" + playlist.length + ".", "playlist");
     }
 }
 
+function setPlaylist() {
+    const queryStringP = getQueryString("p");
+    playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
+}
+
 function updatePlaylistViewer() {
     // const playlistViewer = document.getElementById("sidebarPlaylistViewer");
     const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
-    const queryStringP = getQueryString("p");
-    playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
+    setPlaylist()
 
     const playlistViewerIntro = document.getElementById("playlistViewerIntro");
     if (playlist.length === 0) {

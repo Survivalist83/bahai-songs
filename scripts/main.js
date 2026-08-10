@@ -8,39 +8,48 @@ let playlist;
 let mode;
 let songLocations = new Map();
 
+let footer;
+let positionIndicator;
+
 /////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// Class stuff ////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-const footer = new Footer([
-    {
-        "text": "<",
-        "onclick": () => arrowKey('ArrowLeft'),
-        "modes": ["song", "playlist"],
-    },
-    {
-        "text": "Home",
-        "onclick": () => returnHome(),
-        "modes": ["song", "playlist"],
-    },
-    {
-        "text": ">",
-        "onclick": () => arrowKey('ArrowRight'),
-        "modes": ["song", "playlist"],
-    },
-    {
-        "text": "Start Playlist",
-        "onclick": () => playlistStart(),
-        "modes": ["main"],
-        "condition": () => playlist.length !== 0,
-    },
-    {
-        "text": "Create Playlist",
-        "onclick": () => playlistEdit(),
-        "modes": ["main"],
-        "condition": () => playlist.length === 0,
-    },
-]);
+function main() {
+    footer = new Footer([
+        {
+            "text": "<",
+            "onclick": () => arrowKey('ArrowLeft'),
+            "modes": ["song", "playlist"],
+        },
+        {
+            "text": "Home",
+            "onclick": () => returnHome(),
+            "modes": ["song", "playlist"],
+        },
+        {
+            "text": ">",
+            "onclick": () => arrowKey('ArrowRight'),
+            "modes": ["song", "playlist"],
+        },
+        {
+            "text": "Start Playlist",
+            "onclick": () => playlistStart(),
+            "modes": ["main"],
+            "condition": () => playlist.length !== 0,
+        },
+        {
+            "text": "Create Playlist",
+            "onclick": () => playlistEdit(),
+            "modes": ["main"],
+            "condition": () => playlist.length === 0,
+        },
+    ]);
+
+    setPlaylist();
+    positionIndicator = new PositionIndicator();
+    positionIndicator.update(1)
+}
 
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Non-class stuff //////////////////////////////
@@ -160,9 +169,9 @@ function updateNavButtons(input = mode) {
     }
 
     if (input === "playlist") {
-        document.getElementById("positionIndicator").classList.add("open");
+        positionIndicator.show();
     } else {
-        document.getElementById("positionIndicator").classList.remove("open");
+        positionIndicator.hide();
     }
 
     if (playlist.length === 0) {
@@ -280,34 +289,6 @@ function slideSong(songIndex, start, end) {
     }
 }
 
-// Sets which of the circles at the bottom of the screen is filled in
-function updatePositionIndicator(index) {
-    index = Number(index);
-    const positionIndicatorDiv = document.getElementById("positionIndicatorDiv");
-    positionIndicatorDiv.replaceChildren();
-
-    for (let i = 1; i < playlist.length + 1; i++) {
-        const circle = document.createElement("p");
-
-        if (index === i) {
-            circle.innerHTML = "&#9679;";
-            circle.classList.add("positionIndicatorCircle");
-        } else {
-            circle.innerHTML = "&#9675;";
-            circle.classList.add("positionIndicatorCircle", "empty");
-            (function (j) {
-                circle.addEventListener("click", () => {
-                    playlistSet(j);
-                })
-            })(i);
-        }
-
-        positionIndicatorDiv.appendChild(circle);
-    }
-
-    // document.getElementById("playlistPositionIndicator").innerHTML = innerText
-}
-
 // This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
 function mainMenuBtnClicked(id) {
     log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".", "mainMenu");
@@ -320,7 +301,7 @@ function mainMenuBtnClicked(id) {
         playlist.push(id);
         setQueryString([["p", playlist.join("-")]]);
         updatePlaylistViewer();
-        updatePositionIndicator(getQueryString("i") || 1);
+        positionIndicator.update(getQueryString("i") || 1);
     }
 }
 

@@ -342,7 +342,7 @@ a {
 
 /* ////////////////////////// Position Indicator ///////////////////////// */
 
-#positionIndicator {
+.positionIndicator {
     position: fixed;
     transition: bottom 0.2s ease;
 
@@ -357,11 +357,11 @@ a {
     flex-direction: row;
 }
 
-#positionIndicator.open {
+.positionIndicator.open {
     bottom: var(--footer-height);
 }
 
-#positionIndicatorDiv {
+.positionIndicatorDiv {
     display: flex;
     flex-direction: row;
 }
