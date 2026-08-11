@@ -7,7 +7,7 @@ function pageLoad() {
     // This loads (but hides) the songs, only showing the requested one.
     for (let i = 0; i < BAHAI_SONGS_DATA.length; i++) {
         songList.push(BAHAI_SONGS_DATA[i].meta.name);
-        loadSong(i, currentSong);
+        const songObject = new Song(i, currentSong);
     }
 
     // Loads queryString variables
