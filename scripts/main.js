@@ -10,6 +10,16 @@ let songLocations = new Map();
 
 let footer;
 let positionIndicator;
+const songs = [];
+
+const appState = {
+    queryStrings: {
+        s: getQueryString("s"),
+        i: getQueryString("i"),
+    },
+    
+    currentSong: 0,
+}
 
 const verbosity = {
     pageLoad: true,
@@ -62,7 +72,12 @@ function main() {
 
     setPlaylist();
     positionIndicator = new PositionIndicator();
-    positionIndicator.update(1)
+    positionIndicator.update(1);
+    
+    BAHAI_SONGS_DATA.forEach((song, index) => {
+        songList.push(song.meta.name);
+        songs.push(new Song(index, appState.queryStrings.s === song.meta.name));
+    });
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -197,110 +212,54 @@ function updateNavButtons(input = mode) {
 
 // Shows one specific song. When mode === "main", it goes to the homepage
 function showSong(songNumber, startLocation = 1) {
-    if (verbosity.showSong) console.log("ShowSong called with songNumber " + songNumber + " and startLocation " + startLocation + ". Mode is " + mode + ".");
+    if (verbosity.showSong) console.log("showSong() Song: " + songNumber + ". Start: " + startLocation + ". Mode: " + mode + ".");
 
     switch(mode) {
         case "song":
-            const queryStringS = songList.indexOf(getQueryString("s"));
-            const location_s = queryStringS === -1 ? "main" : queryStringS;
-            console.log("location_s: " + location_s);
-            slideSong(songNumber, startLocation, 1);
-            slideSong(location_s, 1, 2 - startLocation);
+            songs[songNumber].slide(1, startLocation);
+
+            if (songList.indexOf(appState.queryStrings.s) !== -1) {
+                songs[songList.indexOf(appState.queryStrings.s)].slide(2 - startLocation);
+            }
+
             break;
         case "playlist":
-            // const location_s = songList.indexOf(getQueryString("s"));
-            // const location_i = playlist[getQueryString("i") - 1];
-            // const location_final = location_s === -1 ? location_i : location_s;
-            
-            // console.log("location_s: " + location_s + "\nlocation_i: " + location_i + "\nlocation_final: " + location_final);
-            // slideSong(songNumber, startLocation, 1);
-            // if (Number.isInteger(location_final)) { slideSong(location_final, 1, 2 - startLocation) };
-            // break;
-
-            // const location_i = playlist[getQueryString("i") + 2 - startLocation];
-            // console.log("location_i: " + location_i);
-
-            document.querySelectorAll(".setMiddle").forEach(outerDiv => {
-                slideSong(outerDiv.id.slice(8) || "main", 1, 2 - startLocation);
+            songs.forEach((song) => {
+                song.slideConditional(2 - startLocation, 1);
             });
 
-            slideSong(songNumber, startLocation, 1);
-            // slideSong(location_i, 1, 2 - startLocation);
+            songs[songNumber].slide(1, startLocation);
+
             break;
         default:
-            document.querySelectorAll(".setMiddle").forEach(outerDiv => {
-                slideSong(outerDiv.id.slice(8), 1, 2);
+            songs.forEach((song) => {
+                song.slideConditional(2, 1);
             });
-            // if (mode === "main") { slideSong("main", 0, 1) }
+
             break;
     }
 
     // Shows/hides the main menu
     if (mode === "main") {
-        slideSong("main", 0, 1);
-    } else {
-        if (document.getElementById("mainMenu").classList.contains("setMiddle")) { slideSong("main", 1, 0); }
+        slideMain(0, 1);
+    } else if (mode !== "main" && document.getElementById("mainMenu").classList.contains("setMiddle")) {
+        slideMain(1, 0);
     }
 
     footer.setMode()
 }
 
-function slideSong(songIndex, start, end) {
-    if (verbosity.showSong) console.log("Sliding song " + songIndex + " from position " + start + " to position " + end + ".");
+function slideMain(start, end) {
+    if (verbosity.showSong) console.log("Sliding main: " + start + " => " + end);
 
-    const song = songIndex === "main" ? document.getElementById("mainMenu") : document.getElementById("outerDiv" + songIndex);
-    song.classList.remove("sliding");
-
-    switch(start) {
-        case 0:
-            song.classList.add("setLeft");
-            song.classList.remove("setMiddle");
-            song.classList.remove("setRight");
-            break;
-        case 1:
-            song.classList.remove("setLeft");
-            song.classList.add("setMiddle");
-            song.classList.remove("setRight");
-            break;
-        case 2:
-            song.classList.remove("setLeft");
-            song.classList.remove("setMiddle");
-            song.classList.add("setRight");
-            break;
-    }
+    console.log(mainMenu);
+    mainMenu.classList.remove("sliding");
+    slideObject(mainMenu, start);
 
     requestAnimationFrame(() => {
-        song.classList.add("sliding");
-        switch(end) {
-            case 0:
-                song.classList.add("setLeft");
-                song.classList.remove("setMiddle");
-                song.classList.remove("setRight");
-                break;
-            case 1:
-                song.classList.remove("setLeft");
-                song.classList.add("setMiddle");
-                song.classList.remove("setRight");
-                break;
-            case 2:
-                song.classList.remove("setLeft");
-                song.classList.remove("setMiddle");
-                song.classList.add("setRight");
-                break;
-        }
+        mainMenu.classList.add("sliding");
+        slideObject(mainMenu, end);
     });
-
-    // in theory, this is good code, but I didn't actually need it
-    if (songIndex === "main") {
-        setTimeout(() => {
-            if (mode !== "main" && mode !== "edit") {
-                // console.log("Removing mainMenu's sliding class! " + songIndex)
-                song.classList.remove("sliding");
-            }
-        }, sliderSpeed * 1000);
-    } else {
-        // console.log("Doing nothing to mainMenu's sliding class.")
-    }
 }
 
 // This is an easy way of changing what the mainMenuBtns do without changing their event listeners.

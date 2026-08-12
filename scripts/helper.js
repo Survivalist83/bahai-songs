@@ -15,8 +15,10 @@ function setQueryString(queryStrings) {
     for (let i = 0; i < queryStrings.length; i++) {
         if (queryStrings[i][1] !== "") {
             params.set(queryStrings[i][0], queryStrings[i][1]);
+            appState.queryStrings[queryStrings[i][0]] = queryStrings[i][1];
         } else {
             params.delete(queryStrings[i][0]);
+            appState.queryStrings[queryStrings[i][0]] = null;
         }
     }
 
@@ -68,14 +70,9 @@ function keyPress(event) {
         case "ArrowRight":
             arrowKey(event);
             break;
+        case "a":
+            window.alert(sliderSpeed);
     }
-}
-
-// A helper function for function loadSong() that creates a blank div for visual appeal/spacing.
-function createBlankDiv() {
-    const blankDiv = document.createElement("div");
-    blankDiv.classList.add("blankDiv");
-    return blankDiv;
 }
 
 // Shows the element (keeping block/flex display).
@@ -95,5 +92,15 @@ async function clipboardCopy(text) {
         if (verbosity.clipboard) console.log("Copied text to clipboard: " + text);
     } catch (err) {
         if (verbosity.clipboard) console.log("Failed to copy text to clipboard: " + text);
+    }
+}
+
+function slideObject(object, position) {
+    const positions = ["setLeft", "setMiddle", "setRight"];
+    const selectedPosition = positions[position];
+
+    if (selectedPosition) {
+        object.classList.remove(...positions);
+        object.classList.add(selectedPosition);
     }
 }

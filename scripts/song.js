@@ -1,31 +1,31 @@
 class Song {
     #songNumber;
+    #dom = document.createElement("div");
+    #position;
     
+    // Used in the constructor
     #meta;
     #lyrics;
-
-    #dom = document.createElement("div");
-    #columns = [];
-
+    #columns = []; // dom references
+    #columnList = []; // columns used in data, only used to create the dom references
     #hasCallAndResponse = false;
-    #columnList = [];
 
-    #verboseLoading = true;
-    #verboseInteracting = true;
+    #verbose = true;
 
-    constructor(songNumber, currentSong) {
+    constructor(songNumber, visible = false) {
         this.#songNumber = songNumber;
         this.#meta = BAHAI_SONGS_DATA[songNumber].meta;
         this.#lyrics = BAHAI_SONGS_DATA[songNumber].lyrics;
         
-        this.#dom.classList.add("outerDiv"); // rename later
-        this.#dom.id = "outerDiv" + songNumber // remove this later, I don't want to use IDs at all
+        this.#dom.classList.add("outerDiv");
 
         // Hides the song by default, unless the URL says this is the one to be displayed.
-        if (songList[songNumber] === currentSong) {
+        if (visible) {
             this.#dom.classList.add("setMiddle");
+            this.#position = 1;
         } else {
             this.#dom.classList.add("setRight");
+            this.#position = 2;
         }
 
         this.#createHeader();
@@ -202,5 +202,22 @@ class Song {
 
     // Things that happen to a song after page load
 
+    slide(newPosition, oldPosition) {
+        this.#position = oldPosition === undefined ? this.#position : oldPosition;
+        if (this.#verbose) console.log("Sliding " + this.#songNumber + ": " + this.#position + " => " + newPosition);
 
+        this.#dom.classList.remove("sliding");
+        slideObject(this.#dom, this.#position);
+
+        this.#position = newPosition;
+
+        requestAnimationFrame(() => {
+            this.#dom.classList.add("sliding");
+            slideObject(this.#dom, this.#position);
+        });
+    }
+
+    slideConditional(newPosition, condition) {
+        if (this.#position === condition) this.slide(newPosition);
+    }
 }
