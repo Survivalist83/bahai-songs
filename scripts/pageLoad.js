@@ -1,12 +1,11 @@
 function pageLoad() {
     mainMenu = document.getElementById("mainMenu");
 
-    let currentSong = getQueryString("s"); // the song currently in the URL
-    NUM_OF_CATEGORY_COLUMNS = getQueryString("n") || 3;
+    let currentSong = appState.queryStrings.s; // the song currently in the URL
+    NUM_OF_CATEGORY_COLUMNS = appState.queryStrings.n || 3;
 
     // Loads queryString variables
-    const queryStringP = getQueryString("p");
-    playlist = queryStringP !== null ? queryStringP.split("-").map(Number) : [];
+    playlist = (appState.queryStrings.p || "").split("-").filter(e => e !== "").map(Number);
     setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song", false);
 
     // Dedicated functions to specific parts of loading the page
@@ -15,20 +14,20 @@ function pageLoad() {
 
     // Handles logic for loading song when starting from playlist mode.
     if (mode === "playlist") {
-        showSong(playlist[Number(getQueryString("i")) - 1]);
+        showSong(playlist[Number(appState.queryStrings.i) - 1]);
         mainMenu.classList.remove("sliding", "setMiddle"); // kinda a cheaty way to make this work, but it works
         mainMenu.classList.add("setLeft");
     }
 
     updatePlaylistViewer();
-    positionIndicator.update(getQueryString("i") || 1);
+    positionIndicator.update(appState.queryStrings.i || 1);
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
-        currentSong = getQueryString("s") || "main";
+        currentSong = appState.queryStrings.s || "main";
         if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSongIndex + ".");
         if (currentSong === "playlist") {
-            playlistSet(getQueryString("i"));
+            playlistSet(appState.queryStrings.i);
             updateNavButtons("playlist");
         } else {
             let currentSongIndex = songList.indexOf(currentSong);

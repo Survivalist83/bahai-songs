@@ -1,10 +1,3 @@
-// Returns the contents of a specific query string. Returns null on errors.
-function getQueryString(target) {
-    const params = new URLSearchParams(window.location.search);
-    const currentSong = params.get(target);
-    return currentSong;
-}
-
 // Sets a query string.
 function setQueryString(queryStrings) {
     const params = new URLSearchParams(window.location.search);
@@ -70,8 +63,6 @@ function keyPress(event) {
         case "ArrowRight":
             arrowKey(event);
             break;
-        case "a":
-            window.alert(sliderSpeed);
     }
 }
 

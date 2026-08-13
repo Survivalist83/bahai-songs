@@ -13,11 +13,7 @@ let positionIndicator;
 const songs = [];
 
 const appState = {
-    queryStrings: {
-        s: getQueryString("s"),
-        i: getQueryString("i"),
-    },
-    
+    queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),    
     currentSong: 0,
 }
 
@@ -274,7 +270,7 @@ function mainMenuBtnClicked(id) {
         playlist.push(id);
         setQueryString([["p", playlist.join("-")]]);
         updatePlaylistViewer();
-        positionIndicator.update(getQueryString("i") || 1);
+        positionIndicator.update(appState.queryStrings.i || 1);
     }
 }
 

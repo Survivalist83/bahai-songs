@@ -1,6 +1,6 @@
 // Enters playlist mode
 function playlistStart() {
-    if (getQueryString("p") === null) {
+    if (appState.queryStrings.p === null) {
         window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
         return;
     }
@@ -19,7 +19,7 @@ function arrowKey(input) {
     if (verbosity.misc) console.log("\n\narrowKey() called. Mode is " + mode + ", input is " + input + ".");
     switch (mode) {
         case "song":
-            const CURRENT_SONG = songListSorted.indexOf(getQueryString("s"));
+            const CURRENT_SONG = songListSorted.indexOf(appState.queryStrings.s);
             const NEXT_SONG = CURRENT_SONG + (input === "ArrowLeft" ? -1 : 1);
             const START_LOCATION = input === "ArrowLeft" ? 0 : 2;
             if (NEXT_SONG === -1) {
@@ -35,7 +35,7 @@ function arrowKey(input) {
             break;
         case "playlist":
             const numberOfAdvances = input === "ArrowLeft" ? -1 : 1;
-            playlistSet(Number(getQueryString("i")) + numberOfAdvances, numberOfAdvances);
+            playlistSet(Number(appState.queryStrings.i) + numberOfAdvances, numberOfAdvances);
             break;
         default:
             if (verbosity.misc) console.log("Error: not in mode song or playlist. Arrow keys do nothing.");
@@ -44,12 +44,12 @@ function arrowKey(input) {
 
 // Goes forward/backward in the playlist. Half-deprecated.
 function playlistAdvance(numberOfAdvances) {
-    if (getQueryString("s") !== "playlist") {
+    if (appState.queryStrings.s !== "playlist") {
         if (verbosity.playlist) console.log("Playlist mode not active.");
         return;
     }
 
-    playlistSet(Number(getQueryString("i")) + numberOfAdvances, numberOfAdvances);
+    playlistSet(Number(appState.queryStrings.i) + numberOfAdvances, numberOfAdvances);
 }
 
 function playlistSet(index, numberOfAdvances) {
@@ -69,7 +69,7 @@ function playlistSet(index, numberOfAdvances) {
 }
 
 function setPlaylist() {
-    const queryStringP = getQueryString("p");
+    const queryStringP = appState.queryStrings.p;
     playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
 }
 
