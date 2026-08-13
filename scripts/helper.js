@@ -5,14 +5,14 @@ function setQueryString(newQueryStrings) {
     let isDifferent = false;
     Object.entries(newQueryStrings).forEach((newQueryString) => {
         if (appState.queryStrings[newQueryString[0]] !== newQueryString[1]) {
-            appState.queryStrings[newQueryString[0]] = newQueryString[1] === "" ? null : newQueryString[1];
+            appState.queryStrings[newQueryString[0]] = newQueryString[1] ? newQueryString[1] : "";
             isDifferent = true;
         }
     });
 
     if (isDifferent) {
-        const newParams = Object.values(appState.queryStrings).every(value => !value) ? "" : `?${new URLSearchParams(appState.queryStrings)}`;
-        history.pushState({}, "", location.pathname + newParams);
+        history.pushState({}, "",
+            location.pathname + "?" + new URLSearchParams(Object.fromEntries(Object.entries(appState.queryStrings).filter(([_, value]) => value))));
     }
 }
 
