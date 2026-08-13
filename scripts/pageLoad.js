@@ -5,7 +5,6 @@ function pageLoad() {
     NUM_OF_CATEGORY_COLUMNS = appState.queryStrings.n || 3;
 
     // Loads queryString variables
-    playlist = (appState.queryStrings.p || "").split("-").filter(e => e !== "").map(Number);
     setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song", false);
 
     // Dedicated functions to specific parts of loading the page
@@ -14,7 +13,7 @@ function pageLoad() {
 
     // Handles logic for loading song when starting from playlist mode.
     if (mode === "playlist") {
-        showSong(playlist[Number(appState.queryStrings.i) - 1]);
+        showSong(playlist.get()[Number(appState.queryStrings.i) - 1]);
         mainMenu.classList.remove("sliding", "setMiddle"); // kinda a cheaty way to make this work, but it works
         mainMenu.classList.add("setLeft");
     }

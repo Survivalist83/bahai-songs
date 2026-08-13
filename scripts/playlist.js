@@ -1,12 +1,60 @@
+class Playlist {
+    #songs;
+    #verbose = true;
+    
+    constructor() {
+        const queryString = appState.queryStrings.p;
+        this.#songs = queryString !== null ? queryString.split("-").map(Number) : [];
+    }
+
+    // Manipulating the list of songs
+
+    get() {
+        return this.#songs;
+    }
+
+    length() {
+        return this.#songs.length;
+    }
+
+    set(newPlaylist) {
+        this.#songs = newPlaylist;
+        setQueryString({p: newPlaylist.join("-")});
+
+        // update sidebar bit that shows the current playlist
+    }
+
+    add(index) {
+        this.#songs.push(index);
+        this.set(this.#songs);
+    }
+
+    // Playlist mode
+
+    start() {
+        if (this.#songs.length === 0) {
+            if (this.#verbose) console.log("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
+            return;
+        }
+
+        // setMode("playlist");
+        // showSong(playlist[0], 2);
+        // updateNavButtons("playlist");
+        setQueryString({s: "playlist", i: 1});
+        positionIndicator.update(1);
+        // setSidebarVisibility("close");
+    }
+}
+
 // Enters playlist mode
 function playlistStart() {
-    if (appState.queryStrings.p === null) {
+    if (playlist.get() === null) {
         window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
         return;
     }
 
     setMode("playlist");
-    showSong(playlist[0], 2);
+    showSong(playlist.get()[0], 2);
     updateNavButtons("playlist");
     setQueryString({s: "playlist", i: 1});
     positionIndicator.update(1);
@@ -53,7 +101,7 @@ function playlistAdvance(numberOfAdvances) {
 }
 
 function playlistSet(index, numberOfAdvances) {
-    if (index <= 0 | (index - 1) >= playlist.length) {
+    if (index <= 0 | (index - 1) >= playlist.length()) {
         returnHome();
         if (verbosity.playlist) console.log("Exiting playlist mode.");
     } else {
@@ -61,25 +109,19 @@ function playlistSet(index, numberOfAdvances) {
         console.log("playlistSet() switching to song " + index + " from direction " + direction + ", numberofAdvances is " + numberOfAdvances + ".");
 
         setQueryString({i: index});
-        showSong(playlist[index - 1], direction);
+        showSong(playlist.get()[index - 1], direction);
         positionIndicator.update(index);
         setSidebarVisibility("close");
-        if (verbosity.playlist) console.log("Playlist advancing to song " + (index) + "/" + playlist.length + ".");
+        if (verbosity.playlist) console.log("Playlist advancing to song " + (index) + "/" + playlist.length() + ".");
     }
-}
-
-function setPlaylist() {
-    const queryStringP = appState.queryStrings.p;
-    playlist = queryStringP ? queryStringP.split("-").map(Number) : [];
 }
 
 function updatePlaylistViewer() {
     // const playlistViewer = document.getElementById("sidebarPlaylistViewer");
     const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
-    setPlaylist()
 
     const playlistViewerIntro = document.getElementById("playlistViewerIntro");
-    if (playlist.length === 0) {
+    if (playlist.length() === 0) {
         playlistViewerIntro.innerText = "No playlist currently selected.";
         hide(playlistViewerOverflow);
         return;
@@ -91,7 +133,7 @@ function updatePlaylistViewer() {
     // Removes children (otherwise, there would be duplicates)
     playlistViewerOverflow.replaceChildren();
 
-    for (i = 0; i < playlist.length; i++) {
+    for (i = 0; i < playlist.length(); i++) {
         const playlistViewerRow = document.createElement("div");
         playlistViewerRow.classList.add("playlistViewerRow");
         if (i % 2 === 0) playlistViewerRow.classList.add("alternating");
@@ -99,7 +141,7 @@ function updatePlaylistViewer() {
         playlistViewerOverflow.appendChild(playlistViewerRow);
 
         const playlistViewerText = document.createElement("p");
-        playlistViewerText.innerText = BAHAI_SONGS_DATA[playlist[i]].meta.name;
+        playlistViewerText.innerText = BAHAI_SONGS_DATA[playlist.get()[i]].meta.name;
         playlistViewerRow.appendChild(playlistViewerText);
 
         const playlistViewerButton = document.createElement("button");
@@ -203,5 +245,5 @@ function playlistEdit() {
 function playlistSave() {
     setMode("main");
     updateNavButtons("main");
-    setQueryString({s: "", p: playlist.join("-")});
+    setQueryString({s: ""});
 }

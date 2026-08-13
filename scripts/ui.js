@@ -79,7 +79,7 @@ class PositionIndicator {
         index = Number(index);
         this.#div.replaceChildren();
 
-        if (playlist) for (let i of playlist.keys()) {
+        if (playlist.get()) for (let i of playlist.get().keys()) {
             i += 1;
 
             if (this.#verbose) console.log(i);

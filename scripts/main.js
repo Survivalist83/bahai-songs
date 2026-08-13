@@ -4,18 +4,18 @@ let songListAlphabetical = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
-let playlist;
 let mode;
 let songLocations = new Map();
-
-let footer;
-let positionIndicator;
-const songs = [];
 
 const appState = {
     queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),    
     currentSong: 0,
 }
+
+let footer;
+let positionIndicator;
+const songs = [];
+let playlist = new Playlist();
 
 const verbosity = {
     pageLoad: true,
@@ -56,17 +56,16 @@ function main() {
             "text": "Start Playlist",
             "onclick": () => playlistStart(),
             "modes": ["main"],
-            "condition": () => playlist.length !== 0,
+            "condition": () => playlist.length() !== 0,
         },
         {
             "text": "Create Playlist",
             "onclick": () => playlistEdit(),
             "modes": ["main"],
-            "condition": () => playlist.length === 0,
+            "condition": () => playlist.length() === 0,
         },
     ]);
 
-    setPlaylist();
     positionIndicator = new PositionIndicator();
     positionIndicator.update(1);
     
@@ -199,7 +198,7 @@ function updateNavButtons(input = mode) {
         positionIndicator.hide();
     }
 
-    if (playlist.length === 0) {
+    if (playlist.length() === 0) {
         document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
     }
 
@@ -266,8 +265,7 @@ function mainMenuBtnClicked(id) {
         updateNavButtons("song");
         setQueryString({s: songList[id]});
     } else {
-        playlist.push(id);
-        setQueryString({p: playlist.join("-")});
+        playlist.add(id);
         updatePlaylistViewer();
         positionIndicator.update(appState.queryStrings.i || 1);
     }
