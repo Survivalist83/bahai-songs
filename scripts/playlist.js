@@ -8,7 +8,7 @@ function playlistStart() {
     setMode("playlist");
     showSong(playlist[0], 2);
     updateNavButtons("playlist");
-    setQueryString([["s", "playlist"], ["i", 1]]);
+    setQueryString({s: "playlist", i: 1});
     positionIndicator.update(1);
     setSidebarVisibility("close");
 
@@ -24,13 +24,13 @@ function arrowKey(input) {
             const START_LOCATION = input === "ArrowLeft" ? 0 : 2;
             if (NEXT_SONG === -1) {
                 showSong(songList.indexOf(songListSorted.at(-1)), START_LOCATION);
-                setQueryString([["s", songListSorted.at(-1)]]);
+                setQueryString({s: songListSorted.at(-1)});
             } else if (NEXT_SONG === songListSorted.length) {
                 showSong(songList.indexOf(songListSorted[0]), START_LOCATION);
-                setQueryString([["s", songListSorted[0]]]);
+                setQueryString({s: songListSorted[0]});
             } else {
                 showSong(songList.indexOf(songListSorted[NEXT_SONG]), START_LOCATION);
-                setQueryString([["s", songListSorted[NEXT_SONG]]]);
+                setQueryString({s: songListSorted[NEXT_SONG]});
             }
             break;
         case "playlist":
@@ -60,7 +60,7 @@ function playlistSet(index, numberOfAdvances) {
         const direction = numberOfAdvances < 0 ? 0 : 2;
         console.log("playlistSet() switching to song " + index + " from direction " + direction + ", numberofAdvances is " + numberOfAdvances + ".");
 
-        setQueryString([["i", index]]);
+        setQueryString({i: index});
         showSong(playlist[index - 1], direction);
         positionIndicator.update(index);
         setSidebarVisibility("close");
@@ -106,7 +106,7 @@ function updatePlaylistViewer() {
         (function (j) {
             playlistViewerButton.addEventListener("click", () => {
                 playlist.splice(j, 1);
-                setQueryString([["p", playlist.join("-")]]);
+                setQueryString({p: playlist.join("-")});
                 updatePlaylistViewer();
                 playlistViewerEventListeners();
             });
@@ -187,7 +187,7 @@ function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
         Array.from(row.parentNode.children).forEach(child => {
             playlist.push(songList.indexOf(child.querySelector("p").innerText));
         });
-        setQueryString([["p", playlist.join("-")]]);
+        setQueryString({p: playlist.join("-")});
     }
 }
 
@@ -203,5 +203,5 @@ function playlistEdit() {
 function playlistSave() {
     setMode("main");
     updateNavButtons("main");
-    setQueryString([["s", ""], ["p", playlist.join("-")]]);
+    setQueryString({s: "", p: playlist.join("-")});
 }

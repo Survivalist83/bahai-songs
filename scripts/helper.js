@@ -1,32 +1,19 @@
 // Sets a query string.
-function setQueryString(queryStrings) {
-    const params = new URLSearchParams(window.location.search);
-    const oldParams = params.toString();
+function setQueryString(newQueryStrings) {
+    if (verbosity.queryString) console.log("Setting query strings: " + JSON.stringify(newQueryStrings));
 
-    if (verbosity.queryString) console.log("About to set query strings: " + JSON.stringify(queryStrings));
-
-    for (let i = 0; i < queryStrings.length; i++) {
-        if (queryStrings[i][1] !== "") {
-            params.set(queryStrings[i][0], queryStrings[i][1]);
-            appState.queryStrings[queryStrings[i][0]] = queryStrings[i][1];
-        } else {
-            params.delete(queryStrings[i][0]);
-            appState.queryStrings[queryStrings[i][0]] = null;
+    let isDifferent = false;
+    Object.entries(newQueryStrings).forEach((newQueryString) => {
+        if (appState.queryStrings[newQueryString[0]] !== newQueryString[1]) {
+            appState.queryStrings[newQueryString[0]] = newQueryString[1] === "" ? null : newQueryString[1];
+            isDifferent = true;
         }
-    }
+    });
 
-    // No need to set the parameters to something they already are; this just unneccesarily creates lag and more in history
-    if (oldParams === params.toString()) {
-        if (verbosity.queryString) console.log("From setQueryString(): returning due to already set params.");
-        return;
+    if (isDifferent) {
+        const newParams = Object.values(appState.queryStrings).every(value => !value) ? "" : `?${new URLSearchParams(appState.queryStrings)}`;
+        history.pushState({}, "", location.pathname + newParams);
     }
-
-    let newURL = "";
-    if ([...params.entries()].length > 0) {
-        newURL = "?" + params.toString();
-    }
-
-    window.history.pushState({}, "", window.location.pathname + newURL);
 }
 
 function setMode(input) {

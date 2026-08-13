@@ -114,7 +114,7 @@ function returnHome() {
     setMode("main");
     showSong("main");
     updateNavButtons("main");
-    setQueryString([["s", ""], ["i", ""]]);
+    setQueryString({s: "", i: ""});
 }
 
 // Updates the visibility of the buttons at the bottom of the screen.
@@ -248,7 +248,6 @@ function showSong(songNumber, startLocation = 1) {
 function slideMain(start, end) {
     if (verbosity.showSong) console.log("Sliding main: " + start + " => " + end);
 
-    console.log(mainMenu);
     mainMenu.classList.remove("sliding");
     slideObject(mainMenu, start);
 
@@ -265,10 +264,10 @@ function mainMenuBtnClicked(id) {
         mode = "song";
         showSong(id, 2);
         updateNavButtons("song");
-        setQueryString([["s", songList[id]]]);
+        setQueryString({s: songList[id]});
     } else {
         playlist.push(id);
-        setQueryString([["p", playlist.join("-")]]);
+        setQueryString({p: playlist.join("-")});
         updatePlaylistViewer();
         positionIndicator.update(appState.queryStrings.i || 1);
     }
