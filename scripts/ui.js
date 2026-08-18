@@ -52,7 +52,7 @@ class PositionIndicator {
         const leftArrow = document.createElement("p");
         leftArrow.classList.add("positionIndicatorCircle", "left", "empty");
         leftArrow.innerText = "‹";
-        leftArrow.onclick = () => playlistAdvance(-1);
+        leftArrow.onclick = () => playlist.setIndex(Number(playlist.getIndex()) - 1);
         this.dom.appendChild(leftArrow);
 
         this.#div.classList.add("positionIndicatorDiv");
@@ -61,7 +61,7 @@ class PositionIndicator {
         const rightArrow = document.createElement("p");
         rightArrow.classList.add("positionIndicatorCircle", "right", "empty");
         rightArrow.innerText = "›";
-        rightArrow.onclick = () => playlistAdvance(1);
+        rightArrow.onclick = () => playlist.setIndex(Number(playlist.getIndex()) + 1);
         this.dom.appendChild(rightArrow);
 
         document.body.appendChild(this.dom);
@@ -93,7 +93,7 @@ class PositionIndicator {
                 circle.innerText = "○";
                 circle.classList.add("empty");
                 circle.addEventListener("click", () => {
-                    playlistSet(i);
+                    playlist.setIndex(i);
                 });
             }
 

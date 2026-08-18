@@ -15,7 +15,7 @@
 <body onkeydown="keyPress(event.key)">
 
     <div id="appWrapper">
-        <div id="mainMenu" class="outerDiv setLeft"></div>
+        <div id="mainMenu" class="outerDiv"></div>
         <div id="contentDiv"></div>
     </div>
     
@@ -28,8 +28,8 @@
             <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
             <div id="sidebarPlaylistViewerOverflow"></div>
             <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="playlistEdit()">Edit Playlist</button>
-                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="playlistSave()">Done Editing</button>
+                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="setMode('edit')">Edit Playlist</button>
+                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="setMode('main')">Done Editing</button>
             </div>
             <div class="sidebarBtnVertical">
                 <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving">Copy Link</button>

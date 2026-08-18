@@ -1,5 +1,6 @@
 class Playlist {
     #songs;
+
     #verbose = true;
     
     constructor() {
@@ -7,10 +8,14 @@ class Playlist {
         this.#songs = queryString !== null ? queryString.split("-").map(Number) : [];
     }
 
-    // Manipulating the list of songs
+    // Query string p
 
-    get() {
-        return this.#songs;
+    get(song) {
+        if (song === undefined) {
+            return this.#songs;
+        } else {
+            return this.#songs[song];
+        }
     }
 
     length() {
@@ -29,38 +34,36 @@ class Playlist {
         this.set(this.#songs);
     }
 
+    // Query string i
+
+    getIndex() {
+        return appState.queryStrings.i;
+    }
+
     // Playlist mode
 
-    start() {
-        if (this.#songs.length === 0) {
-            if (this.#verbose) console.log("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
-            return;
+    setIndex(index) {
+        if (this.#verbose) console.log("Setting playlist index to " + index + ".");
+
+        if (mode === "playlist") {
+            if (index <= 0 || (index - 1) >= this.length()) {
+                setMode("main");
+                if (verbosity.playlist) console.log("Exiting playlist mode.");
+            } else if (appState.queryStrings.i === index) {
+                if (verbosity.playlist) console.log("Failed attempt to set index to itself.");
+            } else {
+                const direction = appState.queryStrings.i > index ? 0 : 2;
+                setQueryString({i: index});
+                showSong(this.#songs[index - 1], direction);
+                positionIndicator.update(index);
+                setSidebarVisibility("close");
+                if (verbosity.playlist) console.log("Playlist advancing to index " + index + ".");
+            }
+            appState.queryStrings.i = index;
+        } else {
+            if (verbosity.playlist) console.log("Playlist mode not active.");
         }
-
-        // setMode("playlist");
-        // showSong(playlist[0], 2);
-        // updateNavButtons("playlist");
-        setQueryString({s: "playlist", i: 1});
-        positionIndicator.update(1);
-        // setSidebarVisibility("close");
     }
-}
-
-// Enters playlist mode
-function playlistStart() {
-    if (playlist.get() === null) {
-        window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
-        return;
-    }
-
-    setMode("playlist");
-    showSong(playlist.get()[0], 2);
-    updateNavButtons("playlist");
-    setQueryString({s: "playlist", i: 1});
-    positionIndicator.update(1);
-    setSidebarVisibility("close");
-
-    if (verbosity.playlist) console.log("Playlist mode starting with song 1/" + playlist.length + ".");
 }
 
 function arrowKey(input) {
@@ -83,36 +86,10 @@ function arrowKey(input) {
             break;
         case "playlist":
             const numberOfAdvances = input === "ArrowLeft" ? -1 : 1;
-            playlistSet(Number(appState.queryStrings.i) + numberOfAdvances, numberOfAdvances);
+            playlist.setIndex(Number(playlist.getIndex() || 1) + numberOfAdvances);
             break;
         default:
             if (verbosity.misc) console.log("Error: not in mode song or playlist. Arrow keys do nothing.");
-    }
-}
-
-// Goes forward/backward in the playlist. Half-deprecated.
-function playlistAdvance(numberOfAdvances) {
-    if (appState.queryStrings.s !== "playlist") {
-        if (verbosity.playlist) console.log("Playlist mode not active.");
-        return;
-    }
-
-    playlistSet(Number(appState.queryStrings.i) + numberOfAdvances, numberOfAdvances);
-}
-
-function playlistSet(index, numberOfAdvances) {
-    if (index <= 0 | (index - 1) >= playlist.length()) {
-        returnHome();
-        if (verbosity.playlist) console.log("Exiting playlist mode.");
-    } else {
-        const direction = numberOfAdvances < 0 ? 0 : 2;
-        console.log("playlistSet() switching to song " + index + " from direction " + direction + ", numberofAdvances is " + numberOfAdvances + ".");
-
-        setQueryString({i: index});
-        showSong(playlist.get()[index - 1], direction);
-        positionIndicator.update(index);
-        setSidebarVisibility("close");
-        if (verbosity.playlist) console.log("Playlist advancing to song " + (index) + "/" + playlist.length() + ".");
     }
 }
 
@@ -231,19 +208,4 @@ function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
         });
         setQueryString({p: playlist.join("-")});
     }
-}
-
-// What happens on clicking "Edit Playlist"
-function playlistEdit() {
-    setMode("edit");
-    updateNavButtons("edit");
-    updateNavButtons([["s", "edit"]]);
-    setSidebarVisibility("open");
-}
-
-// What happens on clicking "Save Playlist"
-function playlistSave() {
-    setMode("main");
-    updateNavButtons("main");
-    setQueryString({s: ""});
 }

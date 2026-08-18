@@ -1,11 +1,9 @@
 function pageLoad() {
     mainMenu = document.getElementById("mainMenu");
 
-    let currentSong = appState.queryStrings.s; // the song currently in the URL
-    NUM_OF_CATEGORY_COLUMNS = appState.queryStrings.n || 3;
+    let currentSong = appState.queryStrings.s; // the song currently in the URL // remove this bit later, it's extraneous
 
-    // Loads queryString variables
-    setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song", false);
+    setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song", true);
 
     // Dedicated functions to specific parts of loading the page
     loadSongSelector();
@@ -13,26 +11,26 @@ function pageLoad() {
 
     // Handles logic for loading song when starting from playlist mode.
     if (mode === "playlist") {
-        showSong(playlist.get()[Number(appState.queryStrings.i) - 1]);
-        mainMenu.classList.remove("sliding", "setMiddle"); // kinda a cheaty way to make this work, but it works
+        showSong(playlist.get(Number(playlist.getIndex()) - 1), 2, true);
+        mainMenu.classList.remove("sliding", "setMiddle");
         mainMenu.classList.add("setLeft");
     }
 
     updatePlaylistViewer();
-    positionIndicator.update(appState.queryStrings.i || 1);
+    positionIndicator.update(playlist.getIndex() || 1);
 
     // This handles users clicking the back button.
     window.addEventListener("popstate", () => {
         currentSong = appState.queryStrings.s || "main";
         if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSongIndex + ".");
         if (currentSong === "playlist") {
-            playlistSet(appState.queryStrings.i);
+            playlist.setIndex(playlist.getIndex());
             updateNavButtons("playlist");
         } else {
             let currentSongIndex = songList.indexOf(currentSong);
             if (currentSongIndex === -1) {
                 currentSongIndex = "main";
-                setMode("main", false);
+                setMode("main", true);
             }
             showSong(currentSongIndex);
             updateNavButtons(currentSong);
@@ -53,9 +51,9 @@ function pageLoad() {
         const swipeDistance = swipeEndX - swipeStartX;
         if (Math.abs(swipeDistance) > 75) {
             if (swipeDistance > 0) {
-                playlistAdvance(-1);
+                playlist.setIndex(Number(playlist.getIndex()) - 1);
             } else {
-                playlistAdvance(1);
+                playlist.setIndex(Number(playlist.getIndex()) + 1);
             }
         }
     });
@@ -100,9 +98,10 @@ function pageLoad() {
 // Runs on page load that adds the main menu's song selector (center of the screen)
 function loadSongSelector() {
     // Shows the songs on page load if string query "s" is blank (they are hidden by default in the html)
-    if (mode === "main" | mode === "create") {
+    if (mode === "main" | mode === "create") { // mode = "create" ???
         mainMenu.classList.add("setMiddle");
-        mainMenu.classList.remove("setLeft");
+    } else {
+        mainMenu.classList.add("setLeft");
     }
 
     // Finds all categories
@@ -147,11 +146,11 @@ function loadSongSelector() {
         let numHeightAssigned = 0;
 
         // Logic to give (most) categories a column
-        for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
+        for (let i = 0; i < appState.queryStrings.n; i++) {
             if (verbosity.mainMenu) console.log("C" + i);
 
             let currentColumnHeight = 0;
-            const THRESHHOLD_TARGET = (TOTAL_CATEGORY_HEIGHT - numHeightAssigned) / (NUM_OF_CATEGORY_COLUMNS - i);
+            const THRESHHOLD_TARGET = (TOTAL_CATEGORY_HEIGHT - numHeightAssigned) / (appState.queryStrings.n - i);
 
             for (let j = numCategoriesAssigned; j < songThemes.length; j++) {
 
@@ -181,7 +180,7 @@ function loadSongSelector() {
         // Sets any straggler categories to the final column
         if (verbosity.mainMenu) console.log("About to set straggler categories. numCategoriesAssigned is " + numCategoriesAssigned + ".");
         for (let i = numCategoriesAssigned; i < songThemes.length; i++) {
-            songThemes[i].column = NUM_OF_CATEGORY_COLUMNS - 1;
+            songThemes[i].column = appState.queryStrings.n - 1;
         }
     }
 
@@ -190,7 +189,7 @@ function loadSongSelector() {
     horizontalMenuDiv.classList.add("flex-row", "hide");
     horizontalMenuDiv.id = "mainMenuCategorized";
     mainMenu.appendChild(horizontalMenuDiv);
-    for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
+    for (let i = 0; i < appState.queryStrings.n; i++) {
         if (IS_PHONE && i > 0) {
             break;
         }
@@ -266,7 +265,7 @@ function loadSongSelector() {
     // Creates columns
     let numOfSongsAssigned = 0
     let PREVIOUS_LETTER = "";
-    for (let i = 0; i < NUM_OF_CATEGORY_COLUMNS; i++) {
+    for (let i = 0; i < appState.queryStrings.n; i++) {
         if (IS_PHONE && i > 0) {
             break;
         }
@@ -279,7 +278,7 @@ function loadSongSelector() {
         // Adds songs to columns
         // to make this more efficient: create cards first, then add songs in a separate loop
         const SONG_BREAKPOINT_OFFSET = -2
-        const SONG_BREAKPOINT = IS_PHONE ? songList.length : songList.length * (i + 1) / NUM_OF_CATEGORY_COLUMNS + SONG_BREAKPOINT_OFFSET;
+        const SONG_BREAKPOINT = IS_PHONE ? songList.length : songList.length * (i + 1) / appState.queryStrings.n + SONG_BREAKPOINT_OFFSET;
         for (let j = numOfSongsAssigned; j < SONG_BREAKPOINT && j < songList.length; j++) {
             const CURRENT_LETTER = songListAlphabetical[j][0];
 

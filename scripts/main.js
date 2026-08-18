@@ -12,6 +12,8 @@ const appState = {
     currentSong: 0,
 }
 
+if (!appState.queryStrings.n) appState.queryStrings.n = 3;
+
 let footer;
 let positionIndicator;
 const songs = [];
@@ -24,7 +26,7 @@ const verbosity = {
     playlist: true,
     updateNavButtons: false,
     misc: true,
-    queryString: false,
+    queryString: true,
     clipboard: true,
     mode: false,
     showSong: true,
@@ -44,7 +46,7 @@ function main() {
         },
         {
             "text": "Home",
-            "onclick": () => returnHome(),
+            "onclick": () => setMode("main"),
             "modes": ["song", "playlist"],
         },
         {
@@ -54,13 +56,13 @@ function main() {
         },
         {
             "text": "Start Playlist",
-            "onclick": () => playlistStart(),
+            "onclick": () => setMode("playlist"),
             "modes": ["main"],
             "condition": () => playlist.length() !== 0,
         },
         {
             "text": "Create Playlist",
-            "onclick": () => playlistEdit(),
+            "onclick": () => setMode("edit"),
             "modes": ["main"],
             "condition": () => playlist.length() === 0,
         },
@@ -78,6 +80,55 @@ function main() {
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Non-class stuff //////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
+
+function setMode(input, onPageLoad = false) {
+    if (typeof (input) === Number) input = "song";
+
+    switch(input) {
+        case "main":
+            mode = "main";
+            updateNavButtons("main");
+            showSong();
+            setQueryString({s: "", i: ""});
+            break;
+        
+        case "song":
+            mode = "song";
+            updateNavButtons("song");
+            break;
+        
+        case "playlist":
+            if (playlist.length === 0) {
+                window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
+                return;
+            }
+            mode = "playlist";
+            if (!onPageLoad) showSong(playlist.get(0), 2);
+            updateNavButtons("playlist");
+            if (!onPageLoad) appState.queryStrings.i = 1;
+            setQueryString({s: "playlist"});
+            positionIndicator.update(1);
+            setSidebarVisibility("close");
+            if (verbosity.mode) console.log("Playlist mode starting with song 1/" + playlist.length + ".");
+            break;
+        
+        case "edit":
+            mode = "edit";
+            updateNavButtons("edit");
+            // updateNavButtons([["s", "edit"]]); // this probably means setQueryString(), but I'm not sure if I want it to do that
+            setSidebarVisibility("open");
+            break;
+        
+        default:
+            console.log("Warning! Attempt to set invalid mode (" + input + ").\n" +
+            "If you are an end-user, it is highly improbable that you are seeing this message. " +
+            "If this error pops up, please email sdbahaisongs@gmail.com.");
+    }
+
+    footer.setMode();
+
+    if (verbosity.mode) console.log("Successfully set mode to " + input + ".");
+}
 
 // used to in category-column assignments
 let NUM_OF_CATEGORY_COLUMNS;
@@ -106,15 +157,6 @@ function toggleMainMenu(checkbox) {
 // Playlist stuff used to be here
 
 // Sidebar stuff used to be here
-
-
-// Returns to the home page, as if no query strings were entered on page load.
-function returnHome() {
-    setMode("main");
-    showSong("main");
-    updateNavButtons("main");
-    setQueryString({s: "", i: ""});
-}
 
 // Updates the visibility of the buttons at the bottom of the screen.
 function updateNavButtons(input = mode) {
@@ -206,7 +248,7 @@ function updateNavButtons(input = mode) {
 }
 
 // Shows one specific song. When mode === "main", it goes to the homepage
-function showSong(songNumber, startLocation = 1) {
+function showSong(songNumber, startLocation = 1, onPageLoad = false) {
     if (verbosity.showSong) console.log("showSong() Song: " + songNumber + ". Start: " + startLocation + ". Mode: " + mode + ".");
 
     switch(mode) {
@@ -217,14 +259,16 @@ function showSong(songNumber, startLocation = 1) {
                 songs[songList.indexOf(appState.queryStrings.s)].slide(2 - startLocation);
             }
 
+            setQueryString({s: songList[songNumber]});
             break;
         case "playlist":
             songs.forEach((song) => {
                 song.slideConditional(2 - startLocation, 1);
             });
 
-            songs[songNumber].slide(1, startLocation);
+            songs[songNumber].slide(1, onPageLoad ? 1 : startLocation);
 
+            // setQueryString({i: ???});
             break;
         default:
             songs.forEach((song) => {
@@ -236,7 +280,13 @@ function showSong(songNumber, startLocation = 1) {
 
     // Shows/hides the main menu
     if (mode === "main") {
-        slideMain(0, 1);
+        console.log("Potentially sliding main. Pageload is " + onPageLoad);
+        if (onPageLoad) {
+            mainMenu.classList.remove("sliding", "setLeft", "setRight");
+            mainMenu.classList.add("setMiddle");
+        } else {
+            slideMain(0, 1);
+        }
     } else if (mode !== "main" && document.getElementById("mainMenu").classList.contains("setMiddle")) {
         slideMain(1, 0);
     }
@@ -260,14 +310,12 @@ function slideMain(start, end) {
 function mainMenuBtnClicked(id) {
     if (verbosity.mainMenu) console.log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
     if (mode !== "edit") {
-        mode = "song";
+        setMode("song");
         showSong(id, 2);
-        updateNavButtons("song");
-        setQueryString({s: songList[id]});
     } else {
         playlist.add(id);
         updatePlaylistViewer();
-        positionIndicator.update(appState.queryStrings.i || 1);
+        positionIndicator.update(playlist.getIndex() || 1);
     }
 }
 
