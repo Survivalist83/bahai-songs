@@ -18,49 +18,6 @@
         <div id="mainMenu" class="outerDiv"></div>
         <div id="contentDiv"></div>
     </div>
-    
-    <!-- Sidebar -->
-    <button id="sidebarToggleBtn" onclick="setSidebarVisibility('toggle')">
-        <img src="images/Hamburger_Menu.svg" alt="Settings" class="icon">
-    </button>
-    <aside id="sidebar">
-        <div class="sidebarDiv" id="sidebarPlaylistViewer">
-            <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
-            <div id="sidebarPlaylistViewerOverflow"></div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="setMode('edit')">Edit Playlist</button>
-                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="setMode('main')">Done Editing</button>
-            </div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving">Copy Link</button>
-                <p id="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them.</p>
-            </div>
-            <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
-        </div>
-        <div class="sidebarDiv" id="sidebarBottom">
-            <label class="checkbox open" id="sidebarHideChords">
-                <input type="checkbox" onclick="toggleChordVisibility(this)">
-                <span></span>
-                Hide Guitar Chords
-            </label>
-            <label class="checkbox open" id="sidebarStopSliding">
-                <input type="checkbox" onclick="stopSliding(this)">
-                <span></span>
-                Stop Sliding Elements
-            </label>
-            <label class="checkbox open" id="sidebarToggleMainMenu">
-                <input type="checkbox" onclick="toggleMainMenu(this)">
-                <span></span>
-                Categorize Homescreen
-            </label>
-            <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebarOverlay('howto')">How To</button> -->
-            <button id="sidebar-shortcuts" class="sidebarBtn pc wide" onclick="sidebarOverlay('shortcuts')">Keyboard Shortcuts</button>
-            <button id="sidebar-about" class="sidebarBtn wide" onclick="sidebarOverlay('about')">About</button>
-            <button id="sidebar-request" class="sidebarBtn wide" onclick="sidebarOverlay('request')">Request a Song</button>
-            <div id="sidebarBottomSpacer" />
-        </div>
-    </aside>
-    <div id="sidebarShadow"></div>
 
     <!-- Sidebar Overlay -->
     <!-- <aside id="sidebarOverlay-howto" class="sidebarOverlay">

@@ -102,70 +102,163 @@ class PositionIndicator {
     }
 }
 
-function sidebarOverlay(input) {
-    if (input !== "") {
-        const sidebarOverlayTest = document.getElementById("sidebarOverlay-" + input);
-        sidebarOverlayTest.classList.toggle("open");
+class Sidebar {
+    #open;
 
-        document.querySelectorAll(".sidebarOverlay:not(#sidebarOverlay-" + input + ")").forEach(otherSidebar => {
-            otherSidebar.classList.remove("open");
-        });
+    sidebar = document.createElement("aside");
+    #toggleBtn;
+    #shadow;
 
-        const sidebarBtn = document.getElementById("sidebar-" + input);
-        sidebarBtn.classList.toggle("highlighted");
+    #verbose = true;
 
-        document.querySelectorAll(".sidebarBtn:not(#sidebar-" + input + ")").forEach(otherBtn => {
-            otherBtn.classList.remove("highlighted");
-        });
-    } else {
-        document.querySelectorAll(".sidebarOverlay").forEach(sidebarOverlay => {
+    constructor() {
+        // Toggle button
+
+        this.#toggleBtn = document.createElement("button");
+        this.#toggleBtn.classList.add("sidebarToggleBtn");
+        this.#toggleBtn.onclick = () => this.toggle();
+
+        const toggleBtnImg = document.createElement("img");
+        toggleBtnImg.src = "images/Hamburger_Menu.svg";
+        toggleBtnImg.alt = "Settings";
+        toggleBtnImg.classList.add("icon");
+        this.#toggleBtn.appendChild(toggleBtnImg);
+
+        document.body.appendChild(this.#toggleBtn);
+
+        // Sidebar
+
+        this.sidebar.classList.add("sidebar");
+        document.body.appendChild(this.sidebar);
+
+        // Shadow
+
+        this.#shadow = document.createElement("div");
+        this.#shadow.classList.add("sidebarShadow");
+        
+        document.body.appendChild(this.#shadow);
+    }
+
+    // Manipulating the sidebar
+
+    open() {
+        this.#open = true;
+        this.sidebar.classList.add("open");
+        this.#toggleBtn.classList.add("open");
+        this.#shadow.classList.add("open");
+        this.setOverlay();
+        document.getElementById("mainMenu").classList.add("sidebarPadding");
+        // contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")}); // todo: add this
+    }
+
+    close() {
+        this.#open = false;
+        this.sidebar.classList.remove("open");
+        this.#toggleBtn.classList.remove("open");
+        this.#shadow.classList.remove("open");
+        this.setOverlay();
+        document.getElementById("mainMenu").classList.remove("sidebarPadding");
+        // contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")}); // todo: add this
+    }
+
+    toggle() {
+        if (this.#open) {
+            this.close();
+        } else {
+            this.open();
+        }
+    }
+
+    setOverlay(exception) {
+        document.querySelectorAll(".sidebarOverlay" + (exception ? ":not(#sidebarOverlay-" + exception + ")": "")).forEach(sidebarOverlay => {
             sidebarOverlay.classList.remove("open");
         });
 
-        document.querySelectorAll(".sidebarBtn").forEach(sidebarBtn => {
+        document.querySelectorAll(".sidebarBtn" + (exception ? ":not(#sidebar-" + exception + ")": "")).forEach(sidebarBtn => {
             sidebarBtn.classList.remove("highlighted");
         });
+
+        if (exception) {
+            document.getElementById("sidebarOverlay-" + exception).classList.toggle("open");
+            document.getElementById("sidebar-" + exception).classList.toggle("highlighted");
+        }
     }
-}
 
-function setSidebarVisibility(input) {
-    const sidebar = document.getElementById("sidebar");
-    const sidebarToggle = document.getElementById("sidebarToggleBtn");
-    const sidebarShadow = document.getElementById("sidebarShadow");
-    const mainMenu = document.getElementById("mainMenu");
-    const contentDivChildren = [...document.getElementById("contentDiv").children];
+    setButtons(input = mode) {
+        if (this.#verbose) console.log("Setting sidebar buttons! Input: " + input)
 
-    sidebarOverlay("");
+        const elementArray = [
+            this.#toggleBtn,
+            document.getElementById("sidebarPlaylistEditBtn"),
+            document.getElementById("sidebarPlaylistSaveBtn"),
+            document.getElementById("sidebarPlaylistCopyBtn"),
+            document.getElementById("sidebarPlaylistViewer"),
+            document.getElementById("sidebarPlaylistHowTo"),
+        ]
 
-    switch (input) {
-        case "toggle":
-            sidebar.classList.toggle("open");
-            sidebarToggle.classList.toggle("open");
-            sidebarShadow.classList.toggle("open");
-            mainMenu.classList.toggle("sidebarPadding");
-            contentDivChildren.forEach(song => {song.classList.toggle("sidebarPadding")});
-            break;
-        case "open":
-            sidebar.classList.add("open");
-            sidebarToggle.classList.add("open");
-            sidebarShadow.classList.add("open");
-            mainMenu.classList.add("sidebarPadding");
-            contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")});
-            break;
-        case "close":
-            sidebar.classList.remove("open");
-            sidebarToggle.classList.remove("open");
-            sidebarShadow.classList.remove("open");
-            mainMenu.classList.remove("sidebarPadding");
-            contentDivChildren.forEach(song => {song.classList.remove("sidebarPadding")});
-            break;
+        const elementArrayQuery = [
+            document.querySelectorAll(".playlistViewerRow"),
+        ]
+
+        const booleanArray = {
+            main:/* */[2, 4, 3, 4, 3, 3, 0],
+            song:/* */[2, 1, 3, 4, 3, 3, 0],
+            playlist: [2, 1, 3, 4, 3, 3, 0],
+            edit:/* */[1, 3, 4, 3, 4, 4, 0],
+        }
+
+        if (booleanArray[input]) {
+            // 0: hide
+            // 1: disable
+            // 2: show
+            // 3: offscreen
+            // 4: onscreen
+            elementArray.forEach((element, index) => {
+                switch(booleanArray[input][index]) {
+                    case 0:
+                        element.classList.add("hide");
+                        break;
+                    case 1:
+                        element.classList.remove("hide");
+                        element.disabled = true;
+                        break;
+                    case 2:
+                        element.classList.remove("hide");
+                        element.disabled = false;
+                        break;
+                    case 3:
+                        element.disabled = false;
+                        element.classList.remove("open");
+                        break;
+                    case 4:
+                        element.disabled = false;
+                        element.classList.add("open");
+                        break;
+                }
+            });
+
+            // 0: normal
+            // 1: edit
+            const elementArrayLength = elementArray.length;
+            elementArrayQuery.forEach(elements => {
+                elements.forEach((element, index) => {
+                    index += elementArrayLength;
+                    switch(booleanArray[input][index]) {
+                        case 0:
+                            element.classList.remove("edit");
+                            break;
+                        case 1:
+                            element.classList.add("edit");
+                            break;
+                    }
+                });
+            });
+        } else {
+            console.log("Failed to set sidebar buttons. Input: " + input);
+        }
+        
+        if (playlist.length() === 0) {
+            document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
+        }
     }
-}
-
-// Offsets position: absolute .sidebarBtn.moving elements when the scrollbar is present, so they are still centered
-let sidebar;
-let resizeObserver;
-function checkSidebarScrollbar() {
-    document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
-        (sidebar.scrollHeight > sidebar.clientHeight) ? "5px" : "0px");
 }

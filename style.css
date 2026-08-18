@@ -397,7 +397,7 @@ a {
 
 /* /////////////////////////////// Sidebar /////////////////////////////// */
 
-#sidebar {
+.sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -417,24 +417,24 @@ a {
     overflow-y: auto;
 }
 
-#sidebar::-webkit-scrollbar {
+.sidebar::-webkit-scrollbar {
     width: 10px;
 }
 
-#sidebar::-webkit-scrollbar-track {
+.sidebar::-webkit-scrollbar-track {
     background: rgb(var(--blue-light));
 }
 
-#sidebar::-webkit-scrollbar-thumb {
+.sidebar::-webkit-scrollbar-thumb {
     background: rgb(var(--blue-pale));
     border-radius: 10px;
 }
 
-#sidebar::-webkit-scrollbar-thumb:hover {
+.sidebar::-webkit-scrollbar-thumb:hover {
     background: rgb(var(--blue-medium));
 }
 
-#sidebar.open {
+.sidebar.open {
     transform: translateX(0);
 }
 
@@ -480,10 +480,6 @@ a {
 #sidebarBottomSpacer {
     height: 15px;
     /* Could potentially overlap this div with the createBlankDiv() function */
-}
-
-.sidebarBtnVertical {
-    background: red;
 }
 
 .checkbox {
@@ -608,7 +604,7 @@ a {
     left: calc(var(--sidebar-width-no-padding) * 0.1 + 10px);
 }
 
-#sidebarShadow {
+.sidebarShadow {
     position: fixed;
 
     height: 100vh;
@@ -621,13 +617,13 @@ a {
     transition: left 0.3s ease;
 }
 
-#sidebarShadow.open {
+.sidebarShadow.open {
     left: 0;
     box-shadow: 4px 0 8px rgba(0, 0, 0, 0.6);
 }
 
 /* Toggle button */
-#sidebarToggleBtn {
+.sidebarToggleBtn {
     position: fixed;
     top: 0;
     left: -1px;
@@ -650,11 +646,11 @@ a {
     z-index: 75;
 }
 
-#sidebarToggleBtn.open {
+.sidebarToggleBtn.open {
     transform: translateX(var(--sidebar-width));
 }
 
-#sidebarToggleBtn img {
+.sidebarToggleBtn img {
     display: block;
     width: 35px;
     height: auto;

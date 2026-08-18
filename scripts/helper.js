@@ -25,23 +25,15 @@ function keyPress(event) {
             setMode("main");
             break;
         case "Escape":
-            setSidebarVisibility("toggle");
+            sidebarObject.toggle();
             break;
         case "ArrowLeft":
         case "ArrowRight":
             arrowKey(event);
             break;
+        case "a":
+            sidebarObject.setButtons("song")
     }
-}
-
-// Shows the element (keeping block/flex display).
-function show(element) {
-    element.classList.remove("hide");
-}
-
-// Hides the element.
-function hide(element) {
-    element.classList.add("hide");
 }
 
 // Copies the text to the clipboard

@@ -1,6 +1,4 @@
 function pageLoad() {
-    mainMenu = document.getElementById("mainMenu");
-
     let currentSong = appState.queryStrings.s; // the song currently in the URL // remove this bit later, it's extraneous
 
     setMode(songList.indexOf(currentSong) === -1 ? currentSong ?? "main" : "song", true);
@@ -73,7 +71,7 @@ function pageLoad() {
         ) + "px"
     );
 
-    sidebar = document.getElementById("sidebar");
+    sidebar = sidebarObject.sidebar;
     resizeObserver = new ResizeObserver(checkSidebarScrollbar);
     resizeObserver.observe(sidebar);
     checkSidebarScrollbar();
@@ -94,6 +92,14 @@ function pageLoad() {
         }, 1500);
     });
 };
+
+// Offsets position: absolute .sidebarBtn.moving elements when the scrollbar is present, so they are still centered
+let sidebar;
+let resizeObserver;
+function checkSidebarScrollbar() {
+    document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
+        (sidebar.scrollHeight > sidebar.clientHeight) ? "5px" : "0px");
+}
 
 // Runs on page load that adds the main menu's song selector (center of the screen)
 function loadSongSelector() {

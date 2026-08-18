@@ -5,7 +5,7 @@ class Playlist {
     
     constructor() {
         const queryString = appState.queryStrings.p;
-        this.#songs = queryString !== null ? queryString.split("-").map(Number) : [];
+        this.#songs = queryString !== undefined ? queryString.split("-").map(Number) : [];
     }
 
     // Query string p
@@ -56,7 +56,7 @@ class Playlist {
                 setQueryString({i: index});
                 showSong(this.#songs[index - 1], direction);
                 positionIndicator.update(index);
-                setSidebarVisibility("close");
+                sidebarObject.close();
                 if (verbosity.playlist) console.log("Playlist advancing to index " + index + ".");
             }
             appState.queryStrings.i = index;
@@ -100,11 +100,11 @@ function updatePlaylistViewer() {
     const playlistViewerIntro = document.getElementById("playlistViewerIntro");
     if (playlist.length() === 0) {
         playlistViewerIntro.innerText = "No playlist currently selected.";
-        hide(playlistViewerOverflow);
+        playlistViewerOverflow.classList.add("hide");
         return;
     } else {
         playlistViewerIntro.innerText = "Current Playlist:";
-        show(playlistViewerOverflow);
+        playlistViewerOverflow.classList.remove("hide");
     }
 
     // Removes children (otherwise, there would be duplicates)

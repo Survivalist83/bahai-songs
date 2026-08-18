@@ -11,6 +11,7 @@ const appState = {
     queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),    
     currentSong: 0,
 }
+const mainMenu = document.getElementById("mainMenu");
 
 if (!appState.queryStrings.n) appState.queryStrings.n = 3;
 
@@ -18,6 +19,7 @@ let footer;
 let positionIndicator;
 const songs = [];
 let playlist = new Playlist();
+const sidebarObject = new Sidebar();
 
 const verbosity = {
     pageLoad: true,
@@ -75,6 +77,46 @@ function main() {
         songList.push(song.meta.name);
         songs.push(new Song(index, appState.queryStrings.s === song.meta.name));
     });
+
+    // Sidebar creation
+
+    sidebarObject.sidebar.innerHTML = `
+        <div class="sidebarDiv" id="sidebarPlaylistViewer">
+            <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
+            <div id="sidebarPlaylistViewerOverflow"></div>
+            <div class="sidebarBtnVertical">
+                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="setMode('edit')">Edit Playlist</button>
+                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="setMode('main')">Done Editing</button>
+            </div>
+            <div class="sidebarBtnVertical">
+                <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving">Copy Link</button>
+                <p id="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them.</p>
+            </div>
+            <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
+        </div>
+        <div class="sidebarDiv" id="sidebarBottom">
+            <label class="checkbox open" id="sidebarHideChords">
+                <input type="checkbox" onclick="toggleChordVisibility(this)">
+                <span></span>
+                Hide Guitar Chords
+            </label>
+            <label class="checkbox open" id="sidebarStopSliding">
+                <input type="checkbox" onclick="stopSliding(this)">
+                <span></span>
+                Stop Sliding Elements
+            </label>
+            <label class="checkbox open" id="sidebarToggleMainMenu">
+                <input type="checkbox" onclick="toggleMainMenu(this)">
+                <span></span>
+                Categorize Homescreen
+            </label>
+            <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebarObject.setOverlay('howto')">How To</button> -->
+            <button id="sidebar-shortcuts" class="sidebarBtn pc wide" onclick="sidebarObject.setOverlay('shortcuts')">Keyboard Shortcuts</button>
+            <button id="sidebar-about" class="sidebarBtn wide" onclick="sidebarObject.setOverlay('about')">About</button>
+            <button id="sidebar-request" class="sidebarBtn wide" onclick="sidebarObject.setOverlay('request')">Request a Song</button>
+            <div id="sidebarBottomSpacer" />
+        </div>
+    `
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -108,7 +150,7 @@ function setMode(input, onPageLoad = false) {
             if (!onPageLoad) appState.queryStrings.i = 1;
             setQueryString({s: "playlist"});
             positionIndicator.update(1);
-            setSidebarVisibility("close");
+            sidebarObject.close();
             if (verbosity.mode) console.log("Playlist mode starting with song 1/" + playlist.length + ".");
             break;
         
@@ -116,7 +158,7 @@ function setMode(input, onPageLoad = false) {
             mode = "edit";
             updateNavButtons("edit");
             // updateNavButtons([["s", "edit"]]); // this probably means setQueryString(), but I'm not sure if I want it to do that
-            setSidebarVisibility("open");
+            sidebarObject.open();
             break;
         
         default:
@@ -133,8 +175,6 @@ function setMode(input, onPageLoad = false) {
 // used to in category-column assignments
 let NUM_OF_CATEGORY_COLUMNS;
 const THRESHHOLD_ADJUSTER = 3; // bigger number = more songs in later columns
-
-let mainMenu;
 
 const styles = getComputedStyle(document.documentElement);
 let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
@@ -162,86 +202,12 @@ function toggleMainMenu(checkbox) {
 function updateNavButtons(input = mode) {
     if (verbosity.updateNavButtons) console.log("Switching to nav button set " + input + ".");
 
-    // Shows/hides footer buttons
-    const footerArray = [
-        document.getElementById("sidebarToggleBtn"),
-        document.getElementById("sidebarPlaylistEditBtn"),
-        document.getElementById("sidebarPlaylistSaveBtn"),
-        document.getElementById("sidebarPlaylistCopyBtn"),
-        document.getElementById("sidebarPlaylistViewer"),
-        document.getElementById("sidebarPlaylistHowTo"),
-    ]
-
-    const footerArrayQuery = [
-        document.querySelectorAll(".playlistViewerRow"),
-    ]
-
-    const booleanFooterArray = {
-        "main":/* */[2, 4, 3, 4, 3, 3, 0],
-        "song":/* */[2, 1, 3, 4, 3, 3, 0],
-        "playlist": [2, 1, 3, 4, 3, 3, 0],
-        "edit":/* */[1, 3, 4, 3, 4, 4, 1],
-    }
-
-    if (booleanFooterArray[input]) {
-        for (let i = 0; i < footerArray.length; i++) {
-            // All buttons that use 3 or 4 must always use those numbers. Otherwise, they must always use 0 or 2. In addition, any can use 1 no matter what.
-            // 0: hide
-            // 1: disable
-            // 2: show
-            // 3: offscreen
-            // 4: onscreen
-            switch (booleanFooterArray[input][i]) {
-                case 0:
-                    hide(footerArray[i]);
-                    break;
-                case 1:
-                    show(footerArray[i]);
-                    footerArray[i].disabled = true;
-                    break;
-                case 2:
-                    show(footerArray[i]);
-                    footerArray[i].disabled = false;
-                    break;
-                case 3:
-                    footerArray[i].disabled = false;
-                    footerArray[i].classList.remove("open");
-                    break;
-                case 4:
-                    footerArray[i].disabled = false;
-                    footerArray[i].classList.add("open");
-                    break;
-            }
-        }
-
-        for (let i = 0; i < footerArrayQuery.length; i++) {
-            // 0: normal
-            // 1: edit
-            footerArrayQuery[i].forEach((row) => {
-                switch (booleanFooterArray[input][i + footerArray.length]) {
-                    case 0:
-                        row.classList.remove("edit");
-                        break;
-                    case 1:
-                        row.classList.add("edit");
-                        break;
-                }
-            });
-        }
-
-        if (verbosity.updateNavButtons) console.log("Successfully updated nav button visibility. Input is " + input + ".");
-    } else {
-        if (verbosity.updateNavButtons) console.log("Failed to update nav button visibility. Input is " + input + ".");
-    }
+    sidebarObject.setButtons(input);
 
     if (input === "playlist") {
         positionIndicator.show();
     } else {
         positionIndicator.hide();
-    }
-
-    if (playlist.length() === 0) {
-        document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
     }
 
     if (IS_PHONE) document.getElementById("sidebarToggleBtn").disabled = false;
@@ -297,7 +263,7 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
 function slideMain(start, end) {
     if (verbosity.showSong) console.log("Sliding main: " + start + " => " + end);
 
-    mainMenu.classList.remove("sliding");
+    document.getElementById("mainMenu").classList.remove("sliding");
     slideObject(mainMenu, start);
 
     requestAnimationFrame(() => {
