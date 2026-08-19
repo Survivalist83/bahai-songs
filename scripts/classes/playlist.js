@@ -56,40 +56,13 @@ class Playlist {
                 setQueryString({i: index});
                 showSong(this.#songs[index - 1], direction);
                 positionIndicator.update(index);
-                sidebarObject.close();
+                sidebar.close();
                 if (verbosity.playlist) console.log("Playlist advancing to index " + index + ".");
             }
             appState.queryStrings.i = index;
         } else {
             if (verbosity.playlist) console.log("Playlist mode not active.");
         }
-    }
-}
-
-function arrowKey(input) {
-    if (verbosity.misc) console.log("\n\narrowKey() called. Mode is " + mode + ", input is " + input + ".");
-    switch (mode) {
-        case "song":
-            const CURRENT_SONG = songListSorted.indexOf(appState.queryStrings.s);
-            const NEXT_SONG = CURRENT_SONG + (input === "ArrowLeft" ? -1 : 1);
-            const START_LOCATION = input === "ArrowLeft" ? 0 : 2;
-            if (NEXT_SONG === -1) {
-                showSong(songList.indexOf(songListSorted.at(-1)), START_LOCATION);
-                setQueryString({s: songListSorted.at(-1)});
-            } else if (NEXT_SONG === songListSorted.length) {
-                showSong(songList.indexOf(songListSorted[0]), START_LOCATION);
-                setQueryString({s: songListSorted[0]});
-            } else {
-                showSong(songList.indexOf(songListSorted[NEXT_SONG]), START_LOCATION);
-                setQueryString({s: songListSorted[NEXT_SONG]});
-            }
-            break;
-        case "playlist":
-            const numberOfAdvances = input === "ArrowLeft" ? -1 : 1;
-            playlist.setIndex(Number(playlist.getIndex() || 1) + numberOfAdvances);
-            break;
-        default:
-            if (verbosity.misc) console.log("Error: not in mode song or playlist. Arrow keys do nothing.");
     }
 }
 

@@ -1,5 +1,5 @@
 let songList = [];
-let songListSorted = [];
+let songListCategorized = [];
 let songListAlphabetical = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
@@ -8,7 +8,7 @@ let mode;
 let songLocations = new Map();
 
 const appState = {
-    queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),    
+    queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),
     currentSong: 0,
 }
 const mainMenu = document.getElementById("mainMenu");
@@ -19,7 +19,7 @@ let footer;
 let positionIndicator;
 const songs = [];
 let playlist = new Playlist();
-const sidebarObject = new Sidebar();
+const sidebar = new Sidebar();
 let menuCategorized;
 let menuAlphabetized;
 
@@ -28,113 +28,13 @@ const verbosity = {
     popstate: true,
     mainMenu: false,
     playlist: true,
-    updateNavButtons: false,
+    updateNavButtons: true,
     misc: true,
     queryString: true,
     clipboard: true,
     mode: false,
     showSong: true,
     chords: true,
-}
-
-/////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// Class stuff ////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
-function main() {
-    footer = new Footer([
-        {
-            "text": "<",
-            "onclick": () => arrowKey('ArrowLeft'),
-            "modes": ["song", "playlist"],
-        },
-        {
-            "text": "Home",
-            "onclick": () => setMode("main"),
-            "modes": ["song", "playlist"],
-        },
-        {
-            "text": ">",
-            "onclick": () => arrowKey('ArrowRight'),
-            "modes": ["song", "playlist"],
-        },
-        {
-            "text": "Start Playlist",
-            "onclick": () => setMode("playlist"),
-            "modes": ["main"],
-            "condition": () => playlist.length() !== 0,
-        },
-        {
-            "text": "Create Playlist",
-            "onclick": () => setMode("edit"),
-            "modes": ["main"],
-            "condition": () => playlist.length() === 0,
-        },
-    ]);
-
-    positionIndicator = new PositionIndicator();
-    positionIndicator.update(1);
-    
-    BAHAI_SONGS_DATA.forEach((song, index) => {
-        songList.push(song.meta.name);
-        songs.push(new Song(index, appState.queryStrings.s === song.meta.name));
-    });
-
-    // Sidebar creation
-
-    sidebarObject.sidebar.innerHTML = `
-        <div class="sidebarDiv" id="sidebarPlaylistViewer">
-            <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
-            <div id="sidebarPlaylistViewerOverflow"></div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="setMode('edit')">Edit Playlist</button>
-                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="setMode('main')">Done Editing</button>
-            </div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving">Copy Link</button>
-                <p id="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them.</p>
-            </div>
-            <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
-        </div>
-        <div class="sidebarDiv" id="sidebarBottom">
-            <label class="checkbox open" id="sidebarHideChords">
-                <input type="checkbox" onclick="toggleChordVisibility(this)">
-                <span></span>
-                Hide Guitar Chords
-            </label>
-            <label class="checkbox open" id="sidebarStopSliding">
-                <input type="checkbox" onclick="stopSliding(this)">
-                <span></span>
-                Stop Sliding Elements
-            </label>
-            <label class="checkbox open" id="sidebarToggleMainMenu">
-                <input type="checkbox" onclick="toggleMainMenu(this)">
-                <span></span>
-                Categorize Homescreen
-            </label>
-            <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebarObject.setOverlay('howto')">How To</button> -->
-            <button id="sidebar-shortcuts" class="sidebarBtn pc wide" onclick="sidebarObject.setOverlay('shortcuts')">Keyboard Shortcuts</button>
-            <button id="sidebar-about" class="sidebarBtn wide" onclick="sidebarObject.setOverlay('about')">About</button>
-            <button id="sidebar-request" class="sidebarBtn wide" onclick="sidebarObject.setOverlay('request')">Request a Song</button>
-            <div id="sidebarBottomSpacer" />
-        </div>
-    `
-
-    const categorizedMap = new Map();
-    const alphabetizedMap = new Map();
-    BAHAI_SONGS_DATA.forEach((song, index) => {
-        const category = song.meta.theme;
-        if (!categorizedMap.has(category)) categorizedMap.set(category, []);
-        categorizedMap.get(category).push(index);
-
-        const firstLetter = song.meta.name[0];
-        if (!alphabetizedMap.has(firstLetter)) alphabetizedMap.set(firstLetter, []);
-        alphabetizedMap.get(firstLetter).push(index);
-    });
-
-    menuCategorized = new Menu(categorizedMap, "Categorized");
-    menuAlphabetized = new Menu(alphabetizedMap, "Alphabetized", false);
-    menuAlphabetized.toggle();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -168,7 +68,7 @@ function setMode(input, onPageLoad = false) {
             if (!onPageLoad) appState.queryStrings.i = 1;
             setQueryString({s: "playlist"});
             positionIndicator.update(1);
-            sidebarObject.close();
+            sidebar.close();
             if (verbosity.mode) console.log("Playlist mode starting with song 1/" + playlist.length + ".");
             break;
         
@@ -176,7 +76,7 @@ function setMode(input, onPageLoad = false) {
             mode = "edit";
             updateNavButtons("edit");
             // updateNavButtons([["s", "edit"]]); // this probably means setQueryString(), but I'm not sure if I want it to do that
-            sidebarObject.open();
+            sidebar.open();
             break;
         
         default:
@@ -193,16 +93,11 @@ function setMode(input, onPageLoad = false) {
 const styles = getComputedStyle(document.documentElement);
 let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
 
-function toggleMainMenu(checkbox) {
-    menuCategorized.toggle();
-    menuAlphabetized.toggle();
-}
-
 // Updates the visibility of the buttons at the bottom of the screen.
 function updateNavButtons(input = mode) {
     if (verbosity.updateNavButtons) console.log("Switching to nav button set " + input + ".");
 
-    sidebarObject.setButtons(input);
+    sidebar.setButtons(input);
 
     if (input === "playlist") {
         positionIndicator.show();
@@ -308,4 +203,34 @@ function toggleChordVisibility(checkbox) {
 function stopSliding(checkbox) {
     sliderSpeed = checkbox.checked ? "0s" : "0.65s";
     document.documentElement.style.setProperty("--slider-speed", sliderSpeed);
+}
+
+// Sets a query string.
+function setQueryString(newQueryStrings) {
+    if (verbosity.queryString) console.log("Setting query strings: " + JSON.stringify(newQueryStrings));
+
+    let isDifferent = false;
+    Object.entries(newQueryStrings).forEach((newQueryString) => {
+        if (appState.queryStrings[newQueryString[0]] !== newQueryString[1]) {
+            appState.queryStrings[newQueryString[0]] = newQueryString[1] ? newQueryString[1] : "";
+            isDifferent = true;
+        }
+    });
+
+    if (isDifferent) {
+        history.pushState({}, "",
+            location.pathname + "?" +
+            new URLSearchParams(Object.fromEntries(Object.entries(appState.queryStrings)
+            .filter(([key, value]) => value && (key !== "n" || value !== 3)))));
+    }
+}
+
+function slideObject(object, position) {
+    const positions = ["setLeft", "setMiddle", "setRight"];
+    const selectedPosition = positions[position];
+
+    if (selectedPosition) {
+        object.classList.remove(...positions);
+        object.classList.add(selectedPosition);
+    }
 }

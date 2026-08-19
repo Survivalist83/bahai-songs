@@ -231,10 +231,10 @@ class Menu {
     #includeHeaders;
     #totalHeight = 0;
 
-    #verbose = true;
+    #verbose = false;
     #verboseAssignments = false;
 
-    constructor(unsortedMap, id, includeHeaders = true) {
+    constructor(unsortedMap, id, includeHeaders = true, songOrder) {
         this.#id = id;
         this.#includeHeaders = includeHeaders;
 
@@ -243,7 +243,11 @@ class Menu {
         document.getElementById("mainMenu").appendChild(this.#dom);
         
         this.#cleanMap(unsortedMap);
-        if (this.#id === "Alphabetized") this.#map.get("A").column = 1;
+        this.#map.forEach((value) => {
+            value.songs.forEach((song) => {
+                songOrder.push(BAHAI_SONGS_DATA[song].meta.name);
+            });
+        });
 
         if (!IS_PHONE) this.#assignColumns();
         

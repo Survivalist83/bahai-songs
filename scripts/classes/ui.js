@@ -105,7 +105,7 @@ class PositionIndicator {
 class Sidebar {
     #open;
 
-    sidebar = document.createElement("aside");
+    dom = document.createElement("aside");
     #toggleBtn;
     #shadow;
 
@@ -128,8 +128,8 @@ class Sidebar {
 
         // Sidebar
 
-        this.sidebar.classList.add("sidebar");
-        document.body.appendChild(this.sidebar);
+        this.dom.classList.add("sidebar");
+        document.body.appendChild(this.dom);
 
         // Shadow
 
@@ -143,7 +143,7 @@ class Sidebar {
 
     open() {
         this.#open = true;
-        this.sidebar.classList.add("open");
+        this.dom.classList.add("open");
         this.#toggleBtn.classList.add("open");
         this.#shadow.classList.add("open");
         this.setOverlay();
@@ -153,7 +153,7 @@ class Sidebar {
 
     close() {
         this.#open = false;
-        this.sidebar.classList.remove("open");
+        this.dom.classList.remove("open");
         this.#toggleBtn.classList.remove("open");
         this.#shadow.classList.remove("open");
         this.setOverlay();
