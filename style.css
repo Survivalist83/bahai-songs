@@ -232,14 +232,10 @@ a {
     border-radius: 20px;
     box-shadow: 0 0 8px rgba(var(--blue-dark) / 1);
 
-    padding: 15px 10px 5px;
+    padding: 5px 10px 5px;
     overflow: visible;
 
     width: 200px;
-}
-
-.mainMenuCardAlphabetized {
-    padding-top: 5px;
 }
 
 /* .mainMenuCard:hover {
@@ -260,7 +256,6 @@ a {
     margin-bottom: 3px;
 }
 
-.alphabetizedMenuBtn,
 .mainMenuCard p {
     text-align: center;
     font-size: 20px;
@@ -278,7 +273,6 @@ a {
     word-break: normal;
 }
 
-.alphabetizedMenuBtn:hover,
 .mainMenuCard p:hover {
     background-color: rgb(var(--blue-medium));
 }

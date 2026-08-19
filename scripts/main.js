@@ -20,6 +20,8 @@ let positionIndicator;
 const songs = [];
 let playlist = new Playlist();
 const sidebarObject = new Sidebar();
+let menuCategorized;
+let menuAlphabetized;
 
 const verbosity = {
     pageLoad: true,
@@ -117,6 +119,22 @@ function main() {
             <div id="sidebarBottomSpacer" />
         </div>
     `
+
+    const categorizedMap = new Map();
+    const alphabetizedMap = new Map();
+    BAHAI_SONGS_DATA.forEach((song, index) => {
+        const category = song.meta.theme;
+        if (!categorizedMap.has(category)) categorizedMap.set(category, []);
+        categorizedMap.get(category).push(index);
+
+        const firstLetter = song.meta.name[0];
+        if (!alphabetizedMap.has(firstLetter)) alphabetizedMap.set(firstLetter, []);
+        alphabetizedMap.get(firstLetter).push(index);
+    });
+
+    menuCategorized = new Menu(categorizedMap, "Categorized");
+    menuAlphabetized = new Menu(alphabetizedMap, "Alphabetized", false);
+    menuAlphabetized.toggle();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -172,31 +190,13 @@ function setMode(input, onPageLoad = false) {
     if (verbosity.mode) console.log("Successfully set mode to " + input + ".");
 }
 
-// used to in category-column assignments
-let NUM_OF_CATEGORY_COLUMNS;
-const THRESHHOLD_ADJUSTER = 3; // bigger number = more songs in later columns
-
 const styles = getComputedStyle(document.documentElement);
 let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
 
-// Page load stuff used to be here
-
 function toggleMainMenu(checkbox) {
-    const mainMenuAlphabetized = document.getElementById("mainMenuAlphabetized");
-    const mainMenuCategorized = document.getElementById("mainMenuCategorized");
-
-    if (checkbox.checked) {
-        mainMenuAlphabetized.classList.add("hide");
-        mainMenuCategorized.classList.remove("hide");
-    } else {
-        mainMenuAlphabetized.classList.remove("hide");
-        mainMenuCategorized.classList.add("hide");
-    }
+    menuCategorized.toggle();
+    menuAlphabetized.toggle();
 }
-
-// Playlist stuff used to be here
-
-// Sidebar stuff used to be here
 
 // Updates the visibility of the buttons at the bottom of the screen.
 function updateNavButtons(input = mode) {

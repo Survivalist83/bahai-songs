@@ -221,3 +221,147 @@ class Song {
         if (this.#position === condition) this.slide(newPosition);
     }
 }
+
+class Menu {
+    #dom = document.createElement("div");
+    #map;
+    #columns = [];
+
+    #id;
+    #includeHeaders;
+    #totalHeight = 0;
+
+    #verbose = true;
+    #verboseAssignments = false;
+
+    constructor(unsortedMap, id, includeHeaders = true) {
+        this.#id = id;
+        this.#includeHeaders = includeHeaders;
+
+        this.#dom.classList.add("flex-row", "hide");
+        this.#dom.id = "mainMenu" + this.#id;
+        document.getElementById("mainMenu").appendChild(this.#dom);
+        
+        this.#cleanMap(unsortedMap);
+        if (this.#id === "Alphabetized") this.#map.get("A").column = 1;
+
+        if (!IS_PHONE) this.#assignColumns();
+        
+        // Creates columns
+        for (let i = 0; i < appState.queryStrings.n; i++) {
+            if (IS_PHONE && i > 0) break;
+            const menuColumn = document.createElement("div");
+            menuColumn.classList.add("songColumn");
+            this.#columns.push(menuColumn);
+            this.#dom.appendChild(menuColumn);
+        }
+
+        this.#map.forEach((value, key) => {
+            this.#createCard(value.songs, this.#columns[value.column], key);
+        });
+
+        this.#columns.forEach(column => {
+            column.lastElementChild.remove();
+        });
+
+        if (this.#verbose) console.log(this.#map);
+    }
+
+    #cleanMap(unsortedMap) {
+        this.#map = new Map(
+            [...unsortedMap.entries()]
+                .map(([key, value]) => [key || "Uncategorized", {
+                    songs: value.sort((a, b) => BAHAI_SONGS_DATA[a].meta.name.localeCompare(BAHAI_SONGS_DATA[b].meta.name)),
+                    column: 0,
+                    height: value.length + (this.#includeHeaders ? 2 : 0)
+                }])
+                .sort(([a], [b]) => {
+                    if (a === "Uncategorized") return 1;
+                    if (b === "Uncategorized") return -1;
+                    return a.localeCompare(b);
+            }));    
+        
+        this.#map.forEach((_, key) => {
+            this.#totalHeight += this.#map.get(key).height;
+        });
+    }
+
+    #assignColumns() {
+        let numCategoriesAssigned = 0;
+        let numHeightAssigned = 0;
+        const THRESHHOLD_ADJUSTER = 5.5; // bigger number = more songs in later columns
+        
+        let currentColumn = 0;
+        let currentColumnHeight = 0;
+        let THRESHHOLD_TARGET = (this.#totalHeight - numHeightAssigned) / (appState.queryStrings.n - currentColumn);
+
+        this.#map.forEach((value, key) => {
+            const COLUMN_UNDER = THRESHHOLD_TARGET - currentColumnHeight;
+            const COLUMN_OVER = Math.abs(THRESHHOLD_TARGET - currentColumnHeight - value.height);
+
+            value.column = currentColumn;
+            numCategoriesAssigned++;
+            numHeightAssigned += value.height;
+            currentColumnHeight += value.height;
+
+            if (this.#verboseAssignments) console.log({
+                "key": key,
+                "index": numCategoriesAssigned,
+                "THRESHHOLD_TARGET": THRESHHOLD_TARGET,
+                "COLUMN_UNDER": COLUMN_UNDER,
+                "COLUMN_OVER": COLUMN_OVER,
+                "height": value.height,
+                "currentColumn": currentColumn,
+                "currentColumnHeight": currentColumnHeight,
+            });
+
+            if (COLUMN_UNDER < THRESHHOLD_ADJUSTER || COLUMN_UNDER < COLUMN_OVER) {
+                currentColumn = Math.min(currentColumn + 1, appState.queryStrings.n - 1);
+                currentColumnHeight = 0;
+            }
+        });
+
+        // Sets any straggler categories to the final column
+        if (this.#verboseAssignments) console.log("About to set straggler categories. numCategoriesAssigned is " + numCategoriesAssigned + ".");
+        let i = 0;
+        this.#map.forEach((value, key) => {
+            if (numCategoriesAssigned < i) value.column = appState.queryStrings.n - 1;
+            i++;
+        })
+    }
+
+    #createCard(songs, column, key) {
+        const card = document.createElement("div");
+        card.classList.add("mainMenuCard");
+
+        // Adds the header and border between the header and cards, if the invoke call asks for it
+        if (this.#includeHeaders) {
+            const header = document.createElement("h1");
+            header.innerText = key;
+            card.appendChild(header);
+
+            const border = document.createElement("div");
+            card.appendChild(border);
+        }
+
+        // Adds the songs themselves
+        songs.forEach((index) => {
+            const button = document.createElement("p");
+            button.addEventListener("click", () => { mainMenuBtnClicked(index, true) });
+            button.innerText = BAHAI_SONGS_DATA[index].meta.name;
+            card.appendChild(button);
+        });
+
+        column.appendChild(card);
+
+        // Adds the green squiggle between cards
+        const squiggle = document.createElement("img");
+        squiggle.src = "images/Green_Divider.png";
+        squiggle.classList.add("greenDivider");
+        column.appendChild(squiggle);
+    }
+
+    toggle() {
+        this.#dom.classList.toggle("hide");
+    }
+}
