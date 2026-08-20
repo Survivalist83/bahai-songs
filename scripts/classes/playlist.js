@@ -1,11 +1,18 @@
 class Playlist {
     #songs;
 
+    #playlistViewer;
+    #playlistViewerIntro;
+
     #verbose = true;
     
     constructor() {
         const queryString = appState.queryStrings.p;
         this.#songs = queryString !== undefined ? queryString.split("-").map(Number) : [];
+
+        this.#playlistViewer = document.getElementById("playlistViewer");
+        this.#playlistViewerIntro = document.getElementById("playlistViewerIntro");
+        this.setViewer();
     }
 
     // Query string p
@@ -25,12 +32,16 @@ class Playlist {
     set(newPlaylist) {
         this.#songs = newPlaylist;
         setQueryString({p: newPlaylist.join("-")});
-
-        // update sidebar bit that shows the current playlist
+        this.setViewer();
     }
 
     add(index) {
         this.#songs.push(index);
+        this.set(this.#songs);
+    }
+
+    remove(index) {
+        this.#songs.splice(index, 1);
         this.set(this.#songs);
     }
 
@@ -45,7 +56,7 @@ class Playlist {
     setIndex(index) {
         if (this.#verbose) console.log("Setting playlist index to " + index + ".");
 
-        if (mode === "playlist") {
+        if (appState.mode === "playlist") {
             if (index <= 0 || (index - 1) >= this.length()) {
                 setMode("main");
                 if (verbosity.playlist) console.log("Exiting playlist mode.");
@@ -64,50 +75,47 @@ class Playlist {
             if (verbosity.playlist) console.log("Playlist mode not active.");
         }
     }
-}
 
-function updatePlaylistViewer() {
-    // const playlistViewer = document.getElementById("sidebarPlaylistViewer");
-    const playlistViewerOverflow = document.getElementById("sidebarPlaylistViewerOverflow");
+    // Playlist viewer
 
-    const playlistViewerIntro = document.getElementById("playlistViewerIntro");
-    if (playlist.length() === 0) {
-        playlistViewerIntro.innerText = "No playlist currently selected.";
-        playlistViewerOverflow.classList.add("hide");
-        return;
-    } else {
-        playlistViewerIntro.innerText = "Current Playlist:";
-        playlistViewerOverflow.classList.remove("hide");
-    }
+    setViewer() {
+        if (this.#songs.length === 0) {
+            this.#playlistViewerIntro.innerText = "No playlist currently selected.";
+            this.#playlistViewer.classList.add("hide");
+            return;
+        } else {
+            this.#playlistViewerIntro.innerText = "Current Playlist:";
+            this.#playlistViewer.classList.remove("hide");
+        }
 
-    // Removes children (otherwise, there would be duplicates)
-    playlistViewerOverflow.replaceChildren();
+        // Removes children (otherwise, there would be duplicates)
+        this.#playlistViewer.replaceChildren();
 
-    for (i = 0; i < playlist.length(); i++) {
-        const playlistViewerRow = document.createElement("div");
-        playlistViewerRow.classList.add("playlistViewerRow");
-        if (i % 2 === 0) playlistViewerRow.classList.add("alternating");
-        if (mode === "edit") playlistViewerRow.classList.add("edit");
-        playlistViewerOverflow.appendChild(playlistViewerRow);
+        // Recreates rows
+        this.#songs.forEach((song, index) => {
+            const playlistViewerRow = document.createElement("div");
+            playlistViewerRow.classList.add("playlistViewerRow");
+            if (index % 2 === 0) playlistViewerRow.classList.add("alternating");
+            if (appState.mode === "edit") playlistViewerRow.classList.add("edit");
+            this.#playlistViewer.appendChild(playlistViewerRow);
 
-        const playlistViewerText = document.createElement("p");
-        playlistViewerText.innerText = BAHAI_SONGS_DATA[playlist.get()[i]].meta.name;
-        playlistViewerRow.appendChild(playlistViewerText);
+            const playlistViewerText = document.createElement("p");
+            playlistViewerText.innerText = BAHAI_SONGS_DATA[this.#songs[index]].meta.name;
+            playlistViewerRow.appendChild(playlistViewerText);
+            
+            const playlistViewerButton = document.createElement("button");
+            (function (i) {
+                playlistViewerButton.addEventListener("click", () => {
+                    playlist.remove(i);
+                    playlistViewerEventListeners();
+                });
+            })(index);
+            playlistViewerRow.appendChild(playlistViewerButton);
 
-        const playlistViewerButton = document.createElement("button");
-        (function (j) {
-            playlistViewerButton.addEventListener("click", () => {
-                playlist.splice(j, 1);
-                setQueryString({p: playlist.join("-")});
-                updatePlaylistViewer();
-                playlistViewerEventListeners();
-            });
-        })(i);
-        playlistViewerRow.appendChild(playlistViewerButton);
-
-        const playlistViewerImage = document.createElement("img");
-        playlistViewerImage.src = "images/X_Icon.png";
-        playlistViewerButton.appendChild(playlistViewerImage);
+            const playlistViewerImage = document.createElement("img");
+            playlistViewerImage.src = "images/X_Icon.png";
+            playlistViewerButton.appendChild(playlistViewerImage);
+        });
     }
 }
 
@@ -118,7 +126,7 @@ function playlistViewerEventListeners() {
         row.setAttribute("draggable", "true");
 
         row.addEventListener("dragstart", (e) => {
-            if (mode !== "edit") {
+            if (appState.mode !== "edit") {
                 e.preventDefault();
                 return;
             }

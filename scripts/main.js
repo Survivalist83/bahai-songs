@@ -4,12 +4,10 @@ let songListAlphabetical = [];
 const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
-let mode;
-let songLocations = new Map();
-
 const appState = {
     queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),
     currentSong: 0,
+    mode: "",
 }
 const mainMenu = document.getElementById("mainMenu");
 
@@ -18,7 +16,7 @@ if (!appState.queryStrings.n) appState.queryStrings.n = 3;
 let footer;
 let positionIndicator;
 const songs = [];
-let playlist = new Playlist();
+let playlist;
 const sidebar = new Sidebar();
 let menuCategorized;
 let menuAlphabetized;
@@ -46,14 +44,14 @@ function setMode(input, onPageLoad = false) {
 
     switch(input) {
         case "main":
-            mode = "main";
+            appState.mode = "main";
             updateNavButtons("main");
             showSong();
             setQueryString({s: "", i: ""});
             break;
         
         case "song":
-            mode = "song";
+            appState.mode = "song";
             updateNavButtons("song");
             break;
         
@@ -62,7 +60,7 @@ function setMode(input, onPageLoad = false) {
                 window.alert("Cannot enter playlist mode without a playlist selected! Please create a playlist first.");
                 return;
             }
-            mode = "playlist";
+            appState.mode = "playlist";
             if (!onPageLoad) showSong(playlist.get(0), 2);
             updateNavButtons("playlist");
             if (!onPageLoad) appState.queryStrings.i = 1;
@@ -73,10 +71,10 @@ function setMode(input, onPageLoad = false) {
             break;
         
         case "edit":
-            mode = "edit";
+            appState.mode = "edit";
+            sidebar.open();
             updateNavButtons("edit");
             // updateNavButtons([["s", "edit"]]); // this probably means setQueryString(), but I'm not sure if I want it to do that
-            sidebar.open();
             break;
         
         default:
@@ -94,7 +92,7 @@ const styles = getComputedStyle(document.documentElement);
 let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
 
 // Updates the visibility of the buttons at the bottom of the screen.
-function updateNavButtons(input = mode) {
+function updateNavButtons(input = appState.mode) {
     if (verbosity.updateNavButtons) console.log("Switching to nav button set " + input + ".");
 
     sidebar.setButtons(input);
@@ -108,11 +106,11 @@ function updateNavButtons(input = mode) {
     if (IS_PHONE) document.getElementById("sidebarToggleBtn").disabled = false;
 }
 
-// Shows one specific song. When mode === "main", it goes to the homepage
+// Shows one specific song. When appState.mode === "main", it goes to the homepage
 function showSong(songNumber, startLocation = 1, onPageLoad = false) {
-    if (verbosity.showSong) console.log("showSong() Song: " + songNumber + ". Start: " + startLocation + ". Mode: " + mode + ".");
+    if (verbosity.showSong) console.log("showSong() Song: " + songNumber + ". Start: " + startLocation + ". Mode: " + appState.mode + ".");
 
-    switch(mode) {
+    switch(appState.mode) {
         case "song":
             songs[songNumber].slide(1, startLocation);
 
@@ -140,7 +138,7 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
     }
 
     // Shows/hides the main menu
-    if (mode === "main") {
+    if (appState.mode === "main") {
         console.log("Potentially sliding main. Pageload is " + onPageLoad);
         if (onPageLoad) {
             mainMenu.classList.remove("sliding", "setLeft", "setRight");
@@ -148,7 +146,7 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
         } else {
             slideMain(0, 1);
         }
-    } else if (mode !== "main" && document.getElementById("mainMenu").classList.contains("setMiddle")) {
+    } else if (appState.mode !== "main" && mainMenu.classList.contains("setMiddle")) {
         slideMain(1, 0);
     }
 
@@ -158,7 +156,7 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
 function slideMain(start, end) {
     if (verbosity.showSong) console.log("Sliding main: " + start + " => " + end);
 
-    document.getElementById("mainMenu").classList.remove("sliding");
+    mainMenu.classList.remove("sliding");
     slideObject(mainMenu, start);
 
     requestAnimationFrame(() => {
@@ -169,13 +167,12 @@ function slideMain(start, end) {
 
 // This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
 function mainMenuBtnClicked(id) {
-    if (verbosity.mainMenu) console.log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + mode + ".");
-    if (mode !== "edit") {
+    if (verbosity.mainMenu) console.log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + appState.mode + ".");
+    if (appState.mode !== "edit") {
         setMode("song");
         showSong(id, 2);
     } else {
         playlist.add(id);
-        updatePlaylistViewer();
         positionIndicator.update(playlist.getIndex() || 1);
     }
 }

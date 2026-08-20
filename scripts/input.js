@@ -13,13 +13,17 @@ function keyPress(event) {
         case "ArrowRight":
             arrowKey(event);
             break;
+        case "a":
+            playlist.setViewer();
+        case "s":
+            playlist.remove(2);
     }
 }
 
 // What happens when clicking an arrow key, swiping, etc
 function arrowKey(input) {
-    if (verbosity.misc) console.log("\n\narrowKey() called. Mode is " + mode + ", input is " + input + ".");
-    switch (mode) {
+    if (verbosity.misc) console.log("\n\narrowKey() called. Mode is " + appState.mode + ", input is " + input + ".");
+    switch (appState.mode) {
         case "song":
             const songListSorted = appState.mainMenu === "Alphabetized" ? songListAlphabetical : songListCategorized;
             const CURRENT_SONG = songListSorted.indexOf(appState.queryStrings.s);

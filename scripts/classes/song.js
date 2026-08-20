@@ -240,7 +240,7 @@ class Menu {
 
         this.#dom.classList.add("flex-row", "hide");
         this.#dom.id = "mainMenu" + this.#id;
-        document.getElementById("mainMenu").appendChild(this.#dom);
+        mainMenu.appendChild(this.#dom);
         
         this.#cleanMap(unsortedMap);
         this.#map.forEach((value) => {

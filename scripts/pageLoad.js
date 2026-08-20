@@ -34,9 +34,6 @@ function loadClasses() {
             "condition": () => playlist.length() === 0,
         },
     ]);
-
-    positionIndicator = new PositionIndicator();
-    positionIndicator.update(1);
     
     BAHAI_SONGS_DATA.forEach((song, index) => {
         songList.push(song.meta.name);
@@ -48,7 +45,7 @@ function loadClasses() {
     sidebar.dom.innerHTML = `
         <div class="sidebarDiv" id="sidebarPlaylistViewer">
             <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
-            <div id="sidebarPlaylistViewerOverflow"></div>
+            <div id="playlistViewer"></div>
             <div class="sidebarBtnVertical">
                 <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="setMode('edit')">Edit Playlist</button>
                 <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="setMode('main')">Done Editing</button>
@@ -82,6 +79,11 @@ function loadClasses() {
             <div id="sidebarBottomSpacer" />
         </div>
     `
+
+    playlist = new Playlist();
+
+    positionIndicator = new PositionIndicator();
+    positionIndicator.update(1);
 
     const categorizedMap = new Map();
     const alphabetizedMap = new Map();
@@ -142,7 +144,7 @@ function eventListeners() {
             updateNavButtons(currentSong);
         }
 
-        updatePlaylistViewer();
+        playlist.setViewer();
     });
     
     // Mobile-only swiping
@@ -168,7 +170,7 @@ function eventListeners() {
 function pageLoad() {
     setMode(songList.indexOf(appState.queryStrings.s) === -1 ? appState.queryStrings.s ?? "main" : "song", true);
 
-    if (mode === "main" || mode === "edit") { // maybe remove mode === "edit"
+    if (appState.mode === "main" || appState.mode === "edit") { // maybe remove appState.mode === "edit"
         mainMenu.classList.add("setMiddle");
     } else {
         mainMenu.classList.add("setLeft");
@@ -178,13 +180,12 @@ function pageLoad() {
     updateNavButtons();
 
     // Handles logic for loading song when starting from playlist mode.
-    if (mode === "playlist") {
+    if (appState.mode === "playlist") {
         showSong(playlist.get(Number(playlist.getIndex()) - 1), 2, true);
         mainMenu.classList.remove("sliding", "setMiddle");
         mainMenu.classList.add("setLeft");
     }
 
-    updatePlaylistViewer();
     positionIndicator.update(playlist.getIndex() || 1);
 
     playlistViewerEventListeners();

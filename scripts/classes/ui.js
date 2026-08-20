@@ -20,7 +20,7 @@ class Footer {
         document.body.appendChild(this.dom);
     }
 
-    setMode(input = mode) {
+    setMode(input = appState.mode) {
         if (this.#verbose) console.log(input);
 
         let showFooter = false;
@@ -147,7 +147,7 @@ class Sidebar {
         this.#toggleBtn.classList.add("open");
         this.#shadow.classList.add("open");
         this.setOverlay();
-        document.getElementById("mainMenu").classList.add("sidebarPadding");
+        mainMenu.classList.add("sidebarPadding");
         // contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")}); // todo: add this
     }
 
@@ -157,7 +157,7 @@ class Sidebar {
         this.#toggleBtn.classList.remove("open");
         this.#shadow.classList.remove("open");
         this.setOverlay();
-        document.getElementById("mainMenu").classList.remove("sidebarPadding");
+        mainMenu.classList.remove("sidebarPadding");
         // contentDivChildren.forEach(song => {song.classList.add("sidebarPadding")}); // todo: add this
     }
 
@@ -184,7 +184,7 @@ class Sidebar {
         }
     }
 
-    setButtons(input = mode) {
+    setButtons(input = appState.mode) {
         if (this.#verbose) console.log("Setting sidebar buttons! Input: " + input)
 
         const elementArray = [
@@ -204,7 +204,7 @@ class Sidebar {
             main:/* */[2, 4, 3, 4, 3, 3, 0],
             song:/* */[2, 1, 3, 4, 3, 3, 0],
             playlist: [2, 1, 3, 4, 3, 3, 0],
-            edit:/* */[1, 3, 4, 3, 4, 4, 0],
+            edit:/* */[1, 3, 4, 3, 4, 4, 1],
         }
 
         if (booleanArray[input]) {
@@ -240,9 +240,9 @@ class Sidebar {
             // 0: normal
             // 1: edit
             const elementArrayLength = elementArray.length;
-            elementArrayQuery.forEach(elements => {
-                elements.forEach((element, index) => {
-                    index += elementArrayLength;
+            elementArrayQuery.forEach((elements, index) => {
+                index += elementArrayLength;
+                elements.forEach((element) => {
                     switch(booleanArray[input][index]) {
                         case 0:
                             element.classList.remove("edit");
