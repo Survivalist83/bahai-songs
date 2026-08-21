@@ -3,6 +3,7 @@ class Playlist {
 
     #playlistViewer;
     #playlistViewerIntro;
+    #draggedRow;
 
     #verbose = true;
     
@@ -92,6 +93,7 @@ class Playlist {
         this.#playlistViewer.replaceChildren();
 
         // Recreates rows
+        this.#draggedRow = null;
         this.#songs.forEach((song, index) => {
             const playlistViewerRow = document.createElement("div");
             playlistViewerRow.classList.add("playlistViewerRow");
@@ -107,7 +109,6 @@ class Playlist {
             (function (i) {
                 playlistViewerButton.addEventListener("click", () => {
                     playlist.remove(i);
-                    playlistViewerEventListeners();
                 });
             })(index);
             playlistViewerRow.appendChild(playlistViewerButton);
@@ -115,78 +116,91 @@ class Playlist {
             const playlistViewerImage = document.createElement("img");
             playlistViewerImage.src = "images/X_Icon.png";
             playlistViewerButton.appendChild(playlistViewerImage);
-        });
-    }
-}
 
-// Handles dragging playlistViewerRow(s)
-function playlistViewerEventListeners() {
-    let draggedRow = null;
-    document.querySelectorAll(".playlistViewerRow").forEach(row => {
-        row.setAttribute("draggable", "true");
+            // Event listeners
 
-        row.addEventListener("dragstart", (e) => {
-            if (appState.mode !== "edit") {
+            playlistViewerRow.setAttribute("draggable", "true");
+
+            playlistViewerRow.addEventListener("dragstart", (e) => {
+                if (appState.mode !== "edit") {
+                    e.preventDefault();
+                    return;
+                }
+
+                this.#draggedRow = e.currentTarget;
+                this.#draggedRow.classList.add("dragging");
+
+                // Makes the ghost use different CSS than the main row
+                const ghost = playlistViewerRow.cloneNode(true);
+                ghost.classList.add("ghost");
+                document.body.appendChild(ghost);
+                e.dataTransfer.setDragImage(ghost, 0, 0);
+                setTimeout(() => ghost.remove(), 0);
+            });
+
+            playlistViewerRow.addEventListener("dragover", (e) => {
                 e.preventDefault();
-                return;
-            }
+                if (this.#draggedRow === playlistViewerRow) return; // || playlistViewerRow.classList.contains("sliding")
 
-            draggedRow = e.currentTarget;
-            draggedRow.classList.add("dragging");
+                const draggedRowHeight = this.#draggedRow.getBoundingClientRect().top;
+                const bounding = playlistViewerRow.getBoundingClientRect();
+                const centerLine = bounding.height / 2 + bounding.top;
+                const thisRowHeight = bounding.top;
 
-            // Makes the ghost use different CSS than the main row
-            const ghost = row.cloneNode(true);
-            ghost.classList.add("ghost");
-            document.body.appendChild(ghost);
-            e.dataTransfer.setDragImage(ghost, 0, 0);
-            setTimeout(() => ghost.remove(), 0);
+                if (e.clientY < centerLine) {
+                    // Mouse is in the top half. Place it BEFORE the target row.
+                    // Prevent infinite loops by making sure it isn't already there!
+                    if (playlistViewerRow.previousSibling !== this.#draggedRow) {
+                        playlistViewerRow.parentNode.insertBefore(this.#draggedRow, playlistViewerRow);
+                    } else {
+                        return;
+                    }
+                } else {
+                    // Mouse is in the bottom half. Place it AFTER the target row.
+                    if (playlistViewerRow.nextSibling !== this.#draggedRow) {
+                        playlistViewerRow.parentNode.insertBefore(this.#draggedRow, playlistViewerRow.nextSibling);
+                    } else {
+                        return; 
+                    }
+                }
+
+                if (draggedRowHeight > thisRowHeight) { // last
+                    playlistViewerRow.parentNode.insertBefore(this.#draggedRow, playlistViewerRow);
+                } else {
+                    playlistViewerRow.parentNode.insertBefore(this.#draggedRow, playlistViewerRow.nextSibling);
+                }
+
+                // invert
+                const deltaHeight = thisRowHeight - playlistViewerRow.getBoundingClientRect().top;
+                playlistViewerRow.style.transform = `translateY(${deltaHeight}px)`;
+
+                playlistViewerRow.offsetHeight; // forces re-rendering
+                playlistViewerRow.classList.add("sliding");
+                playlistViewerRow.style.transform = "";
+                setTimeout(() => { playlistViewerRow.classList.remove("sliding") }, 300); // must be the same as the transition in .playlistViewerRow.sliding
+
+                // Updates the alternating color nature of playlistViewer
+                document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
+                    if (index % 2 === 0) {
+                        rowAlternating.classList.add("alternating");
+                    } else {
+                        rowAlternating.classList.remove("alternating");
+                    }
+                });
+            });
+
+            playlistViewerRow.addEventListener("drop", (e) => {
+                e.preventDefault();
+            });
+
+            // Updates the playlist (and therefore, the URL) with the new order
+            playlistViewerRow.addEventListener("dragend", (e) => {
+                const newPlaylist = [];
+                Array.from(playlistViewerRow.parentNode.children).forEach(child => {
+                    newPlaylist.push(songList.indexOf(child.querySelector("p").innerText));
+                });
+                this.set(newPlaylist);
+            });
         });
-
-        row.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            if (draggedRow === row) return;
-
-            playlistViewerDrag(row, draggedRow, false);
-        });
-
-        row.addEventListener("drop", (e) => {
-            e.preventDefault();
-            if (draggedRow === row) return;
-
-            playlistViewerDrag(row, draggedRow, true);
-        });
-
-        row.addEventListener("dragend", () => {
-            draggedRow.classList.remove("dragging");
-        })
-    });
-}
-
-function playlistViewerDrag(row, draggedRow, boolUpdatePlaylist) {
-    const draggedRowHeight = draggedRow.getBoundingClientRect().top;
-    const thisRowHeight = row.getBoundingClientRect().top;
-
-    if (draggedRowHeight > thisRowHeight) {
-        row.parentNode.insertBefore(draggedRow, row);
-    } else {
-        row.parentNode.insertBefore(draggedRow, row.nextSibling);
-    }
-
-    // Updates the alternating color nature of playlistViewer
-    document.querySelectorAll(".playlistViewerRow").forEach((rowAlternating, index) => {
-        if (index % 2 === 0) {
-            rowAlternating.classList.add("alternating");
-        } else {
-            rowAlternating.classList.remove("alternating");
-        }
-    });
-
-    // Updates the internal playlist variable and associated thingies
-    if (boolUpdatePlaylist) {
-        playlist = []
-        Array.from(row.parentNode.children).forEach(child => {
-            playlist.push(songList.indexOf(child.querySelector("p").innerText));
-        });
-        setQueryString({p: playlist.join("-")});
     }
 }

@@ -188,8 +188,6 @@ function pageLoad() {
 
     positionIndicator.update(playlist.getIndex() || 1);
 
-    playlistViewerEventListeners();
-
     // Sets the correct amount of padding to account for position: absolute .sidebarBtn.moving elements
     document.documentElement.style.setProperty("--sidebar-middle-padding",
         "" + (

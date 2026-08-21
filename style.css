@@ -766,12 +766,16 @@ a {
     max-height: 20px;
 }
 
-.playlistViewerRow.dragging {
-    border-color: var(--gold);
-}
-
 .playlistViewerRow.dragging p {
     opacity: 0;
+}
+
+.playlistViewerRow.dragging button {
+    display: none;
+}
+
+.playlistViewerRow.sliding {
+    transition: transform 0.3s ease;
 }
 
 .playlistViewerRow.ghost {
