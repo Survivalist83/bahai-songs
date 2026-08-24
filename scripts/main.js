@@ -17,20 +17,20 @@ let footer;
 let positionIndicator;
 const songs = [];
 let playlist;
-const sidebar = new Sidebar();
+const sidebar = new Sidebar(["sidebarPlaylistViewer", "sidebarBottom"]);
 let menuCategorized;
 let menuAlphabetized;
 
 const verbosity = {
     pageLoad: true,
     popstate: true,
-    mainMenu: false,
+    mainMenu: true,
     playlist: true,
     updateNavButtons: true,
     misc: true,
     queryString: true,
     clipboard: true,
-    mode: false,
+    mode: true,
     showSong: true,
     chords: true,
 }
@@ -175,31 +175,6 @@ function mainMenuBtnClicked(id) {
         playlist.add(id);
         positionIndicator.update(playlist.getIndex() || 1);
     }
-}
-
-function toggleChordVisibility(checkbox) {
-    if (verbosity.chords) console.log("Toggling chord visibility!");
-    const fadesWithChords = document.querySelectorAll(".fadesWithChords");
-    const shrinksWithChords = document.querySelectorAll(".shrinksWithChords");
-    const appearWithChords = document.querySelectorAll(".appearWithChords");
-    const growWithChords = document.querySelectorAll(".growWithChords");
-
-    if (checkbox.checked) {
-        fadesWithChords.forEach(chord => chord.classList.add("fade"));
-        shrinksWithChords.forEach(chord => chord.classList.add("shrink"));
-        appearWithChords.forEach(chord => chord.classList.remove("fade"));
-        growWithChords.forEach(chord => chord.classList.remove("shrink"));
-    } else {
-        fadesWithChords.forEach(chord => chord.classList.remove("fade"));
-        shrinksWithChords.forEach(chord => chord.classList.remove("shrink"));
-        appearWithChords.forEach(chord => chord.classList.add("fade"));
-        growWithChords.forEach(chord => chord.classList.add("shrink"));
-    }
-}
-
-function stopSliding(checkbox) {
-    sliderSpeed = checkbox.checked ? "0s" : "0.65s";
-    document.documentElement.style.setProperty("--slider-speed", sliderSpeed);
 }
 
 // Sets a query string.

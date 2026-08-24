@@ -13,10 +13,6 @@ function keyPress(event) {
         case "ArrowRight":
             arrowKey(event);
             break;
-        case "a":
-            playlist.setViewer();
-        case "s":
-            playlist.remove(2);
     }
 }
 
@@ -49,7 +45,54 @@ function arrowKey(input) {
     }
 }
 
-function toggleMainMenu(checkbox) {
+// Handles copying the page URL with sidebarPlaylistCopyBtn
+async function copyLink(element) {
+    const text = window.location.href;
+
+    try {
+        await navigator.clipboard.writeText(text);
+
+        element.textContent = "Copied!";
+        element.disabled = true;
+        element.classList.add("disabled");
+
+        setTimeout(() => {
+            element.textContent = "Copy Link";
+            element.disabled = false;
+            element.classList.remove("disabled");
+        }, 1500);
+    } catch (err) {
+        console.log("Failed to copy text to clipboard. Error below. Text: " + text);
+        console.log(err);
+    }
+}
+
+function toggleChordVisibility(checkbox) {
+    if (verbosity.chords) console.log("Toggling chord visibility!");
+    const fadesWithChords = document.querySelectorAll(".fadesWithChords");
+    const shrinksWithChords = document.querySelectorAll(".shrinksWithChords");
+    const appearWithChords = document.querySelectorAll(".appearWithChords");
+    const growWithChords = document.querySelectorAll(".growWithChords");
+
+    if (checkbox.checked) {
+        fadesWithChords.forEach(chord => chord.classList.add("fade"));
+        shrinksWithChords.forEach(chord => chord.classList.add("shrink"));
+        appearWithChords.forEach(chord => chord.classList.remove("fade"));
+        growWithChords.forEach(chord => chord.classList.remove("shrink"));
+    } else {
+        fadesWithChords.forEach(chord => chord.classList.remove("fade"));
+        shrinksWithChords.forEach(chord => chord.classList.remove("shrink"));
+        appearWithChords.forEach(chord => chord.classList.add("fade"));
+        growWithChords.forEach(chord => chord.classList.add("shrink"));
+    }
+}
+
+function stopSliding(checkbox) {
+    sliderSpeed = checkbox.checked ? "0s" : "0.65s";
+    document.documentElement.style.setProperty("--slider-speed", sliderSpeed);
+}
+
+function toggleMainMenu() {
     menuCategorized.toggle();
     menuAlphabetized.toggle();
 }

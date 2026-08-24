@@ -581,7 +581,7 @@ a {
     object-fit: contain;
 }
 
-#sidebarPlaylistHowTo {
+.sidebarBtnVertical p {
     position: absolute;
     width: calc(var(--sidebar-width-no-padding) * 0.8);
 
@@ -594,7 +594,7 @@ a {
     margin-bottom: 0;
 }
 
-#sidebarPlaylistHowTo.open {
+.sidebarBtnVertical p.open {
     left: calc(var(--sidebar-width-no-padding) * 0.1 + 10px);
 }
 

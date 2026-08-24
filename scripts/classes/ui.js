@@ -106,12 +106,14 @@ class Sidebar {
     #open;
 
     dom = document.createElement("aside");
+    sections = [];
+    buttons = [];
     #toggleBtn;
     #shadow;
 
     #verbose = true;
 
-    constructor() {
+    constructor(sectionNames) {
         // Toggle button
 
         this.#toggleBtn = document.createElement("button");
@@ -131,12 +133,95 @@ class Sidebar {
         this.dom.classList.add("sidebar");
         document.body.appendChild(this.dom);
 
+        sectionNames.forEach(sectionName => {
+            const element = document.createElement("div");
+            element.classList.add("sidebarDiv");
+            element.id = sectionName;
+            this.dom.appendChild(element);
+            this.sections.push(element);
+        });
+
         // Shadow
 
         this.#shadow = document.createElement("div");
         this.#shadow.classList.add("sidebarShadow");
         
         document.body.appendChild(this.#shadow);
+    }
+
+    // Creating the sidebar
+
+    addVertical() {
+        const div = document.createElement("div");
+        div.classList.add("sidebarBtnVertical");
+        this.sections[0].appendChild(div);
+        return div;
+    }
+
+    addButton(args) {
+        const isP = args.onclick === undefined;
+        const element = document.createElement(isP ? "p" : "button");
+        if (!isP) {
+            element.classList.add("sidebarBtn", "moving");
+            element.onclick = () => args.onclick(element);
+        }
+        element.innerText = args.text;
+        args.parent.appendChild(element);
+        this.buttons.push([element, args.showWith, args.disableWith])
+    }
+
+    addToggle(buttonName, onclick) {
+        const label = document.createElement("label");
+        label.classList.add("checkbox", "open");
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.onclick = () => onclick(input);
+
+        const span = document.createElement("span");
+
+        label.append(input, span, buttonName);
+        this.sections[1].appendChild(label);
+    }
+
+    addInfo(buttonName, args, pc = false) {
+        const aside = document.createElement("aside");
+        aside.classList.add("sidebarOverlay");
+
+        args.forEach((arg, index) => {
+            let element
+            switch (arg[0]) {
+                case "h1":
+                    element = document.createElement(arg[0]);
+                    element.classList.add("songHeader");
+                    break;
+                case "p":
+                    element = document.createElement(arg[0]);
+                    element.classList.add("songLyric");
+                    break;
+                default:
+                    return;
+            }
+
+            element.innerHTML = args[index][1];
+            if (index === 0) element.classList.add("noPadding");
+            aside.appendChild(element);
+        });
+
+        document.body.appendChild(aside);
+
+        const button = document.createElement("button");
+        button.classList.add("sidebarBtn", "wide");
+        if (pc) button.classList.add("pc");
+        button.innerText = buttonName;
+        button.onclick = () => {
+            [...document.querySelectorAll(".sidebarOverlay")].filter(e => e !== aside).forEach(sidebarOverlay => sidebarOverlay.classList.remove("open"));
+            [...document.querySelectorAll(".sidebarBtn")].filter(e => e !== button).forEach(sidebarBtn => sidebarBtn.classList.remove("highlighted"));
+            aside.classList.toggle("open");
+            button.classList.toggle("highlighted");
+        };
+
+        this.sections[1].appendChild(button);
     }
 
     // Manipulating the sidebar
@@ -187,78 +272,41 @@ class Sidebar {
     setButtons(input = appState.mode) {
         if (this.#verbose) console.log("Setting sidebar buttons! Input: " + input)
 
-        const elementArray = [
-            this.#toggleBtn,
-            document.getElementById("sidebarPlaylistEditBtn"),
-            document.getElementById("sidebarPlaylistSaveBtn"),
-            document.getElementById("sidebarPlaylistCopyBtn"),
-            document.getElementById("sidebarPlaylistViewer"),
-            document.getElementById("sidebarPlaylistHowTo"),
-        ]
-
-        const elementArrayQuery = [
-            document.querySelectorAll(".playlistViewerRow"),
-        ]
-
-        const booleanArray = {
-            main:/* */[2, 4, 3, 4, 3, 3, 0],
-            song:/* */[2, 1, 3, 4, 3, 3, 0],
-            playlist: [2, 1, 3, 4, 3, 3, 0],
-            edit:/* */[1, 3, 4, 3, 4, 4, 1],
-        }
-
-        if (booleanArray[input]) {
-            // 0: hide
-            // 1: disable
-            // 2: show
-            // 3: offscreen
-            // 4: onscreen
-            elementArray.forEach((element, index) => {
-                switch(booleanArray[input][index]) {
-                    case 0:
-                        element.classList.add("hide");
-                        break;
-                    case 1:
-                        element.classList.remove("hide");
-                        element.disabled = true;
-                        break;
-                    case 2:
-                        element.classList.remove("hide");
-                        element.disabled = false;
-                        break;
-                    case 3:
-                        element.disabled = false;
-                        element.classList.remove("open");
-                        break;
-                    case 4:
-                        element.disabled = false;
-                        element.classList.add("open");
-                        break;
+        if (["song", "playlist", "main", "edit"].includes(input)) {
+            // Edit playlist, copy playlist, etc buttons
+            this.buttons.forEach(button => {
+                if (button[1].includes(input)) {
+                    button[0].classList.add("open");
+                    button[0].disabled = false;
+                } else if (button[2] && button[2].includes(input)) {
+                    button[0].classList.add("open");
+                    button[0].disabled = true;
+                } else {
+                    button[0].classList.remove("open");
                 }
             });
 
-            // 0: normal
-            // 1: edit
-            const elementArrayLength = elementArray.length;
-            elementArrayQuery.forEach((elements, index) => {
-                index += elementArrayLength;
-                elements.forEach((element) => {
-                    switch(booleanArray[input][index]) {
-                        case 0:
-                            element.classList.remove("edit");
-                            break;
-                        case 1:
-                            element.classList.add("edit");
-                            break;
-                    }
-                });
+            // Sidebar toggle button
+            if (input === "edit") {
+                this.#toggleBtn.disabled = true;
+                this.sections[1].classList.add("open");
+            } else {
+                this.#toggleBtn.disabled = false;
+                this.sections[1].classList.remove("open");
+            }
+
+            // Playlist viewer's rows
+            document.querySelectorAll(".playlistViewerRow").forEach(element => {
+                if (input === "edit") {
+                    element.classList.add("edit");
+                } else {
+                    element.classList.remove("edit");
+                }
             });
         } else {
             console.log("Failed to set sidebar buttons. Input: " + input);
         }
         
-        if (playlist.length() === 0) {
-            document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
-        }
+        if (playlist.length() === 0) document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
     }
 }

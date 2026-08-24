@@ -40,45 +40,7 @@ function loadClasses() {
         songs.push(new Song(index, appState.queryStrings.s === song.meta.name));
     });
 
-    // Sidebar creation
-
-    sidebar.dom.innerHTML = `
-        <div class="sidebarDiv" id="sidebarPlaylistViewer">
-            <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
-            <div id="playlistViewer"></div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="setMode('edit')">Edit Playlist</button>
-                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="setMode('main')">Done Editing</button>
-            </div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving">Copy Link</button>
-                <p id="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them.</p>
-            </div>
-            <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
-        </div>
-        <div class="sidebarDiv" id="sidebarBottom">
-            <label class="checkbox open" id="sidebarHideChords">
-                <input type="checkbox" onclick="toggleChordVisibility(this)">
-                <span></span>
-                Hide Guitar Chords
-            </label>
-            <label class="checkbox open" id="sidebarStopSliding">
-                <input type="checkbox" onclick="stopSliding(this)">
-                <span></span>
-                Stop Sliding Elements
-            </label>
-            <label class="checkbox open" id="sidebarToggleMainMenu">
-                <input type="checkbox" onclick="toggleMainMenu(this)">
-                <span></span>
-                Categorize Homescreen
-            </label>
-            <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebar.setOverlay('howto')">How To</button> -->
-            <button id="sidebar-shortcuts" class="sidebarBtn pc wide" onclick="sidebar.setOverlay('shortcuts')">Keyboard Shortcuts</button>
-            <button id="sidebar-about" class="sidebarBtn wide" onclick="sidebar.setOverlay('about')">About</button>
-            <button id="sidebar-request" class="sidebarBtn wide" onclick="sidebar.setOverlay('request')">Request a Song</button>
-            <div id="sidebarBottomSpacer" />
-        </div>
-    `
+    createSidebar();
 
     playlist = new Playlist();
 
@@ -102,31 +64,61 @@ function loadClasses() {
     menuAlphabetized.toggle();
 }
 
+function createSidebar() {
+    // Main sidebar stuff
+
+    const playlistViewerIntro = document.createElement("h1");
+    playlistViewerIntro.classList.add("sidebarText");
+    playlistViewerIntro.id = "playlistViewerIntro";
+    playlistViewerIntro.innerText = "Current Playlist:";
+    
+    const playlistViewer = document.createElement("div");
+    playlistViewer.id = "playlistViewer";
+
+    sidebar.sections[0].append(playlistViewerIntro, playlistViewer);
+
+    // Custom functions
+
+    const vertical0 = sidebar.addVertical();
+    sidebar.addButton({parent: vertical0, text: "Edit Playlist", onclick: () => setMode("edit"), showWith: ["main"], disableWith: ["song", "playlist"]});
+    sidebar.addButton({parent: vertical0, text: "Done Editing", onclick: () => setMode("main"), showWith: ["edit"]});
+
+    const vertical1 = sidebar.addVertical();
+    sidebar.addButton({parent: vertical1, text: "Copy Link", onclick: e => copyLink(e), showWith: ["main", "song", "playlist"]});
+    sidebar.addButton({parent: vertical1, showWith: ["edit"],
+        text: "Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them."});
+
+    sidebar.addToggle("Hide Guitar Chords", e => toggleChordVisibility(e));
+    sidebar.addToggle("Stop Sliding Elements", e => stopSliding(e));
+    sidebar.addToggle("Categorize Homescreen", () => toggleMainMenu());
+    
+    sidebar.addInfo("About", [
+        ["h1", "About"],
+        ["p", "This website was created by individual initiative to share lyrics to Bahá'í songs sung in devotional spaces, with an emphasis on songs created in the San Diego Cluster Youth Camps."],
+        ["p", "To view similar content in Google-Slide form, see <a href='https://bit.ly/BahaiSongs' target='_blank' class='sansLink'>bit.ly/BahaiSongs</a>."],
+    ]);
+
+    sidebar.addInfo("Keyboard Shortcuts", [
+        ["h1", "Left/Right Arrow Keys"],
+        ["p", "Switch between songs"],
+        ["h1", "h"],
+        ["p", "Go to homescreen"],
+        ["h1", "Escape"],
+        ["p", "Toggle sidebar menus"],
+    ], true);
+
+    sidebar.addInfo("Request a Song", [
+        ["h1", "Request a Song"],
+        ["p", "To request to add a song, please email <u>sdbahaisongs<wbr>@gmail.com</u> with the song title, link, and lyrics."],
+        ["p", "Optionally, you can include a video of the song and/or its guitar chords."],
+    ]);
+
+    const sidebarBottomSpacer = document.createElement("sidebarBottomSpacer");
+    sidebarBottomSpacer.id = "sidebarBottomSpacer";
+    sidebar.sections[1].appendChild(sidebarBottomSpacer);
+}
+
 function eventListeners() {
-    // Handles copying the page URL with sidebarPlaylistCopyBtn
-    document.getElementById("sidebarPlaylistCopyBtn").addEventListener("click", async (event) => {
-        const element = event.currentTarget;
-        const text = window.location.href;
-
-        try {
-            await navigator.clipboard.writeText(text);
-            await clipboardCopy();
-
-            element.textContent = "Copied!";
-            element.disabled = true;
-            element.classList.add("disabled");
-
-            setTimeout(() => {
-                element.textContent = "Copy Link";
-                element.disabled = false;
-                element.classList.remove("disabled");
-            }, 1500);
-        } catch (err) {
-            console.log("Failed to copy text to clipboard. Error below. Text: " + text);
-            console.log(err);
-        }
-    });
-
     // Pressing back button (or similar)
     window.addEventListener("popstate", () => {
         currentSong = appState.queryStrings.s || "main";
@@ -191,13 +183,13 @@ function pageLoad() {
     // Sets the correct amount of padding to account for position: absolute .sidebarBtn.moving elements
     document.documentElement.style.setProperty("--sidebar-middle-padding",
         "" + (
-            document.getElementById("sidebarPlaylistSaveBtn").getBoundingClientRect().height
+            sidebar.buttons[1][0].getBoundingClientRect().height
         ) + "px"
     );
     document.documentElement.style.setProperty("--sidebar-middle-padding-edit",
         "" + (
-            document.getElementById("sidebarPlaylistSaveBtn").getBoundingClientRect().height +
-            document.getElementById("sidebarPlaylistHowTo").getBoundingClientRect().height
+            sidebar.buttons[1][0].getBoundingClientRect().height +
+            sidebar.buttons[3][0].getBoundingClientRect().height
         ) + "px"
     );
 
