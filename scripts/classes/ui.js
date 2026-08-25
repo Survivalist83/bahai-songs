@@ -111,7 +111,7 @@ class Sidebar {
     #toggleBtn;
     #shadow;
 
-    #verbose = true;
+    #verbose = false;
 
     constructor(sectionNames) {
         // Toggle button
@@ -288,7 +288,7 @@ class Sidebar {
 
             // Sidebar toggle button
             if (input === "edit") {
-                this.#toggleBtn.disabled = true;
+                this.#toggleBtn.disabled = !IS_PHONE;
                 this.sections[1].classList.add("open");
             } else {
                 this.#toggleBtn.disabled = false;

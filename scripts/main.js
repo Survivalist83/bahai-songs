@@ -22,22 +22,19 @@ let menuCategorized;
 let menuAlphabetized;
 
 const verbosity = {
-    pageLoad: true,
     popstate: true,
-    mainMenu: true,
+    mainMenu: false,
     playlist: true,
-    updateNavButtons: true,
     misc: true,
     queryString: true,
-    clipboard: true,
     mode: true,
-    showSong: true,
+    showSong: false,
     chords: true,
 }
 
-/////////////////////////////////////////////////////////////////////////////
-////////////////////////////// Non-class stuff //////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Brains ///////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 function setMode(input, onPageLoad = false) {
     if (typeof (input) === Number) input = "song";
@@ -45,14 +42,21 @@ function setMode(input, onPageLoad = false) {
     switch(input) {
         case "main":
             appState.mode = "main";
-            updateNavButtons("main");
-            showSong();
-            setQueryString({s: "", i: ""});
+            sidebar.setButtons("main");
+            if (onPageLoad) {
+                mainMenu.classList.remove("sliding", "setLeft", "setRight");
+                mainMenu.classList.add("setMiddle");
+            } else {
+                showSong();
+                setQueryString({s: "", i: ""});
+            }
+            positionIndicator.hide();
             break;
         
         case "song":
             appState.mode = "song";
-            updateNavButtons("song");
+            sidebar.setButtons("song");
+            positionIndicator.hide();
             break;
         
         case "playlist":
@@ -61,20 +65,23 @@ function setMode(input, onPageLoad = false) {
                 return;
             }
             appState.mode = "playlist";
-            if (!onPageLoad) showSong(playlist.get(0), 2);
-            updateNavButtons("playlist");
-            if (!onPageLoad) appState.queryStrings.i = 1;
-            setQueryString({s: "playlist"});
+            sidebar.setButtons("playlist");
+            if (!onPageLoad) {
+                showSong(playlist.get(0), 2);
+                appState.queryStrings.i = 1;
+                setQueryString({s: "playlist"});
+            }
             positionIndicator.update(1);
+            positionIndicator.show();
             sidebar.close();
-            if (verbosity.mode) console.log("Playlist mode starting with song 1/" + playlist.length + ".");
+            if (verbosity.mode) console.log("Playlist mode starting with song 1/" + playlist.length() + ".");
             break;
         
         case "edit":
             appState.mode = "edit";
             sidebar.open();
-            updateNavButtons("edit");
-            // updateNavButtons([["s", "edit"]]); // this probably means setQueryString(), but I'm not sure if I want it to do that
+            sidebar.setButtons("edit");
+            positionIndicator.hide();
             break;
         
         default:
@@ -85,25 +92,7 @@ function setMode(input, onPageLoad = false) {
 
     footer.setMode();
 
-    if (verbosity.mode) console.log("Successfully set mode to " + input + ".");
-}
-
-const styles = getComputedStyle(document.documentElement);
-let sliderSpeed = parseFloat(styles.getPropertyValue("--slider-speed").trim());
-
-// Updates the visibility of the buttons at the bottom of the screen.
-function updateNavButtons(input = appState.mode) {
-    if (verbosity.updateNavButtons) console.log("Switching to nav button set " + input + ".");
-
-    sidebar.setButtons(input);
-
-    if (input === "playlist") {
-        positionIndicator.show();
-    } else {
-        positionIndicator.hide();
-    }
-
-    if (IS_PHONE) document.getElementById("sidebarToggleBtn").disabled = false;
+    if (verbosity.mode) console.log("Set mode to " + input + ".");
 }
 
 // Shows one specific song. When appState.mode === "main", it goes to the homepage
@@ -139,13 +128,7 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
 
     // Shows/hides the main menu
     if (appState.mode === "main") {
-        console.log("Potentially sliding main. Pageload is " + onPageLoad);
-        if (onPageLoad) {
-            mainMenu.classList.remove("sliding", "setLeft", "setRight");
-            mainMenu.classList.add("setMiddle");
-        } else {
-            slideMain(0, 1);
-        }
+        slideMain(0, 1);
     } else if (appState.mode !== "main" && mainMenu.classList.contains("setMiddle")) {
         slideMain(1, 0);
     }
@@ -165,17 +148,19 @@ function slideMain(start, end) {
     });
 }
 
-// This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
-function mainMenuBtnClicked(id) {
-    if (verbosity.mainMenu) console.log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + appState.mode + ".");
-    if (appState.mode !== "edit") {
-        setMode("song");
-        showSong(id, 2);
-    } else {
-        playlist.add(id);
-        positionIndicator.update(playlist.getIndex() || 1);
+function slideObject(object, position) {
+    const positions = ["setLeft", "setMiddle", "setRight"];
+    const selectedPosition = positions[position];
+
+    if (selectedPosition) {
+        object.classList.remove(...positions);
+        object.classList.add(selectedPosition);
     }
 }
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Helper functions //////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 // Sets a query string.
 function setQueryString(newQueryStrings) {
@@ -194,15 +179,5 @@ function setQueryString(newQueryStrings) {
             location.pathname + "?" +
             new URLSearchParams(Object.fromEntries(Object.entries(appState.queryStrings)
             .filter(([key, value]) => value && (key !== "n" || value !== 3)))));
-    }
-}
-
-function slideObject(object, position) {
-    const positions = ["setLeft", "setMiddle", "setRight"];
-    const selectedPosition = positions[position];
-
-    if (selectedPosition) {
-        object.classList.remove(...positions);
-        object.classList.add(selectedPosition);
     }
 }

@@ -118,47 +118,6 @@ function createSidebar() {
     sidebar.sections[1].appendChild(sidebarBottomSpacer);
 }
 
-function eventListeners() {
-    // Pressing back button (or similar)
-    window.addEventListener("popstate", () => {
-        currentSong = appState.queryStrings.s || "main";
-        if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSongIndex + ".");
-        if (currentSong === "playlist") {
-            playlist.setIndex(playlist.getIndex());
-            updateNavButtons("playlist");
-        } else {
-            let currentSongIndex = songList.indexOf(currentSong);
-            if (currentSongIndex === -1) {
-                currentSongIndex = "main";
-                setMode("main", true);
-            }
-            showSong(currentSongIndex);
-            updateNavButtons(currentSong);
-        }
-
-        playlist.setViewer();
-    });
-    
-    // Mobile-only swiping
-    let swipeStartX = 0;
-    let swipeEndX = 0;
-    document.addEventListener("touchstart", (event) => {
-        swipeStartX = event.touches[0].clientX;
-    });
-    document.addEventListener("touchend", (event) => {
-        swipeEndX = event.changedTouches[0].clientX;
-
-        const swipeDistance = swipeEndX - swipeStartX;
-        if (Math.abs(swipeDistance) > 75) {
-            if (swipeDistance > 0) {
-                playlist.setIndex(Number(playlist.getIndex()) - 1);
-            } else {
-                playlist.setIndex(Number(playlist.getIndex()) + 1);
-            }
-        }
-    });
-}
-
 function pageLoad() {
     setMode(songList.indexOf(appState.queryStrings.s) === -1 ? appState.queryStrings.s ?? "main" : "song", true);
 
@@ -167,9 +126,6 @@ function pageLoad() {
     } else {
         mainMenu.classList.add("setLeft");
     }
-
-    // Dedicated functions to specific parts of loading the page
-    updateNavButtons();
 
     // Handles logic for loading song when starting from playlist mode.
     if (appState.mode === "playlist") {
@@ -203,6 +159,49 @@ let resizeObserver;
 function checkSidebarScrollbar() {
     document.documentElement.style.setProperty("--sidebar-scrollbar-offset",
         (sidebar.dom.scrollHeight > sidebar.dom.clientHeight) ? "5px" : "0px");
+}
+
+function eventListeners() {
+    // Pressing back button (or similar)
+    window.addEventListener("popstate", () => {
+        currentSong = appState.queryStrings.s || "main";
+        if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSongIndex + ".");
+        if (currentSong === "playlist") {
+            playlist.setIndex(playlist.getIndex());
+            sidebar.setButtons("playlist");
+            positionIndicator.show();
+        } else {
+            let currentSongIndex = songList.indexOf(currentSong);
+            if (currentSongIndex === -1) {
+                currentSongIndex = "main";
+                setMode("main", true);
+            }
+            showSong(currentSongIndex);
+            sidebar.setButtons(currentSong);
+            positionIndicator.hide();
+        }
+
+        playlist.setViewer();
+    });
+    
+    // Mobile-only swiping
+    let swipeStartX = 0;
+    let swipeEndX = 0;
+    document.addEventListener("touchstart", (event) => {
+        swipeStartX = event.touches[0].clientX;
+    });
+    document.addEventListener("touchend", (event) => {
+        swipeEndX = event.changedTouches[0].clientX;
+
+        const swipeDistance = swipeEndX - swipeStartX;
+        if (Math.abs(swipeDistance) > 75) {
+            if (swipeDistance > 0) {
+                playlist.setIndex(Number(playlist.getIndex()) - 1);
+            } else {
+                playlist.setIndex(Number(playlist.getIndex()) + 1);
+            }
+        }
+    });
 }
 
 main();

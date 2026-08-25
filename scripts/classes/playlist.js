@@ -55,8 +55,6 @@ class Playlist {
     // Playlist mode
 
     setIndex(index) {
-        if (this.#verbose) console.log("Setting playlist index to " + index + ".");
-
         if (appState.mode === "playlist") {
             if (index <= 0 || (index - 1) >= this.length()) {
                 setMode("main");

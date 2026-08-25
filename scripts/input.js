@@ -16,6 +16,18 @@ function keyPress(event) {
     }
 }
 
+// This is an easy way of changing what the mainMenuBtns do without changing their event listeners.
+function mainMenuBtnClicked(id) {
+    if (verbosity.mainMenu) console.log("mainMenuBtn has been clicked. ID: " + id + ", mode: " + appState.mode + ".");
+    if (appState.mode !== "edit") {
+        setMode("song");
+        showSong(id, 2);
+    } else {
+        playlist.add(id);
+        positionIndicator.update(playlist.getIndex() || 1);
+    }
+}
+
 // What happens when clicking an arrow key, swiping, etc
 function arrowKey(input) {
     if (verbosity.misc) console.log("\n\narrowKey() called. Mode is " + appState.mode + ", input is " + input + ".");
@@ -68,7 +80,7 @@ async function copyLink(element) {
 }
 
 function toggleChordVisibility(checkbox) {
-    if (verbosity.chords) console.log("Toggling chord visibility!");
+    if (verbosity.chords) console.log("Toggling chord visibility.");
     const fadesWithChords = document.querySelectorAll(".fadesWithChords");
     const shrinksWithChords = document.querySelectorAll(".shrinksWithChords");
     const appearWithChords = document.querySelectorAll(".appearWithChords");
@@ -88,11 +100,13 @@ function toggleChordVisibility(checkbox) {
 }
 
 function stopSliding(checkbox) {
+    console.log("Toggling sliding elements.")
     sliderSpeed = checkbox.checked ? "0s" : "0.65s";
     document.documentElement.style.setProperty("--slider-speed", sliderSpeed);
 }
 
 function toggleMainMenu() {
+    console.log("Toggling homescreen.")
     menuCategorized.toggle();
     menuAlphabetized.toggle();
 }
