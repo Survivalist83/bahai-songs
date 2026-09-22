@@ -659,12 +659,14 @@ const BAHAI_SONGS_DATA = [
         },
         "lyrics": [
             {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                },
                 "sectionLyrics": [
                     "O Lord my God!",
                     "Open Thou the door,",
                     "provide the means,",
-                    "make safe the path",
-                    "and guide the way.",
+                    "make safe the path / and guide the way.",
                     "For verily Thou art",
                     "the help in peril",
                     "the Self-Subsisting",
@@ -676,7 +678,7 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Look at Me",
-            "sourceName": "Unknown Source",
+            "sourceName": "‘Abdu’l‑Bahá, Unknown Source",
             "sourceLink": "",
             "theme": "Striving for Excellence"
         },
@@ -1187,8 +1189,6 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Anis",
-            "sourceName": "Unknown Citation",
-            "sourceLink": "",
             "theme": "The Báb"
         },
         "lyrics": [
@@ -1252,8 +1252,6 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Dame (Spanish)",
-            "sourceName": "Unknown Citation",
-            "sourceLink": "",
             "theme": "Multilingual"
         },
         "lyrics": [
@@ -1281,8 +1279,6 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Enseñar es aprender (Spanish)",
-            "sourceName": "Unknown Citation",
-            "sourceLink": "",
             "theme": "Multilingual"
         },
         "lyrics": [
@@ -1310,8 +1306,6 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "He who puts his trust in God",
-            "sourceName": "Unknown Citation",
-            "sourceLink": "",
             "theme": "Confirmation"
         },
         "lyrics": [
@@ -1464,7 +1458,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "and may make mention of Thee",
                     "in every world of Thy worlds",
-                    "of Thy world.",
+                    "of Thy worlds.",
                 ]
             },
         ]
@@ -1530,10 +1524,10 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "O friends",
-            "sourceName": "Bahá'u'lláh, <i>Gleanings from the Writings of Bahá'u'lláh</i>, XCVI",
-            "sourceLink": "https://www.bahai.org/r/039491767",
-            "sourceName2": "Bahá'u'lláh, <i>Bahá'í Prayers</i>",
-            "sourceLink2": "https://www.bahai.org/r/045469980",
+            "sources": [
+                ["Bahá'u'lláh, <i>Gleanings from the Writings of Bahá'u'lláh</i>, XCVI", "https://www.bahai.org/r/039491767"],
+                ["Bahá'u'lláh, <i>Bahá'í Prayers</i>", "https://www.bahai.org/r/045469980"],
+            ],
             "theme": ""
         },
         "lyrics": [
@@ -1593,23 +1587,101 @@ const BAHAI_SONGS_DATA = [
     //         },
     //     ]
     // },
-    // {
-    //     "meta": {
-    //         "name": "",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         },
-    //     ]
-    // },
+    {
+        "meta": {
+            "name": "The Gate of God",
+            // "source": ["asdf", "fghj"],
+            "theme": "The Báb",
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "chords": "Capo 3 - Em, G, Am, C",
+                },
+                "sectionLyrics": [
+                    "O thou who art the first to believe in Me! (×4)",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2,
+                },
+                "sectionLyrics": [
+                    "Eighteen souls must, of their own accord, accept Me, accept Me",
+                    "and recognise the truth (the truth), the truth of My Revelation.",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 4,
+                    "chords": "Em, G, D, C",
+                },
+                "sectionLyrics": [
+                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God.",
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "Eighteen souls must, of their own accord, accept Me, accept Me.",
+                    "(x2 overlapping). ",
+                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God.",
+                    "(x2 overlapping)",
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2,
+                },
+                "sectionLyrics": [
+                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God.",
+                ]
+            },
+        ]
+    },
+    {
+        "meta": {
+            "name": "Remember My Days",
+            "chords": "",
+            "theme": "",
+            "source": ["Bahá’u’lláh, <i>Tablet of Aḥmad</i>", "https://www.bahai.org/r/004783880"],
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2,
+                    "chords": "Capo 3 - Em, Am7, B7, Em",
+                },
+                "sectionLyrics": [
+                    "Remember My days ",
+                    "during thy days,",
+                    "and My distress and banishment ",
+                    "in this remote prison.",
+                ],
+            },
+            {
+                "sectionMeta": {
+                    "chords": "C, Am7, B7, Em",
+                },
+                "sectionLyrics": [
+                    "And be thou so steadfast ",
+                    "in My love ",
+                    "that thy heart (×2)",
+                    "shall not waver,",
+                    "even if the swords",
+                    "of the enemies rain blows",
+                    "upon thee (×2)",
+                ],
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 2,
+                    "chords": "Am7, B7, Em",
+                },
+                "sectionLyrics": [
+                    "And all the heavens and the earth arise ",
+                    "against thee. (×2)",
+                ],
+            },
+        ]
+    },
 ]

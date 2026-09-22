@@ -99,6 +99,22 @@ body {
     text-align: left;
 }
 
+.sectionChordsContainer {
+    font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    padding-top: 6px;
+
+    text-align: center;
+}
+
+.sectionChordsContainer p {
+    margin: 0;
+}
+
 .songChord {
     margin: 0;
 
@@ -165,9 +181,14 @@ p {
     font-family: var(--font-family);
 }
 
+.songLinkContainer {
+    font-weight: bold;
+    font-size: 22px;
+}
+
 a {
     text-align: center;
-
+    font-weight: normal;
     font-size: 16px;
 }
 
@@ -211,14 +232,10 @@ a {
     border-radius: 20px;
     box-shadow: 0 0 8px rgba(var(--blue-dark) / 1);
 
-    padding: 15px 10px 5px;
+    padding: 5px 10px 5px;
     overflow: visible;
 
     width: 200px;
-}
-
-.mainMenuCardAlphabetized {
-    padding-top: 5px;
 }
 
 /* .mainMenuCard:hover {
@@ -239,7 +256,6 @@ a {
     margin-bottom: 3px;
 }
 
-.alphabetizedMenuBtn,
 .mainMenuCard p {
     text-align: center;
     font-size: 20px;
@@ -257,7 +273,6 @@ a {
     word-break: normal;
 }
 
-.alphabetizedMenuBtn:hover,
 .mainMenuCard p:hover {
     background-color: rgb(var(--blue-medium));
 }
@@ -273,7 +288,7 @@ a {
 
 /* //////////////////////////////// Footer /////////////////////////////// */
 
-#footer {
+.footer {
     position: fixed;
     bottom: calc(0px - var(--footer-height));
     left: 0;
@@ -299,7 +314,7 @@ a {
     gap: 12px;
 }
 
-#footer.open {
+.footer.open {
     bottom: 0;
 }
 
@@ -321,7 +336,7 @@ a {
 
 /* ////////////////////////// Position Indicator ///////////////////////// */
 
-#positionIndicator {
+.positionIndicator {
     position: fixed;
     transition: bottom 0.2s ease;
 
@@ -336,11 +351,11 @@ a {
     flex-direction: row;
 }
 
-#positionIndicator.open {
+.positionIndicator.open {
     bottom: var(--footer-height);
 }
 
-#positionIndicatorDiv {
+.positionIndicatorDiv {
     display: flex;
     flex-direction: row;
 }
@@ -376,7 +391,7 @@ a {
 
 /* /////////////////////////////// Sidebar /////////////////////////////// */
 
-#sidebar {
+.sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -396,24 +411,24 @@ a {
     overflow-y: auto;
 }
 
-#sidebar::-webkit-scrollbar {
+.sidebar::-webkit-scrollbar {
     width: 10px;
 }
 
-#sidebar::-webkit-scrollbar-track {
+.sidebar::-webkit-scrollbar-track {
     background: rgb(var(--blue-light));
 }
 
-#sidebar::-webkit-scrollbar-thumb {
+.sidebar::-webkit-scrollbar-thumb {
     background: rgb(var(--blue-pale));
     border-radius: 10px;
 }
 
-#sidebar::-webkit-scrollbar-thumb:hover {
+.sidebar::-webkit-scrollbar-thumb:hover {
     background: rgb(var(--blue-medium));
 }
 
-#sidebar.open {
+.sidebar.open {
     transform: translateX(0);
 }
 
@@ -440,7 +455,7 @@ a {
     padding-bottom: var(--sidebar-middle-padding-edit);
 }
 
-#sidebarPlaylistViewerOverflow {
+#playlistViewer {
     overflow: hidden;
     border: 3px solid black;
     border-radius: 12px;
@@ -459,10 +474,6 @@ a {
 #sidebarBottomSpacer {
     height: 15px;
     /* Could potentially overlap this div with the createBlankDiv() function */
-}
-
-.sidebarBtnVertical {
-    background: red;
 }
 
 .checkbox {
@@ -570,7 +581,7 @@ a {
     object-fit: contain;
 }
 
-#sidebarPlaylistHowTo {
+.sidebarBtnVertical p {
     position: absolute;
     width: calc(var(--sidebar-width-no-padding) * 0.8);
 
@@ -583,11 +594,11 @@ a {
     margin-bottom: 0;
 }
 
-#sidebarPlaylistHowTo.open {
+.sidebarBtnVertical p.open {
     left: calc(var(--sidebar-width-no-padding) * 0.1 + 10px);
 }
 
-#sidebarShadow {
+.sidebarShadow {
     position: fixed;
 
     height: 100vh;
@@ -600,13 +611,13 @@ a {
     transition: left 0.3s ease;
 }
 
-#sidebarShadow.open {
+.sidebarShadow.open {
     left: 0;
     box-shadow: 4px 0 8px rgba(0, 0, 0, 0.6);
 }
 
 /* Toggle button */
-#sidebarToggleBtn {
+.sidebarToggleBtn {
     position: fixed;
     top: 0;
     left: -1px;
@@ -629,11 +640,11 @@ a {
     z-index: 75;
 }
 
-#sidebarToggleBtn.open {
+.sidebarToggleBtn.open {
     transform: translateX(var(--sidebar-width));
 }
 
-#sidebarToggleBtn img {
+.sidebarToggleBtn img {
     display: block;
     width: 35px;
     height: auto;
@@ -755,12 +766,16 @@ a {
     max-height: 20px;
 }
 
-.playlistViewerRow.dragging {
-    border-color: var(--gold);
-}
-
 .playlistViewerRow.dragging p {
     opacity: 0;
+}
+
+.playlistViewerRow.dragging button {
+    display: none;
+}
+
+.playlistViewerRow.sliding {
+    transition: transform 0.3s ease;
 }
 
 .playlistViewerRow.ghost {
@@ -876,4 +891,20 @@ a {
 
 .shrink {
     height: 0;
+}
+
+.setLeft:not(.sliding),
+.setRight:not(.sliding) {
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden;
+    transition: left var(--slider-speed) ease, visibility 0s var(--slider-speed);
+}
+
+.outerDiv.setMiddle,
+.outerDiv.sliding {
+    height: auto;
+    overflow: visible;
+    visibility: visible;
+    transition: left var(--slider-speed) ease, visibility 0s 0s;
 }

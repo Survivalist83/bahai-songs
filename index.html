@@ -4,8 +4,7 @@
 
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
-    <script src="helper.js"></script>
+
     <script src="data.js"></script>
 
     <title>SD Bahá'í Songs</title>
@@ -16,94 +15,16 @@
 <body onkeydown="keyPress(event.key)">
 
     <div id="appWrapper">
-        <div id="mainMenu" class="outerDiv setLeft"></div>
+        <div id="mainMenu" class="outerDiv"></div>
         <div id="contentDiv"></div>
     </div>
-    
-    <!-- Footer -->
-    <footer id="footer">
-        <button id="footerPlaylistBack" class="footerBtn" onclick="arrowKey('ArrowLeft')"><</button>
-        <button id="footerReturnHomeBtn" class="footerBtn" onclick="returnHome()">Home</button>
-        <button id="footerPlaylistForward" class="footerBtn" onclick="arrowKey('ArrowRight')">></button>
-        <button id="footerPlaylistStart" class="footerBtn" onclick="playlistStart()">Start Playlist</button>
-        <button id="footerPlaylistEdit" class="footerBtn" onclick="playlistEdit()">Create Playlist</button>
-    </footer>
-    
-    <!-- Sidebar -->
-    <button id="sidebarToggleBtn" onclick="setSidebarVisibility('toggle')">
-        <img src="images/Hamburger_Menu.svg" alt="Settings" class="icon">
-    </button>
-    <aside id="sidebar">
-        <div class="sidebarDiv" id="sidebarPlaylistViewer">
-            <h1 id="playlistViewerIntro" class="sidebarText">Current Playlist:</h1>
-            <div id="sidebarPlaylistViewerOverflow"></div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistEditBtn" class="sidebarBtn moving" onclick="playlistEdit()">Edit Playlist</button>
-                <button id="sidebarPlaylistSaveBtn" class="sidebarBtn moving" onclick="playlistSave()">Done Editing</button>
-            </div>
-            <div class="sidebarBtnVertical">
-                <button id="sidebarPlaylistCopyBtn" class="sidebarBtn moving">Copy Link</button>
-                <p id="sidebarPlaylistHowTo">Click any song on the right to add it to the playlist. Click the X to remove it. Drag the rows to rearrange them.</p>
-            </div>
-            <!-- <button id="sidebarPlaylistCreateBtn" class="sidebarBtn navPlaylistCreateBtn" onclick="playlistCreateStart()">Create Playlist</button> -->
-        </div>
-        <div class="sidebarDiv" id="sidebarBottom">
-            <label class="checkbox open" id="sidebarHideChords">
-                <input type="checkbox" onclick="toggleChordVisibility(this)">
-                <span></span>
-                Hide Guitar Chords
-            </label>
-            <label class="checkbox open" id="sidebarStopSliding">
-                <input type="checkbox" onclick="stopSliding(this)">
-                <span></span>
-                Stop Sliding Elements
-            </label>
-            <label class="checkbox open" id="sidebarToggleMainMenu">
-                <input type="checkbox" onclick="toggleMainMenu(this)">
-                <span></span>
-                Categorize Homescreen
-            </label>
-            <!-- <button id="sidebarHowTo" class="sidebarBtn" onclick="sidebarOverlay('howto')">How To</button> -->
-            <button id="sidebar-shortcuts" class="sidebarBtn pc wide" onclick="sidebarOverlay('shortcuts')">Keyboard Shortcuts</button>
-            <button id="sidebar-about" class="sidebarBtn wide" onclick="sidebarOverlay('about')">About</button>
-            <button id="sidebar-request" class="sidebarBtn wide" onclick="sidebarOverlay('request')">Request a Song</button>
-            <div id="sidebarBottomSpacer" />
-        </div>
-    </aside>
-    <div id="sidebarShadow"></div>
 
-    <!-- Sidebar Overlay -->
-    <!-- <aside id="sidebarOverlay-howto" class="sidebarOverlay">
-        <h1 class="songHeader noPadding">How To</h1>
-        <p class="songLyric">Temp</p>
-    </aside> -->
-    <aside id="sidebarOverlay-shortcuts" class="sidebarOverlay">
-        <h1 class="songHeader noPadding">Left/Right Arrow Keys</h1>
-        <p class="songLyric">Switch between songs</p>
-        <h1 class="songHeader">h</h1>
-        <p class="songLyric">Go to homescreen</p>
-        <h1 class="songHeader">Escape</h1>
-        <p class="songLyric">Toggle sidebar menus</p>
-    </aside>
-    <aside id="sidebarOverlay-about" class="sidebarOverlay">
-        <h1 class="songHeader noPadding">About</h1>
-        <p class="songLyric">This website was created by individual initiative to share lyrics to Bahá'í songs sung in devotional spaces, with an emphasis on songs created in the San Diego Cluster Youth Camps.</p>
-        <p class="songLyric">To view similar content in Google-Slide form, see <a href="https://bit.ly/BahaiSongs" target="_blank" class="sansLink">bit.ly/BahaiSongs</a>.</p>
-    </aside>
-    <aside id="sidebarOverlay-request" class="sidebarOverlay">
-        <h1 class="songHeader noPadding">Request a Song</h1>
-        <p class="songLyric">To request to add a song, please email <u>sdbahaisongs<wbr>@gmail.com</u> with the song title, link, and lyrics.</p>
-        <p class="songLyric">Optionally, you can include a video of the song and/or its guitar chords.</p>
-    </aside>
-
-    <!-- Position Indicator -->
-    <div id="positionIndicator">
-        <p class="positionIndicatorCircle left empty" onclick="playlistAdvance(-1)">&#8249;</p>
-        <div id="positionIndicatorDiv"></div>
-        <p class="positionIndicatorCircle right empty" onclick="playlistAdvance(1)">&#8250;</p>
-    </div>
-
-    <script>pageLoad()</script>
+    <script src="scripts/classes/ui.js"></script>
+    <script src="scripts/classes/song.js"></script>
+    <script src="scripts/classes/playlist.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/input.js"></script>
+    <script src="scripts/pageLoad.js"></script>
 
 </body>
 
