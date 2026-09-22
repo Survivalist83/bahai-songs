@@ -177,11 +177,9 @@ function eventListeners() {
             songs.forEach((song) => { song.hideConditional(1) });
             let currentSongIndex = songList.indexOf(currentSong);
             if (currentSongIndex === -1) {
-                console.log("Popping to playlist")
                 currentSongIndex = "main";
                 setMode("main", true);
             } else {
-                console.log("Popping to song")
                 setMode("song", true);
                 showSong(currentSongIndex, 1, true);
             }
