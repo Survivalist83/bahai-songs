@@ -659,12 +659,14 @@ const BAHAI_SONGS_DATA = [
         },
         "lyrics": [
             {
+                "sectionMeta": {
+                    "callAndResponse": true,
+                },
                 "sectionLyrics": [
                     "O Lord my God!",
                     "Open Thou the door,",
                     "provide the means,",
-                    "make safe the path",
-                    "and guide the way.",
+                    "make safe the path / and guide the way.",
                     "For verily Thou art",
                     "the help in peril",
                     "the Self-Subsisting",
@@ -1456,7 +1458,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "and may make mention of Thee",
                     "in every world of Thy worlds",
-                    "of Thy world.",
+                    "of Thy worlds.",
                 ]
             },
         ]

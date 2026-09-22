@@ -5,13 +5,11 @@ const PHONE_PC_PIXEL_WIDTH_BREAKPOINT = 1000;
 const IS_PHONE = window.innerWidth < PHONE_PC_PIXEL_WIDTH_BREAKPOINT;
 
 const appState = {
-    queryStrings: Object.fromEntries(new URLSearchParams(window.location.search)),
+    queryStrings: {},
     currentSong: 0,
     mode: "",
 }
 const mainMenu = document.getElementById("mainMenu");
-
-if (!appState.queryStrings.n) appState.queryStrings.n = 3;
 
 let footer;
 let positionIndicator;
@@ -28,7 +26,7 @@ const verbosity = {
     misc: true,
     queryString: true,
     mode: true,
-    showSong: false,
+    showSong: true,
     chords: true,
 }
 
@@ -103,16 +101,22 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
         case "song":
             songs[songNumber].slide(1, startLocation);
 
-            if (songList.indexOf(appState.queryStrings.s) !== -1) {
-                songs[songList.indexOf(appState.queryStrings.s)].slide(2 - startLocation);
+            if (songList.indexOf(appState.queryStrings.s) !== -1 && !onPageLoad) {
+                songs[songList.indexOf(appState.queryStrings.s)].slide(2 - startLocation);//, onPageLoad ? 2 - startLocation : undefined);
             }
 
-            setQueryString({s: songList[songNumber]});
+            if (!onPageLoad) setQueryString({s: songList[songNumber]});
             break;
         case "playlist":
-            songs.forEach((song) => {
-                song.slideConditional(2 - startLocation, 1);
-            });
+            if (onPageLoad) {
+                songs.forEach((song) => {
+                    song.hideConditional(1);
+                });
+            } else {
+                songs.forEach((song) => {
+                    song.slideConditional(2 - startLocation, 1);
+                });
+            }
 
             songs[songNumber].slide(1, onPageLoad ? 1 : startLocation);
 
@@ -128,9 +132,19 @@ function showSong(songNumber, startLocation = 1, onPageLoad = false) {
 
     // Shows/hides the main menu
     if (appState.mode === "main") {
-        slideMain(0, 1);
+        if (onPageLoad) {
+            mainMenu.classList.add("setMiddle");
+            mainMenu.classList.remove("sliding", "setLeft", "setRight");
+        } else {
+            slideMain(0, 1);
+        }
     } else if (appState.mode !== "main" && mainMenu.classList.contains("setMiddle")) {
-        slideMain(1, 0);
+        if (onPageLoad) {
+            mainMenu.classList.add("setLeft");
+            mainMenu.classList.remove("sliding", "setMiddle", "setRight");
+        } else {
+            slideMain(1, 0);
+        }
     }
 
     footer.setMode()
@@ -161,6 +175,11 @@ function slideObject(object, position) {
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Helper functions //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+
+function updateQueryStrings() {
+    appState.queryStrings = Object.fromEntries(new URLSearchParams(window.location.search));
+    if (!appState.queryStrings.n) appState.queryStrings.n = 3;
+}
 
 // Sets a query string.
 function setQueryString(newQueryStrings) {

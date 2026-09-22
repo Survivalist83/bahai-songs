@@ -1,4 +1,5 @@
 function main() {
+    updateQueryStrings();
     loadClasses();
     pageLoad();
     eventListeners();
@@ -164,20 +165,27 @@ function checkSidebarScrollbar() {
 function eventListeners() {
     // Pressing back button (or similar)
     window.addEventListener("popstate", () => {
-        currentSong = appState.queryStrings.s || "main";
-        if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSongIndex + ".");
+        let newQueryStrings = Object.fromEntries(new URLSearchParams(window.location.search));
+        let currentSong = newQueryStrings.s || "main";
+        if (verbosity.popstate) console.log("Popstate detected. Moving to song " + currentSong + ".");
         if (currentSong === "playlist") {
-            playlist.setIndex(playlist.getIndex());
+            appState.mode = "playlist";
+            playlist.setIndex(newQueryStrings.i, true);
             sidebar.setButtons("playlist");
             positionIndicator.show();
         } else {
+            songs.forEach((song) => { song.hideConditional(1) });
             let currentSongIndex = songList.indexOf(currentSong);
             if (currentSongIndex === -1) {
+                console.log("Popping to playlist")
                 currentSongIndex = "main";
                 setMode("main", true);
+            } else {
+                console.log("Popping to song")
+                setMode("song", true);
+                showSong(currentSongIndex, 1, true);
             }
-            showSong(currentSongIndex);
-            sidebar.setButtons(currentSong);
+            sidebar.setButtons();
             positionIndicator.hide();
         }
 

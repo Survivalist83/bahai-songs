@@ -54,17 +54,21 @@ class Playlist {
 
     // Playlist mode
 
-    setIndex(index) {
+    setIndex(index, onPageLoad = false) {
         if (appState.mode === "playlist") {
             if (index <= 0 || (index - 1) >= this.length()) {
                 setMode("main");
                 if (verbosity.playlist) console.log("Exiting playlist mode.");
-            } else if (appState.queryStrings.i === index) {
+            } else if (appState.queryStrings.i === index && !onPageLoad) {
                 if (verbosity.playlist) console.log("Failed attempt to set index to itself.");
             } else {
                 const direction = appState.queryStrings.i > index ? 0 : 2;
-                setQueryString({i: index});
-                showSong(this.#songs[index - 1], direction);
+                if (onPageLoad) {
+                    showSong(this.#songs[index - 1], 2, true);                    
+                } else {
+                    showSong(this.#songs[index - 1], direction);
+                    setQueryString({i: index});
+                }
                 positionIndicator.update(index);
                 sidebar.close();
                 if (verbosity.playlist) console.log("Playlist advancing to index " + index + ".");

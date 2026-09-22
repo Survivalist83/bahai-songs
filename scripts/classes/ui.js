@@ -307,6 +307,6 @@ class Sidebar {
             console.log("Failed to set sidebar buttons. Input: " + input);
         }
         
-        if (playlist.length() === 0) document.getElementById("sidebarPlaylistCopyBtn").classList.remove("open");
+        if (playlist.length() === 0) this.buttons[2][0].classList.remove("open"); // hides copy playlist button when no playlist is selected
     }
 }

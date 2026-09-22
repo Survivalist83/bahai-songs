@@ -220,6 +220,10 @@ class Song {
     slideConditional(newPosition, condition) {
         if (this.#position === condition) this.slide(newPosition);
     }
+
+    hideConditional(condition) {
+        if (this.#position === condition) this.slide(2, 2);
+    }
 }
 
 class Menu {
