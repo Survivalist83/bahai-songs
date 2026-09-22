@@ -892,3 +892,19 @@ a {
 .shrink {
     height: 0;
 }
+
+.setLeft:not(.sliding),
+.setRight:not(.sliding) {
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden;
+    transition: left var(--slider-speed) ease, visibility 0s var(--slider-speed);
+}
+
+.outerDiv.setMiddle,
+.outerDiv.sliding {
+    height: auto;
+    overflow: visible;
+    visibility: visible;
+    transition: left var(--slider-speed) ease, visibility 0s 0s;
+}

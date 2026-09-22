@@ -160,6 +160,14 @@ function slideMain(start, end) {
         mainMenu.classList.add("sliding");
         slideObject(mainMenu, end);
     });
+    
+    // removes .sliding once the css transition finishes
+    mainMenu.addEventListener("transitionend", function handler(e) {
+        if (e.propertyName === "left") {
+            mainMenu.classList.remove("sliding");
+            mainMenu.removeEventListener("transitionend", handler);
+        }
+    });
 }
 
 function slideObject(object, position) {

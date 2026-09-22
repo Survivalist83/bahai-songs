@@ -215,6 +215,14 @@ class Song {
             this.#dom.classList.add("sliding");
             slideObject(this.#dom, this.#position);
         });
+        
+        // removes .sliding once the css transition finishes
+        this.#dom.addEventListener("transitionend", function handler(e) {
+            if (e.propertyName === "left") {
+                this.classList.remove("sliding");
+                this.removeEventListener("transitionend", handler);
+            }
+        });
     }
 
     slideConditional(newPosition, condition) {
