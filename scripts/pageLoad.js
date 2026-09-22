@@ -204,9 +204,9 @@ function eventListeners() {
         const swipeDistance = swipeEndX - swipeStartX;
         if (Math.abs(swipeDistance) > 75) {
             if (swipeDistance > 0) {
-                playlist.setIndex(Number(playlist.getIndex()) - 1);
+                arrowKey("ArrowLeft");
             } else {
-                playlist.setIndex(Number(playlist.getIndex()) + 1);
+                arrowKey("ArrowRight");
             }
         }
     });
