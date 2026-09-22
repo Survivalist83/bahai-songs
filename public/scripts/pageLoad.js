@@ -210,4 +210,5 @@ function eventListeners() {
     });
 }
 
+console.log("Testing... adding stuff to the 'public' folder.")
 main();
