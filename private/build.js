@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const songsDir = path.join(__dirname, "songs");
-const outputPath = path.join(__dirname, "data.js");
+const outputPath = path.join(__dirname, "../public/data.js");
 
 // Allowed meta keys for song-level metadata
 const allowedSongMetaKeys = {
@@ -37,8 +37,7 @@ try {
                     if (!sec || sec.trim() === '') return [];
                     
                     return sec.trim().split(/\r?\n\s*\r?\n/).map(para => 
-                        para.split(/\r?\n/).map(line => line.trim())
-                        .filter(line => line.length > 0)
+                        para.split(/\r?\n/).filter(line => line.length > 0)
                     ).filter(para => para.length > 0);
                 });
 
