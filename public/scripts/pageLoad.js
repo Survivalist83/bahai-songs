@@ -210,5 +210,5 @@ function eventListeners() {
     });
 }
 
-console.log("Testing... adding stuff to the 'public' folder.")
+console.log("Testing... copying song Fire and gold from the .txt to the new data.js.")
 main();
