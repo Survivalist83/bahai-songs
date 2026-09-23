@@ -1,0 +1,26 @@
+Noble
+Theme: Spiritual Qualities
+
+Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #22
+https://www.bahai.org/r/536853978
+
+
+CallAndResponse: true
+[*O SON OF SPIRIT!] (N. O. B. L. E.)
+[*Noble have I created thee,] (N. O. B. L. E.)
+(x2)
+
+CallAndResponse: false
+yet thou hast
+abased thyself.
+(x4)
+
+CallAndResponse: true
+[*Rise then] (N. O. B. L. E.)
+(x2)
+
+CallAndResponse: true
+[*Rise then] (rise then)
+[*unto that] (unto that)
+(all together) for which thou wast created.
+(x2)

@@ -1,3 +1,5 @@
+// This is run once on GitHub's servers (according to .github/workflows/build.yaml) and sends data.js to the public folder
+
 const fs = require("fs");
 const path = require("path");
 

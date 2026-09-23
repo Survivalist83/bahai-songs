@@ -2,9 +2,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Kindle the fire of love",
-            "sourceName": "Bahá'u'lláh, <i>The Seven Valleys</i>",
-            "sourceLink": "https://www.bahai.org/library/authoritative-texts/bahaullah/call-divine-beloved/4#639859466:~:text=Kindle%20the%20fire%20of%20love,the%20land%20of%20the%20lovers",
-            "theme": "Love"
+            "theme": "Love",
+            "sources": [
+                [
+                    "Bahá'u'lláh, <i>The Seven Valleys</i>",
+                    "https://www.bahai.org/library/authoritative-texts/bahaullah/call-divine-beloved/4#639859466:~:text=Kindle%20the%20fire%20of%20love,the%20land%20of%20the%20lovers"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -12,7 +16,7 @@ const BAHAI_SONGS_DATA = [
                     "K[A]indle the f[E]ire of l[F#m]ove",
                     "and b[D]urn aw[A]ay all th[E]ings;",
                     "Th[E7]en set thy f[F#m]oot",
-                    "into the l[D]and [A]of the l[E]overs.",
+                    "into the l[D]and [A]of the l[E]overs."
                 ]
             }
         ]
@@ -20,350 +24,36 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "O let the flame",
-            "sourceName": "<i>Gleanings from the Writings of Bahá'u'lláh</i>, CLIII",
-            "sourceLink": "https://www.bahai.org/r/413529355",
-            "theme": "Love"
+            "theme": "Love",
+            "sources": [
+                [
+                    "<i>Gleanings from the Writings of Bahá'u'lláh</i>, CLIII",
+                    "https://www.bahai.org/r/413529355"
+                ]
+            ]
         },
         "lyrics": [
             {
-                "sectionMeta":{
+                "sectionMeta": {
                     "callAndResponse": true,
                     "repetitions": 2
                 },
-                "sectionLyrics":[
+                "sectionLyrics": [
                     "O let the flame",
                     "of the love of God",
                     "burn brightly within",
-                    "your radiant hearts.",
+                    "your radiant hearts."
                 ]
             },
             {
-                "sectionMeta":{
+                "sectionMeta": {
                     "repetitions": 2
                 },
-                "sectionLyrics":[
+                "sectionLyrics": [
                     "Feed it with the oil of",
                     "Divine guidance, and",
                     "protect it within the shelter",
-                    "of your constancy.",
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "May this boundless love",
-            "sourceName": "'Abdu'l-Bahá, Paris Talks",
-            "sourceLink": "https://www.bahai.org/r/640151780",
-            "theme": "Love"
-        },
-        "lyrics": [
-            {
-                "sectionLyrics": [
-                    "[C] May this b[E7]oundless l[Am]ove",
-                    "so f[C7]ill your hearts and m[F]inds[Fm] ",
-                    "that sadness m[C]ay find",
-                    "no r[E7]oom to [Am]ente[C7]r,",
-                    "[F] and may you with j[Fm]oyful he[C]arts",
-                    "soa-[E7 Am C7]r",
-                    "like b[F]irds",
-                    "into Div[Fm]ine Radiance."
-                ]
-            }
-                    
-        ]
-    },
-    {
-        "meta": {
-            "name": "First of all",
-            "sourceName": "<i>'Abdu'l-Bahá on Divine Philosophy</i>, ¶. 112",
-            "sourceLink": "https://bahai-library.com/abdul-baha_divine_philosophy&chapter=all#112",
-            "theme": "Striving for Excellence"
-        },
-        "lyrics": [
-            {
-                "sectionLyrics": [
-                    "(First of all,)",
-                    "be ready to sacrifice your lives",
-                    "for one another,",
-                    "to prefer the general well-being",
-                    "to your personal well-being.",
-                    "Create relationships that nothing can shake;",
-                    "form an assembly that nothing can break up,",
-                    "have a mind that",
-                    "never ceases (×2)",
-                    "acquiring riches",
-                    "nothing can destroy",
-                    "that nothing can destroy. (×3)"
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "repetitions": 2,
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "If love did not exist,",
-                    "what of reality would remain?"
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "It is the fire of the love of God",
-                    "which renders man superior",
-                    "to the animal. (×4)"
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "repetitions": 2,
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "Strengthen this superior force",
-                    "through which is attained",
-                    "all the progress in the world"
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "repetitions": 3,
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "Boys: in the world.",
-                    "Girls: in the world."
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "all the progress in the world."
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "The sign of love",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #48",
-            "sourceLink": "https://www.bahai.org/r/200697020",
-            "theme": "Love"
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "column": 0,
-                    "pageBreak": [4]
-                },
-                "sectionLyrics": [
-                    "O SON OF MAN!",
-                    "For everything",
-                    "there is a sign",
-                    "there is a sign",
-                    "O SON OF MAN!",
-                    "For everything",
-                    "there is a sign",
-                    "The sign of love",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 1,
-                    "repetitions": 2
-                },
-                "sectionLyrics": [
-                    "The sign of love (×3)",
-                    "is fortitude under My decree",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 1,
-                    "repetitions": 2
-                },
-                "sectionLyrics": [
-                    "The sign of love (×3)",
-                    "is patience under My trials.",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 2,
-                    "repetitions": 2,
-                    "pageBreak": [1, 2]
-                },
-                "sectionLyrics": [
-                    "The sign of love",
-                    "is fortitude under My decree (×4)",
-                    "is patience under My trials."
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "Veiled in My immemorial being",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #3",
-            "sourceLink": "https://www.bahai.org/r/246296008",
-            "theme": "Love"
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "column": 0
-                },
-                "sectionLyrics": [
-                    "O SON OF MAN!",
-                    "Veiled in My immemorial being",
-                    "and in the ancient eternity of My essense,",
-                    "I knew My love for thee;",
-                    "therefore I created thee,",
-                    "have engraved on thee Mine image",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "O SON OF MAN!",
-                    "Veiled in My immemorial being",
-                    "and in the ancient eternity of My essense,",
-                    "I knew My love for thee;",
-                    "therefore I created thee,",
-                    "have revealed to thee My beauty.",
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "Help me to triumph",
-            "sourceName": "‘Abdu’l-Bahá, <i>Tablets of the Divine Plan</i>, #10",
-            "sourceLink": "https://www.bahai.org/r/605887268",
-            "theme": "Confirmation"
-        },
-        "lyrics": [
-            {
-                "sectionLyrics": [
-                    "h[Ab]elp me to tr[C]iumph",
-                    "b[G]y the h[Am]osts",
-                    "o[Am]f Th[C]y",
-                    "gl[G]orious k[Am]ingdom,",
-                    "and sh[Am]ower up[C]on me",
-                    "Thy c[G]onfirm[Am]ations,",
-                    "wh[Am]ich alone c[C]an",
-                    "change a gn[G]at into an [Am]eagle,",
-                    "a dr[Am]op of wat[C]er",
-                    "into r[G]ivers and s[Am]eas,",
-                    "an [Am]atom [C]into",
-                    "l[G]ights and s[Am]uns",
-                    "an [Am]atom [C]into",
-                    "l[G]ights and s[Am]uns",
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "In the love I bear to Thee",
-            "sourceName": "<i>Prayers and Meditations by Bahá’u’lláh</i>, CLI",
-            "sourceLink": "https://www.bahai.org/r/316108430",
-            "theme": "Love"
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "column": 0
-                },
-                "sectionLyrics": [
-                    "In the love I bear to Thee,",
-                    "O my Lord,",
-                    "my heart longeth for Thee",
-                    "with a longing",
-                    "such as no heart",
-                    "hath known.",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "column": 1
-                },
-                "sectionLyrics": [
-                    "Here am I (×4)",
-                    "with my body between Thy hands,",
-                    "and my spirit before Thy face.",
-                    "In the love I bear to Thee,",
-                    "In the love In the love I bear (×7)",
-                    "In the love–(back to beginning)",
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "Unite and bind together the hearts",
-            "sourceName": "'Abdu’l‑Bahá, <i>The Promulgation of Universal Peace</i> (song by Ali Youssefi)",
-            "sourceLink": "https://www.bahai.org/r/669611456",
-            "theme": "Unity"
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "repetitions": 2
-                },
-                "sectionLyrics": [
-                    "Un[C]ite and b[G]ind",
-                    "tog[Am]ether the h[F]earts,",
-                ]
-            },
-            {
-                "sectionLyrics": [
-                    "j[C]oin in accord all the soul[G]s,",
-                    "j[Am]oin in accord all the soul[F]s,",
-                ]
-            },
-            {
-                "sectionLyrics": [
-                    "O L[C]ord! Make these faces radi[G]ant",
-                    "through the l[Am]ight of Thy one[F]ness.  ",
-                ]
-            }
-        ]
-    },
-    {
-        "meta": {
-            "name": "Soon will our handful of days",
-            "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #210",
-            "sourceLink": "https://www.bahai.org/library/authoritative-texts/abdul-baha/selections-writings-abdul-baha/9#142180872:~:text=Now%20is%20the%20time%20to,those%20who%20speak%20no%20more%3B",
-            "theme": "Service"
-        },
-        "lyrics": [
-            {
-                "sectionMeta": {
-                    "repetitions": 2
-                },
-                "sectionLyrics": [
-                    "Soon will our handful of days,",
-                    "our vanishing life, be gone,",
-                    "and we shall pass, empty-handed,",
-                    "into the hollow that is dug for those who speak no more;",
-                    "speak no more;",
-                ]
-            },
-            {
-                "sectionMeta": {
-                    "repetitions": 4
-                },
-                "sectionLyrics": [
-                    "Now is the time to serve,",
-                    "Now is the time to be on fire.",
+                    "of your constancy."
                 ]
             }
         ]
@@ -371,9 +61,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "O Thou kind Lord!",
-            "sourceName": "‘Abdu’l‑Bahá, Bahá’í Prayers",
-            "sourceLink": "https://www.bahai.org/r/339113674",
-            "theme": "Youth"
+            "theme": "Youth",
+            "sources": [
+                [
+                    "‘Abdu’l‑Bahá, Bahá’í Prayers",
+                    "https://www.bahai.org/r/339113674"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -388,8 +82,8 @@ const BAHAI_SONGS_DATA = [
                     "and give them spiritual power",
                     "that they may wing their flight",
                     "through this limitless space",
-                    "[*and may soar] (to the heights of the Abhá Kingdom) (×4-6?)",
-                    "O Thou O Thou kind Lord!",
+                    "[*and may soar] (to the heights of the Abhá Kingdom) (x4-6?)",
+                    "O Thou O Thou kind Lord!"
                 ]
             }
         ]
@@ -397,9 +91,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Close one eye and open the other",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #12",
-            "sourceLink": "https://www.bahai.org/r/775762706",
-            "theme": "Material World"
+            "theme": "Material World",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #12",
+                    "https://www.bahai.org/r/775762706"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -411,7 +109,7 @@ const BAHAI_SONGS_DATA = [
                     "and all that is therein,",
                     "and open the other",
                     "to the hallowed beauty",
-                    "of the Beloved. (×2)",
+                    "of the Beloved. (×2)"
                 ]
             }
         ]
@@ -419,9 +117,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Abandon not the Everlasting",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #14",
-            "sourceLink": "https://www.bahai.org/r/909085672",
-            "theme": "Material World"
+            "theme": "Material World",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Persian, #14",
+                    "https://www.bahai.org/r/909085672"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -429,7 +131,7 @@ const BAHAI_SONGS_DATA = [
                     "O FRIENDS! (×4)",
                     "Abandon not Abandon not the everlasting (×3)",
                     "Abandon not (×2)",
-                    "Beauty!",
+                    "Beauty!"
                 ]
             },
             {
@@ -438,7 +140,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "Abandon not the everlasting beauty",
-                    "for a beauty that must die,",
+                    "for a beauty that must die,"
                 ]
             },
             {
@@ -447,7 +149,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "and set not your affections on this",
-                    "mortal world of dust.",
+                    "mortal world of dust."
                 ]
             }
         ]
@@ -455,9 +157,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "If thou lovest Me",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #7",
-            "sourceLink": "https://www.bahai.org/r/118657418",
-            "theme": "Love"
+            "theme": "Love",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #7",
+                    "https://www.bahai.org/r/118657418"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -465,8 +171,8 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "If thou [Am]lovest Me,[Em] []turn aw[F]ay from thyself;[C C/B] ",
-                    "and if thou s[Am]eekest My pl[Em]easure, reg[F]ard not thine [C C/B]own;",
+                    "If thou [Am]lovest Me,[Em] []turn aw[F]ay from thyself;[C C/B]",
+                    "and if thou s[Am]eekest My pl[Em]easure, reg[F]ard not thine [C C/B]own;"
                 ]
             },
             {
@@ -476,12 +182,12 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "that th[Am]ou, that th[Em]ou mayest d[F]ie",
-                    "in M[C C/B]e and [Am]I may et[Em]ernally l[F]ive in the[C]e",
+                    "in M[C C/B]e and [Am]I may et[Em]ernally l[F]ive in the[C]e"
                 ]
             },
             {
                 "sectionLyrics": [
-                    "[D]O Son of M[F]an! (×3)",
+                    "[D]O Son of M[F]an! (×3)"
                 ]
             }
         ]
@@ -489,9 +195,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "O Lord! I am weak",
-            "sourceName": "‘Abdu’l‑Bahá, <i>Bahá’í Prayers</i>",
-            "sourceLink": "https://www.bahai.org/r/091008417",
-            "theme": "Confirmation"
+            "theme": "Confirmation",
+            "sources": [
+                [
+                    "‘Abdu’l‑Bahá, <i>Bahá’í Prayers</i>",
+                    "https://www.bahai.org/r/091008417"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -509,7 +219,7 @@ const BAHAI_SONGS_DATA = [
                     "I am lowly,",
                     "honor me",
                     "through admitting",
-                    "me into Thy kingdom.",
+                    "me into Thy kingdom."
                 ]
             }
         ]
@@ -517,9 +227,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Immerse yourselves",
-            "sourceName": "<i>The Kitáb-i-Aqdas</i>, ¶. 182",
-            "sourceLink": "https://www.bahai.org/r/912049805",
-            "theme": "Word of God"
+            "theme": "Word of God",
+            "sources": [
+                [
+                    "<i>The Kitáb-i-Aqdas</i>, ¶. 182",
+                    "https://www.bahai.org/r/912049805"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -529,7 +243,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "Immerse yourselves",
                     "in the ocean of My words,",
-                    "that ye may unravel its secrets,",
+                    "that ye may unravel its secrets,"
                 ]
             },
             {
@@ -539,7 +253,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "and discover discover",
                     "all the pearls",
-                    "pearls of wisdom",
+                    "pearls of wisdom"
                 ]
             },
             {
@@ -547,7 +261,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "that lie hid in its depths.",
+                    "that lie hid in its depths."
                 ]
             }
         ]
@@ -555,20 +269,24 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Rest assured",
-            "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #216",
-            "sourceLink": "https://www.bahai.org/r/858538367",
-            "theme": "Confirmation"
+            "theme": "Confirmation",
+            "sources": [
+                [
+                    "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #216",
+                    "https://www.bahai.org/r/858538367"
+                ]
+            ]
         },
         "lyrics": [
             {
                 "sectionLyrics": [
-                    "Rest assured (x3)",
-                    "that the breathings (x3)",
-                    "of the Holy (x3)",
+                    "Rest assured (×3)",
+                    "that the breathings (×3)",
+                    "of the Holy (×3)",
                     "Spirit",
-                    "will loosen (x3)",
+                    "will loosen (×3)",
                     "thy tongue.",
-                    "Speak, therefore; (x2)",
+                    "Speak, therefore; (×2)",
                     "speak out",
                     "with great",
                     "(with great) courage",
@@ -577,8 +295,8 @@ const BAHAI_SONGS_DATA = [
                     "heart and soul",
                     "at every meeting;",
                     "heart and soul",
-                    "at every meeting; (x2)",
-                    "be sure of this. (x4)",
+                    "at every meeting; (×2)",
+                    "be sure of this. (×4)"
                 ]
             }
         ]
@@ -586,9 +304,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Say: God sufficeth",
-            "sourceName": "The Báb, <i>Bahá'í Prayers</i>",
-            "sourceLink": "https://www.bahai.org/r/180459462",
-            "theme": "Power of God"
+            "theme": "Power of God",
+            "sources": [
+                [
+                    "The Báb, <i>Bahá'í Prayers</i>",
+                    "https://www.bahai.org/r/180459462"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -598,7 +320,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "Say: G[D]od sufficeth [G]all things ab[A]ove all things,",
                     "and n[D]othing in the h[G]eavens or in the [A]earth",
-                    "but God suffice[G A]th.",
+                    "but God suffice[G A]th."
                 ]
             },
             {
@@ -607,7 +329,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "V[D]erily, H[G]e is in Hims[A]elf the Kn[D]ower,",
-                    "the Sustainer, the [D]Omni[G]pot[A]ent.",
+                    "the Sustainer, the [D]Omni[G]pot[A]ent."
                 ]
             }
         ]
@@ -615,9 +337,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Armed with the power of Thy name",
-            "sourceName": "<i>Prayers and Meditations by Bahá'u'lláh</i>, CXXII",
-            "sourceLink": "www.bahai.org/r/417066504",
-            "theme": "Power of God"
+            "theme": "Power of God",
+            "sources": [
+                [
+                    "<i>Prayers and Meditations by Bahá'u'lláh</i>, CXXII",
+                    "www.bahai.org/r/417066504"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -627,7 +353,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "[D]Armed with the p[Bm]ower of Thy name",
                     "n[G]othing can ever hurt me no",
-                    "n[D]othing can ever hurt me,",
+                    "n[D]othing can ever hurt me,"
                 ]
             },
             {
@@ -637,7 +363,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "and with T[D]hy love in m[F#m7]y heart",
                     "[G]all the world's afflictions can in",
-                    "n[D]o wise alarm me.",
+                    "n[D]o wise alarm me."
                 ]
             },
             {
@@ -645,7 +371,7 @@ const BAHAI_SONGS_DATA = [
                     "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "[D]Yá B[F#m7]ahá'u'l-Abh[D]á",
+                    "[D]Yá B[F#m7]ahá'u'l-Abh[D]á"
                 ]
             }
         ]
@@ -653,14 +379,18 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "O Lord my God!",
-            "sourceName": "‘Abdu’l‑Bahá, Unknown Source",
-            "sourceLink": "",
-            "theme": "Confirmation"
+            "theme": "Confirmation",
+            "sources": [
+                [
+                    "‘Abdu’l‑Bahá, Unknown Source",
+                    ""
+                ]
+            ]
         },
         "lyrics": [
             {
                 "sectionMeta": {
-                    "callAndResponse": true,
+                    "callAndResponse": true
                 },
                 "sectionLyrics": [
                     "O Lord my God!",
@@ -677,10 +407,40 @@ const BAHAI_SONGS_DATA = [
     },
     {
         "meta": {
+            "name": "May this boundless love",
+            "theme": "Love",
+            "sources": [
+                [
+                    "'Abdu'l-Bahá, Paris Talks",
+                    "https://www.bahai.org/r/640151780"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "[C] May this b[E7]oundless l[Am]ove",
+                    "so f[C7]ill your hearts and m[F]inds[Fm]",
+                    "that sadness m[C]ay find",
+                    "no r[E7]oom to [Am]ente[C7]r,",
+                    "[F] and may you with j[Fm]oyful he[C]arts",
+                    "soa-[E7 Am C7]r",
+                    "like b[F]irds",
+                    "into Div[Fm]ine Radiance."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
             "name": "Look at Me",
-            "sourceName": "‘Abdu’l‑Bahá, Unknown Source",
-            "sourceLink": "",
-            "theme": "Striving for Excellence"
+            "theme": "Striving for Excellence",
+            "sources": [
+                [
+                    "‘Abdu’l‑Bahá, Unknown Source",
+                    ""
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -713,9 +473,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Noble",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #22",
-            "sourceLink": "https://www.bahai.org/r/536853978",
-            "theme": "Spiritual Qualities"
+            "theme": "Spiritual Qualities",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #22",
+                    "https://www.bahai.org/r/536853978"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -763,9 +527,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "How couldst thou ignore thine own faults",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #26",
-            "sourceLink": "https://www.bahai.org/r/568477331",
-            "theme": "Spiritual Qualities"
+            "theme": "Spiritual Qualities",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #26",
+                    "https://www.bahai.org/r/568477331"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -795,9 +563,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Without truthfulness",
-            "sourceName": "Extracts from the Writings of ‘Abdu’l-Bahá, #40",
-            "sourceLink": "https://www.bahai.org/r/758916201",
-            "theme": "Spiritual Qualities"
+            "theme": "Spiritual Qualities",
+            "sources": [
+                [
+                    "Extracts from the Writings of ‘Abdu’l-Bahá, #40",
+                    "https://www.bahai.org/r/758916201"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -824,9 +596,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Ye are even as the fire",
-            "sourceName": "The Dawn Breakers, p. 92",
-            "sourceLink": "",
-            "theme": "Spiritual Qualities"
+            "theme": "Spiritual Qualities",
+            "sources": [
+                [
+                    "The Dawn Breakers, p. 92",
+                    ""
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -841,15 +617,22 @@ const BAHAI_SONGS_DATA = [
             },
             {
                 "sectionMeta": {
-                    "withChords": [0, 1, 2, 3],
-                    "withoutChords": [4]
+                    "withChords": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "withoutChords": [
+                        4
+                    ]
                 },
                 "sectionLyrics": [
                     "Let your l[F]ight shine before the [G]eyes of men.",
                     "Let your l[Dm]ight shine before the [Am]eyes of men.",
                     "Let your l[F]ight shine before the [C]eyes of men.",
                     "Let your l[Dm]ight shine before the [E]eyes of men.",
-                    "Let your light shine before the eyes of men. (×4)",
+                    "Let your light shine before the eyes of men. (×4)"
                 ]
             }
         ]
@@ -857,9 +640,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "The incomparable Creator",
-            "sourceName": "<i>Gleanings from the Writings of Bahá’u’lláh</i>, XXXIV",
-            "sourceLink": "https://www.bahai.org/r/772383632",
-            "theme": "Striving for Excellence"
+            "theme": "Striving for Excellence",
+            "sources": [
+                [
+                    "<i>Gleanings from the Writings of Bahá’u’lláh</i>, XXXIV",
+                    "https://www.bahai.org/r/772383632"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -904,11 +691,11 @@ const BAHAI_SONGS_DATA = [
             {
                 "sectionMeta": {
                     "callAndResponse": true,
-                    "repetitions": 2,
-                    "column": 2
+                    "column": 2,
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "The more he striveth,",
+                    "The more he striveth,"
                 ]
             },
             {
@@ -918,7 +705,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "The more he striveth,",
-                    "the greater will be his progress.",
+                    "the greater will be his progress."
                 ]
             }
         ]
@@ -926,9 +713,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Spirit has influence",
-            "sourceName": "‘Abdu’l-Bahá, <i>The Promulgation of Universal Peace</i>, #87, pg6",
-            "sourceLink": "https://www.bahai.org/r/823238376",
-            "theme": "Prayer"
+            "theme": "Prayer",
+            "sources": [
+                [
+                    "‘Abdu’l-Bahá, <i>The Promulgation of Universal Peace</i>, #87, pg6",
+                    "https://www.bahai.org/r/823238376"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -938,7 +729,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "Spirit has influence;",
-                    "prayer has spiritual effect. (x2)"
+                    "prayer has spiritual effect. (×2)"
                 ]
             },
             {
@@ -948,32 +739,32 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "Therefore, we pray,",
                     "“O God! Heal this sick one!”",
-                    "Perchance God will answer. (x2)"
+                    "Perchance God will answer. (×2)"
                 ]
             },
             {
                 "sectionMeta": {
                     "callAndResponse": false,
                     "column": 1,
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
                     "Does it matter",
                     "who prays?",
                     "God will answer the prayer",
                     "of every servant",
-                    "if that prayer is urgent. (x2)",
+                    "if that prayer is urgent. (×2)",
                     "His mercy (His mercy)",
                     "is vast, (is vast)",
                     "[*and] illi- (and illi)",
-                    "mitable. (mitiable)",
-                    "(x2)"
+                    "mitable. (mitiable)"
                 ]
             },
             {
                 "sectionMeta": {
                     "callAndResponse": true,
-                    "repetitions": 2,
-                    "column": 2
+                    "column": 2,
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
                     "His mercy",
@@ -987,9 +778,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Blessed is the spot",
-            "sourceName": "Bahá’u’lláh, <i>Bahá'í Prayers</i>",
-            "sourceLink": "https://www.bahai.org/r/521936016",
-            "theme": "Prayer"
+            "theme": "Prayer",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>Bahá'í Prayers</i>",
+                    "https://www.bahai.org/r/521936016"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -999,19 +794,19 @@ const BAHAI_SONGS_DATA = [
                     "[Am]and the [Am/F]city,",
                     "and the [Am/F#]heart, and the [Am/F]mountain,",
                     "[Am]and the [Am/F]refuge,",
-                    "and the [Am/F#]cave, and the [Am/F]valley,",
+                    "and the [Am/F#]cave, and the [Am/F]valley,"
                 ]
             },
             {
                 "sectionMeta": {
-                    column: 1
+                    "column": 1
                 },
                 "sectionLyrics": [
                     "[F]and the land, [G]and the sea,",
                     "and the [C]island,[C/B]",
                     "[Am]and the [Am/G]meadow",
                     "where [Am/F#]mention of [Am/F]God",
-                    "hath been [Am]made,[Am/G] ",
+                    "hath been [Am]made,[Am/G]",
                     "and His [Am/F#]Praise[Am/F] glori[Am]fied."
                 ]
             }
@@ -1020,9 +815,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "At all times",
-            "sourceName": "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #17",
-            "sourceLink": "https://www.bahai.org/r/888491605",
-            "theme": "Prayer"
+            "theme": "Prayer",
+            "sources": [
+                [
+                    "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #17",
+                    "https://www.bahai.org/r/888491605"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1030,7 +829,7 @@ const BAHAI_SONGS_DATA = [
                     "[D]At all t[Bm]imes do I sp[G]eak of you and c[D]all you to mind.",
                     "I pr[D]ay unto the Lord, and with t[Bm]ears I implore",
                     "H[G]im to rain d[D]own all these bl[D]essings upon y[Bm]ou,",
-                    "rain down all these bl[G]essings upon y[D (2nd: Bm)]ou, (x3)",
+                    "rain down all these bl[G]essings upon y[D (2nd: Bm)]ou, (×3)",
                     "[D]and gl[Bm]adden your hearts, and [G]make",
                     "bl[D]issful your souls, and [D]grant",
                     "you [Bm]exceeding joy and h[G]eavenly del[D]ights.…"
@@ -1041,9 +840,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "True Friendship",
-            "sourceName": "Based on the 2025 CA-SE Youth Conference Handouts",
-            "sourceLink": "",
-            "theme": "Striving for Excellence"
+            "theme": "Striving for Excellence",
+            "sources": [
+                [
+                    "Based on the 2025 CA-SE Youth Conference Handouts",
+                    ""
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1101,7 +904,86 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "We have to believe it,",
-                    "I mean really believe it. (x3)"
+                    "I mean really believe it. (×3)"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "First of all",
+            "theme": "Striving for Excellence",
+            "sources": [
+                [
+                    "<i>'Abdu'l-Bahá on Divine Philosophy</i>, ¶. 112",
+                    "https://bahai-library.com/abdul-baha_divine_philosophy&chapter=all#112"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "(First of all,)",
+                    "be ready to sacrifice your lives",
+                    "for one another,",
+                    "to prefer the general well-being",
+                    "to your personal well-being.",
+                    "Create relationships that nothing can shake;",
+                    "form an assembly that nothing can break up,",
+                    "have a mind that",
+                    "never ceases (×2)",
+                    "acquiring riches",
+                    "nothing can destroy",
+                    "that nothing can destroy. (×3)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "If love did not exist,",
+                    "what of reality would remain?"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "It is the fire of the love of God",
+                    "which renders man superior",
+                    "to the animal. (×4)"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Strengthen this superior force",
+                    "through which is attained",
+                    "all the progress in the world"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1,
+                    "repetitions": 3
+                },
+                "sectionLyrics": [
+                    "Boys: in the world.",
+                    "Girls: in the world."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "all the progress in the world."
                 ]
             }
         ]
@@ -1109,24 +991,25 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "Ruta (Swahili)",
-            "sourceName": "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #4",
-            "sourceLink": "https://www.bahai.org/r/486363123",
-            "theme": "Multilingual"
+            "theme": "Multilingual",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #4",
+                    "https://www.bahai.org/r/486363123"
+                ]
+            ]
         },
         "lyrics": [
             {
                 "sectionLyrics": [
                     "O son of man, O son of man!",
-                    "I loved thy creation, Hence I created thee.",
+                    "I loved thy creation, Hence I created thee."
                 ]
             },
             {
-                // "sectionMeta": {
-                //     "chorus": true
-                // },
                 "sectionLyrics": [
                     "Eeeyo, aaoo, aaoo, eya wuoo (×2)",
-                    "Ruta, ruta ya tumelo, tumelo ya Bahá'u'lláh, eya wuoo (×2)",
+                    "Ruta, ruta ya tumelo, tumelo ya Bahá'u'lláh, eya wuoo (×2)"
                 ]
             },
             {
@@ -1135,7 +1018,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "This movement, this movement of Bahá'u'lláh",
-                    "is gathering momentum, eya wuoo",
+                    "is gathering momentum, eya wuoo"
                 ]
             },
             {
@@ -1145,7 +1028,7 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "We're lighting, candle after candle,",
-                    "ignited by Bahá'u'lláh, eya wuoo",
+                    "ignited by Bahá'u'lláh, eya wuoo"
                 ]
             },
             {
@@ -1155,7 +1038,7 @@ const BAHAI_SONGS_DATA = [
                     "Wherefore, do thou love Me,",
                     "that I may name thy name",
                     "and fill thy soul",
-                    "with the spirit of life (×2)",
+                    "with the spirit of life (×2)"
                 ]
             }
         ]
@@ -1163,9 +1046,13 @@ const BAHAI_SONGS_DATA = [
     {
         "meta": {
             "name": "There is no time to lose",
-            "sourceName": "Shoghi Effendi, <i>This Decisive Hour</i>, #46, ¶5",
-            "sourceLink": "https://www.bahai.org/r/836722447",
-            "theme": "Service"
+            "theme": "Service",
+            "sources": [
+                [
+                    "Shoghi Effendi, <i>This Decisive Hour</i>, #46, ¶5",
+                    "https://www.bahai.org/r/836722447"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1174,22 +1061,23 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "There is no time to lose. (×2)",
-                    "Multitudes hunger for the Bread of Life.",
+                    "Multitudes hunger for the Bread of Life."
                 ]
             },
             {
                 "sectionLyrics": [
                     "The stage is set.",
                     "The Promise is given.",
-                    "arise (×2)",
+                    "arise (×2)"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Anis",
-            "theme": "The Báb"
+            "theme": "The Báb",
+            "sources": []
         },
         "lyrics": [
             {
@@ -1197,14 +1085,14 @@ const BAHAI_SONGS_DATA = [
                     "You can't keep me here,",
                     "the love in my heart is too great",
                     "This world gives me no fear,",
-                    "this fire will burn all the darkness away",
+                    "this fire will burn all the darkness away"
                 ]
             },
             {
                 "sectionLyrics": [
                     "And I will give it all for you.",
                     "My life, I would give it too",
-                    "All I want is to be close with you",
+                    "All I want is to be close with you"
                 ]
             },
             {
@@ -1212,24 +1100,28 @@ const BAHAI_SONGS_DATA = [
                     "I prayed for weeks on end,",
                     "till one day you appeared",
                     "In a mighty vision,",
-                    "you said my desire would be fulfilled",
+                    "you said my desire would be fulfilled"
                 ]
             },
             {
                 "sectionLyrics": [
                     "And I will give it all for you.",
                     "My life, I would give it too",
-                    "All I want is to be close with you",
+                    "All I want is to be close with you"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Be thou as a flame",
-            "sourceName": "Tablet of Aḥmad",
-            "sourceLink": "https://www.bahai.org/r/307833060",
-            "theme": "Steadfastness"
+            "theme": "Steadfastness",
+            "sources": [
+                [
+                    "Tablet of Aḥmad",
+                    "https://www.bahai.org/r/307833060"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1238,21 +1130,22 @@ const BAHAI_SONGS_DATA = [
                 },
                 "sectionLyrics": [
                     "Be thou as a flame of fire to My enemies",
-                    "and a river of life eternal to My loved ones,",
+                    "and a river of life eternal to My loved ones,"
                 ]
             },
             {
                 "sectionLyrics": [
                     "O Aḥmad (×3)",
-                    "and be not of those who doubt.",
+                    "and be not of those who doubt."
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Dame (Spanish)",
-            "theme": "Multilingual"
+            "theme": "Multilingual",
+            "sources": []
         },
         "lyrics": [
             {
@@ -1262,7 +1155,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "Dame, dame un corazón",
                     "que como un espejo pueda",
-                    "iluminarse con la luz de tu amor",
+                    "iluminarse con la luz de tu amor"
                 ]
             },
             {
@@ -1271,15 +1164,16 @@ const BAHAI_SONGS_DATA = [
                     "que cambie este mundo",
                     "en un jardín de rosas",
                     "por medio de la gracia",
-                    "Espiritual (×2)",
+                    "Espiritual (×2)"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Enseñar es aprender (Spanish)",
-            "theme": "Multilingual"
+            "theme": "Multilingual",
+            "sources": []
         },
         "lyrics": [
             {
@@ -1298,15 +1192,16 @@ const BAHAI_SONGS_DATA = [
                     "Al Reino entero",
                     "Eso dice 'Abdu'l-Bahá",
                     "El siervo de la Gloria",
-                    "El ejemplo más perfecto de la vida Bahá'í",
+                    "El ejemplo más perfecto de la vida Bahá'í"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "He who puts his trust in God",
-            "theme": "Confirmation"
+            "theme": "Confirmation",
+            "sources": []
         },
         "lyrics": [
             {
@@ -1314,17 +1209,21 @@ const BAHAI_SONGS_DATA = [
                     "He who puts his trust in God",
                     "God will suffice him",
                     "He who fears God",
-                    "God will send him relief",
+                    "God will send him relief"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "He whom the grace",
-            "sourceName": "'Abdu'l-Bahá, <i>Bahá'í Prayers</i>",
-            "sourceLink": "www.bahai.org/r/160340226",
-            "theme": "Confirmation"
+            "theme": "Confirmation",
+            "sources": [
+                [
+                    "'Abdu'l-Bahá, <i>Bahá'í Prayers</i>",
+                    "www.bahai.org/r/160340226"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1334,17 +1233,21 @@ const BAHAI_SONGS_DATA = [
                     "shall become the boundless ocean,",
                     "though he be but a drop,",
                     "he shall shine (×2)",
-                    "Even as the radiant star (×3)",
+                    "Even as the radiant star (×3)"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "I adjure Thee by Thy might",
-            "sourceName": "The Báb, <i>Bahá'í Prayers</i>",
-            "sourceLink": "https://www.bahai.org/r/678180399",
-            "theme": "Confirmation"
+            "theme": "Confirmation",
+            "sources": [
+                [
+                    "The Báb, <i>Bahá'í Prayers</i>",
+                    "https://www.bahai.org/r/678180399"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1355,7 +1258,7 @@ const BAHAI_SONGS_DATA = [
                     "in times of tests (in times of tests),",
                     "and in moments of heedlessness",
                     "guide me steps (guide me steps)",
-                    "aright through Thine inspiration.",
+                    "aright through Thine inspiration."
                 ]
             },
             {
@@ -1365,41 +1268,21 @@ const BAHAI_SONGS_DATA = [
                     "to do what Thou desirest.",
                     "No one can (No one can)",
                     "withstand Thy Will (withstand Thy Will)",
-                    "or thwart Thy Purpose",
+                    "or thwart Thy Purpose"
                 ]
-            },
+            }
         ]
     },
-    // {
-    //     "meta": {
-    //         "name": "I want you to be happy",
-    //         "sourceName": "'Abdu'l-Bahá, <i>The Promulgation of Universal Peace</i>",
-    //         "sourceLink": "https://www.bahai.org/r/000750473",
-    //         "theme": "Joy"
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "I want you to be happy",
-    //                 "to laugh, smile and rejoice",
-    //                 "in order that others may",
-    //                 "may be made happy by you",
-    //                 "by you",
-    //                 "may be made happy by you",
-    //             ]
-    //         },
-    //     ]
-    // },
     {
         "meta": {
             "name": "Is there any Remover",
-            "sourceName": "The Báb, <i>Bahá'í Prayers</i>",
-            "sourceLink": "https://www.bahai.org/r/590097641",
-            "theme": "Prayer"
+            "theme": "Prayer",
+            "sources": [
+                [
+                    "The Báb, <i>Bahá'í Prayers</i>",
+                    "https://www.bahai.org/r/590097641"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1409,17 +1292,88 @@ const BAHAI_SONGS_DATA = [
                     "Say: Praised by God!",
                     "He is God!",
                     "All are His servants,",
-                    "and all abide by His bidding!",
+                    "and all abide by His bidding!"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "The sign of love",
+            "theme": "Love",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #48",
+                    "https://www.bahai.org/r/200697020"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "column": 0,
+                    "pageBreak": [
+                        4
+                    ]
+                },
+                "sectionLyrics": [
+                    "O SON OF MAN!",
+                    "For everything",
+                    "there is a sign",
+                    "there is a sign",
+                    "O SON OF MAN!",
+                    "For everything",
+                    "there is a sign",
+                    "The sign of love"
                 ]
             },
+            {
+                "sectionMeta": {
+                    "column": 1,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "The sign of love (×3)",
+                    "is fortitude under My decree"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1,
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "The sign of love (×3)",
+                    "is patience under My trials."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 2,
+                    "pageBreak": [
+                        1,
+                        2
+                    ],
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "The sign of love",
+                    "is fortitude under My decree (×4)",
+                    "is patience under My trials."
+                ]
+            }
         ]
     },
     {
         "meta": {
             "name": "Joy gives us wings",
-            "sourceName": "'Abdu'l-Bahá, <i>Paris Talks</i>",
-            "sourceLink": "https://www.bahai.org/r/606696514",
-            "theme": "Joy"
+            "theme": "Joy",
+            "sources": [
+                [
+                    "'Abdu'l-Bahá, <i>Paris Talks</i>",
+                    "https://www.bahai.org/r/606696514"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1430,17 +1384,21 @@ const BAHAI_SONGS_DATA = [
                     "In times of joy, our intellect is keener, (×2)",
                     "Joy gives us wings! O joy gives us... wings! (×2)",
                     "In times of joy O, in times of joy O, In times of joy our understanding...",
-                    "less clouded! (×16)",
+                    "less clouded! (×16)"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Make my prayer",
-            "sourceName": "Bahá'i'lláh, Long Obligatory Prayer",
-            "sourceLink": "https://www.bahai.org/r/418478411",
-            "theme": "Prayer"
+            "theme": "Prayer",
+            "sources": [
+                [
+                    "Bahá'i'lláh, Long Obligatory Prayer",
+                    "https://www.bahai.org/r/418478411"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1448,7 +1406,7 @@ const BAHAI_SONGS_DATA = [
                     "Make my prayer, O my Lord,",
                     "a fountain of living waters",
                     "whereby I may live",
-                    "as long as Thy sovereignty endureth,",
+                    "as long as Thy sovereignty endureth,"
                 ]
             },
             {
@@ -1458,17 +1416,21 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "and may make mention of Thee",
                     "in every world of Thy worlds",
-                    "of Thy worlds.",
+                    "of Thy worlds."
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Make thou an effort",
-            "sourceName": "'Abdu'l-Bahá, <i>Selections from the Writings of 'Abdu'l-Bahá</i>, #27",
-            "sourceLink": "https://www.bahai.org/r/979962410",
-            "theme": "Striving for Excellence"
+            "theme": "Striving for Excellence",
+            "sources": [
+                [
+                    "'Abdu'l-Bahá, <i>Selections from the Writings of 'Abdu'l-Bahá</i>, #27",
+                    "https://www.bahai.org/r/979962410"
+                ]
+            ]
         },
         "lyrics": [
             {
@@ -1479,7 +1441,7 @@ const BAHAI_SONGS_DATA = [
                     "Make thou an effort",
                     "that thou mayest",
                     "take thy place",
-                    "under the sun",
+                    "under the sun"
                 ]
             },
             {
@@ -1487,17 +1449,15 @@ const BAHAI_SONGS_DATA = [
                     "and receive",
                     "an abundant share",
                     "of its",
-                    "dazzling light. (×3)",
+                    "dazzling light. (×3)"
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "My God, my Adored One",
-            "sourceName": "",
-            "sourceLink": "",
-            "theme": ""
+            "sources": []
         },
         "lyrics": [
             {
@@ -1507,7 +1467,7 @@ const BAHAI_SONGS_DATA = [
                 "sectionLyrics": [
                     "My God (My God),",
                     "my Adored One,",
-                    "my King, my Desire!",
+                    "my King, my Desire!"
                 ]
             },
             {
@@ -1516,33 +1476,38 @@ const BAHAI_SONGS_DATA = [
                     "I was heedless, Thou didst awaken me.",
                     "I was as one dead, Thou didst quicken me",
                     "Thou didst quicken me",
-                    "with the water of life.",
+                    "with the water of life."
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "O friends",
             "sources": [
-                ["Bahá'u'lláh, <i>Gleanings from the Writings of Bahá'u'lláh</i>, XCVI", "https://www.bahai.org/r/039491767"],
-                ["Bahá'u'lláh, <i>Bahá'í Prayers</i>", "https://www.bahai.org/r/045469980"],
-            ],
-            "theme": ""
+                [
+                    "Bahá'u'lláh, <i>Gleanings from the Writings of Bahá'u'lláh</i>, XCVI",
+                    "https://www.bahai.org/r/039491767"
+                ],
+                [
+                    "Bahá'u'lláh, <i>Bahá'í Prayers</i>",
+                    "https://www.bahai.org/r/045469980"
+                ]
+            ]
         },
         "lyrics": [
             {
                 "sectionLyrics": [
                     "O friends! Be not careless of the virtues",
                     "with which ye have been endowed,",
-                    "neither be neglectful of your high destiny.",
+                    "neither be neglectful of your high destiny."
                 ]
             },
             {
                 "sectionLyrics": [
                     "Suffer not your labors to be wasted",
                     "through the vain imaginations",
-                    "which certain hearts have devised.",
+                    "which certain hearts have devised."
                 ]
             },
             {
@@ -1552,7 +1517,7 @@ const BAHAI_SONGS_DATA = [
                     "the soft-flowing waters upon which must depend",
                     "the very life of all men,",
                     "the letters inscribed upon His sacred scroll.",
-                    "Be ever mindful.",
+                    "Be ever mindful."
                 ]
             },
             {
@@ -1563,127 +1528,291 @@ const BAHAI_SONGS_DATA = [
                     "the light of Thy knoeledge gloweth",
                     "and the yearning",
                     "for Thy love lingereth",
-                    "may be guided by its radiance.",
+                    "may be guided by its radiance."
                 ]
-            },
+            }
         ]
     },
-    // {
-    //     "meta": {
-    //         "name": "Remember at all times",
-    //         "sourceName": "",
-    //         "sourceLink": "",
-    //         "theme": ""
-    //     },
-    //     "lyrics": [
-    //         {
-    //             "sectionMeta": {
-    //                 "callAndResponse": false,
-    //                 "repetitions": 1
-    //             },
-    //             "sectionLyrics": [
-    //                 "",
-    //             ]
-    //         },
-    //     ]
-    // },
     {
         "meta": {
             "name": "The Gate of God",
-            // "source": ["asdf", "fghj"],
             "theme": "The Báb",
+            "sources": []
         },
         "lyrics": [
             {
                 "sectionMeta": {
-                    "chords": "Capo 3 - Em, G, Am, C",
+                    "chords": "Capo 3 - Em, G, Am, C"
                 },
                 "sectionLyrics": [
-                    "O thou who art the first to believe in Me! (×4)",
+                    "O thou who art the first to believe in Me! (×4)"
                 ]
             },
             {
                 "sectionMeta": {
-                    "repetitions": 2,
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
                     "Eighteen souls must, of their own accord, accept Me, accept Me",
-                    "and recognise the truth (the truth), the truth of My Revelation.",
+                    "and recognise the truth (the truth), the truth of My Revelation."
                 ]
             },
             {
                 "sectionMeta": {
-                    "repetitions": 4,
                     "chords": "Em, G, D, C",
+                    "repetitions": 4
                 },
                 "sectionLyrics": [
-                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God.",
+                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God."
                 ]
             },
             {
                 "sectionLyrics": [
                     "Eighteen souls must, of their own accord, accept Me, accept Me.",
-                    "(x2 overlapping). ",
+                    "(x2 overlapping).",
                     "Verily I say, I am the Bab, Verily I say, I am the Gate of God.",
-                    "(x2 overlapping)",
+                    "(x2 overlapping)"
                 ]
             },
             {
                 "sectionMeta": {
-                    "repetitions": 2,
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God.",
+                    "Verily I say, I am the Bab, Verily I say, I am the Gate of God."
                 ]
-            },
+            }
         ]
     },
     {
         "meta": {
             "name": "Remember My Days",
-            "chords": "",
-            "theme": "",
-            "source": ["Bahá’u’lláh, <i>Tablet of Aḥmad</i>", "https://www.bahai.org/r/004783880"],
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>Tablet of Aḥmad</i>",
+                    "https://www.bahai.org/r/004783880"
+                ]
+            ]
         },
         "lyrics": [
             {
                 "sectionMeta": {
-                    "repetitions": 2,
                     "chords": "Capo 3 - Em, Am7, B7, Em",
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "Remember My days ",
+                    "Remember My days",
                     "during thy days,",
-                    "and My distress and banishment ",
-                    "in this remote prison.",
-                ],
+                    "and My distress and banishment",
+                    "in this remote prison."
+                ]
             },
             {
                 "sectionMeta": {
-                    "chords": "C, Am7, B7, Em",
+                    "chords": "C, Am7, B7, Em"
                 },
                 "sectionLyrics": [
-                    "And be thou so steadfast ",
-                    "in My love ",
+                    "And be thou so steadfast",
+                    "in My love",
                     "that thy heart (×2)",
                     "shall not waver,",
                     "even if the swords",
                     "of the enemies rain blows",
-                    "upon thee (×2)",
-                ],
+                    "upon thee (×2)"
+                ]
             },
             {
                 "sectionMeta": {
-                    "repetitions": 2,
                     "chords": "Am7, B7, Em",
+                    "repetitions": 2
                 },
                 "sectionLyrics": [
-                    "And all the heavens and the earth arise ",
-                    "against thee. (×2)",
-                ],
-            },
+                    "And all the heavens and the earth arise",
+                    "against thee. (×2)"
+                ]
+            }
         ]
     },
-]
-
-module.exports = BAHAI_SONGS_DATA;
+    {
+        "meta": {
+            "name": "Veiled in My immemorial being",
+            "theme": "Love",
+            "sources": [
+                [
+                    "Bahá’u’lláh, <i>The Hidden Words</i>, From the Arabic, #3",
+                    "https://www.bahai.org/r/246296008"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "column": 0
+                },
+                "sectionLyrics": [
+                    "O SON OF MAN!",
+                    "Veiled in My immemorial being",
+                    "and in the ancient eternity of My essense,",
+                    "I knew My love for thee;",
+                    "therefore I created thee,",
+                    "have engraved on thee Mine image"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "O SON OF MAN!",
+                    "Veiled in My immemorial being",
+                    "and in the ancient eternity of My essense,",
+                    "I knew My love for thee;",
+                    "therefore I created thee,",
+                    "have revealed to thee My beauty."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Help me to triumph",
+            "theme": "Confirmation",
+            "sources": [
+                [
+                    "‘Abdu’l-Bahá, <i>Tablets of the Divine Plan</i>, #10",
+                    "https://www.bahai.org/r/605887268"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionLyrics": [
+                    "h[Ab]elp me to tr[C]iumph",
+                    "b[G]y the h[Am]osts",
+                    "o[Am]f Th[C]y",
+                    "gl[G]orious k[Am]ingdom,",
+                    "and sh[Am]ower up[C]on me",
+                    "Thy c[G]onfirm[Am]ations,",
+                    "wh[Am]ich alone c[C]an",
+                    "change a gn[G]at into an [Am]eagle,",
+                    "a dr[Am]op of wat[C]er",
+                    "into r[G]ivers and s[Am]eas,",
+                    "an [Am]atom [C]into",
+                    "l[G]ights and s[Am]uns",
+                    "an [Am]atom [C]into",
+                    "l[G]ights and s[Am]uns"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "In the love I bear to Thee",
+            "theme": "Love",
+            "sources": [
+                [
+                    "<i>Prayers and Meditations by Bahá’u’lláh</i>, CLI",
+                    "https://www.bahai.org/r/316108430"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "column": 0
+                },
+                "sectionLyrics": [
+                    "In the love I bear to Thee,",
+                    "O my Lord,",
+                    "my heart longeth for Thee",
+                    "with a longing",
+                    "such as no heart",
+                    "hath known."
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "column": 1
+                },
+                "sectionLyrics": [
+                    "Here am I (×4)",
+                    "with my body between Thy hands,",
+                    "and my spirit before Thy face.",
+                    "In the love I bear to Thee,",
+                    "In the love In the love I bear (×7)",
+                    "In the love–(back to beginning)"
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Unite and bind together the hearts",
+            "theme": "Unity",
+            "sources": [
+                [
+                    "'Abdu’l‑Bahá, <i>The Promulgation of Universal Peace</i> (song by Ali Youssefi)",
+                    "https://www.bahai.org/r/669611456"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Un[C]ite and b[G]ind",
+                    "tog[Am]ether the h[F]earts,"
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "j[C]oin in accord all the soul[G]s,",
+                    "j[Am]oin in accord all the soul[F]s,"
+                ]
+            },
+            {
+                "sectionLyrics": [
+                    "O L[C]ord! Make these faces radi[G]ant",
+                    "through the l[Am]ight of Thy one[F]ness."
+                ]
+            }
+        ]
+    },
+    {
+        "meta": {
+            "name": "Soon will our handful of days",
+            "theme": "Service",
+            "sources": [
+                [
+                    "<i>Selections from the Writings of ‘Abdu’l‑Bahá</i>, #210",
+                    "https://www.bahai.org/library/authoritative-texts/abdul-baha/selections-writings-abdul-baha/9#142180872:~:text=Now%20is%20the%20time%20to,those%20who%20speak%20no%20more%3B"
+                ]
+            ]
+        },
+        "lyrics": [
+            {
+                "sectionMeta": {
+                    "repetitions": 2
+                },
+                "sectionLyrics": [
+                    "Soon will our handful of days,",
+                    "our vanishing life, be gone,",
+                    "and we shall pass, empty-handed,",
+                    "into the hollow that is dug for those who speak no more;",
+                    "speak no more;"
+                ]
+            },
+            {
+                "sectionMeta": {
+                    "repetitions": 4
+                },
+                "sectionLyrics": [
+                    "Now is the time to serve,",
+                    "Now is the time to be on fire."
+                ]
+            }
+        ]
+    }
+];

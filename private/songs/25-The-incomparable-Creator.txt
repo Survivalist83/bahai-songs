@@ -1,0 +1,35 @@
+The incomparable Creator
+Theme: Striving for Excellence
+
+<i>Gleanings from the Writings of Bahá’u’lláh</i>, XXXIV
+https://www.bahai.org/r/772383632
+
+
+CallAndResponse: true
+The incomparable Creator
+hath created all men
+from one same substance,
+
+CallAndResponse: false
+and hath exalted their reality
+above the rest of His creatures.
+
+CallAndResponse: true
+Column: 1
+Success or failure,
+gain or loss,
+
+CallAndResponse: false
+Column: 1
+must, therefore, depend
+upon man’s own exertions.
+
+CallAndResponse: true
+Column: 2
+The more he striveth,
+(x2)
+
+CallAndResponse: false
+Column: 2
+The more he striveth,
+the greater will be his progress.
